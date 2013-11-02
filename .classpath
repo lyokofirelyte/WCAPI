@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Lyoko Firelyte/Desktop/JavaLibs/bukkit-1.6.4-R0.1-20131021.003018-11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lyoko Firelyte/Desktop/JavaLibs/craftbukkit-1.6.4-R0.1-20131021.004109-18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lyoko Firelyte/Desktop/JavaLibs/Essentials.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lyoko Firelyte/Desktop/JavaLibs/PermissionsEx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lyoko Firelyte/Desktop/JavaLibs/VaultCompile.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
