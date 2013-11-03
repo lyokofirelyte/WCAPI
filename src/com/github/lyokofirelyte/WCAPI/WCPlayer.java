@@ -29,6 +29,7 @@ public class WCPlayer {
 	public Boolean itemThrow = false;
 	public Boolean pvp = false;
 	public Boolean fireworks = true;
+	public Boolean pokes = true;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -74,6 +75,10 @@ public class WCPlayer {
 	
 	public Boolean isWCOp(){
 		return isWCOp;
+	}
+	
+	public Boolean getAllowPokes(){
+		return pokes;
 	}
 	
 	public Boolean itemThrow(){
@@ -198,6 +203,10 @@ public class WCPlayer {
 	
 	public void setFireworks(Boolean a){
 		fireworks = a;
+	}
+	
+	public void setAllowPokes(Boolean a){
+		pokes = a;
 	}
 	
 	public void setTimeCode(Boolean a){

@@ -175,6 +175,7 @@ public class WCManager {
 		wcp.setAlliance(yaml.getString("Alliance"));
 		wcp.setHasNick(yaml.getBoolean("HasNick"));
 		wcp.setFireworks(yaml.getBoolean("Fireworks"));
+	    wcp.setAllowPokes(yaml.getBoolean("Pokes"));
 		pl.wcPlayers.put(p, wcp);
 	}
 
@@ -212,6 +213,7 @@ public class WCManager {
 		yaml.set("InAlliance", wcp.getInAlliance());
 		yaml.set("Alliance", wcp.getAlliance());
 		yaml.set("Fireworks", wcp.getFireworks());
+		yaml.set("Pokes", wcp.getAllowPokes());
 		yaml.set("HasNick", wcp.hasNick());
 		yaml.save(file);
 		pl.wcPlayers.remove(p);
