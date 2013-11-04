@@ -152,7 +152,6 @@ public class WCManager {
 		wcp.setChat(yaml.getBoolean("Chat.TimeCode"), yaml.getString("Chat.GlobalColor"), yaml.getString("Chat.PMColor"));
 		wcp.setHistory(yaml.getStringList("History"));
 		wcp.setEvac(yaml.getBoolean("PartyEvac"));
-		wcp.setMail(yaml.getStringList("Mail"));
 		wcp.setHomeSounds(yaml.getBoolean("HomeSounds"));
 		wcp.setNick(yaml.getString("Nick"));
 		wcp.setInChat(yaml.getBoolean("InChat"));
@@ -160,6 +159,7 @@ public class WCManager {
 		wcp.setChatGuest(yaml.getBoolean("ChatGuest"));
 		wcp.setHasInvite(yaml.getBoolean("HasInvite"));
 		wcp.setWCOP(yaml.getBoolean("IsWCOp"));
+		wcp.setBlocksMined(yaml.getInt("BlocksMined"));
 		wcp.setAllianceColor(yaml.getString("AllianceColor"));
 		wcp.setAllianceRank(yaml.getString("AllianceRank"));
 		wcp.setAllianceRank2(yaml.getString("AllianceRank2"));
@@ -176,6 +176,11 @@ public class WCManager {
 		wcp.setHasNick(yaml.getBoolean("HasNick"));
 		wcp.setFireworks(yaml.getBoolean("Fireworks"));
 	    wcp.setAllowPokes(yaml.getBoolean("Pokes"));
+	    wcp.setEmotes(yaml.getBoolean("Emotes"));
+	    wcp.setExp(yaml.getInt("Exp"));
+	    wcp.setBalance(yaml.getInt("Balance"));
+	    wcp.setDepositExp(yaml.getBoolean("DepositExp"));
+	    wcp.setScoreboard(yaml.getBoolean("Scoreboard"));
 		pl.wcPlayers.put(p, wcp);
 	}
 
@@ -191,7 +196,6 @@ public class WCManager {
 		yaml.set("Chat.GlobalColor", wcp.getGlobalColor());
 		yaml.set("Chat.PMColor", wcp.getPMColor());
 		yaml.set("PartyEvac", wcp.getEvac());
-		yaml.set("Mail", wcp.getMail());
 		yaml.set("Inviter", wcp.getInviter());
 		yaml.set("Invite", wcp.getInvite());
 		yaml.set("AllianceRank2", wcp.getAllianceRank2());
@@ -205,6 +209,7 @@ public class WCManager {
 		yaml.set("Nick", wcp.getNick());
 		yaml.set("ParagonLevel", wcp.getParagonLevel());
 		yaml.set("HomeSounds", wcp.getHomeSounds());
+		yaml.set("Emotes", wcp.getEmotes());
 		yaml.set("CurrentChat", wcp.getCurrentChat());
 		yaml.set("DeathCount", wcp.getDeathCount());
 		yaml.set("LastChat", wcp.getLastChat());
@@ -215,6 +220,11 @@ public class WCManager {
 		yaml.set("Fireworks", wcp.getFireworks());
 		yaml.set("Pokes", wcp.getAllowPokes());
 		yaml.set("HasNick", wcp.hasNick());
+		yaml.set("Scoreboard", wcp.getScoreboard());
+		yaml.set("Exp", wcp.getExp());
+		yaml.set("BlocksMined", wcp.getBlocksMined());
+		yaml.set("Balance", wcp.getBalance());
+		yaml.set("DepositExp", wcp.getExpDeposit());
 		yaml.save(file);
 		pl.wcPlayers.remove(p);
 	}
@@ -224,8 +234,8 @@ public class WCManager {
 			return pl.wcPlayers.get(player);
 		} else {
 			pl.getLogger().log(Level.SEVERE, "NO PLAYER MAP FOUND FOR " + player + "!");
+			return null;
 		}
-		return null;
 	}
 	
 	public WCAlliance getWCAlliance(String name){

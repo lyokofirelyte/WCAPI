@@ -30,6 +30,9 @@ public class WCPlayer {
 	public Boolean pvp = false;
 	public Boolean fireworks = true;
 	public Boolean pokes = true;
+	public Boolean emotes = true;
+	public Boolean depositExp = false;
+	public Boolean scoreboard = true;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -46,9 +49,10 @@ public class WCPlayer {
 	public int paragonLevel = 0;
 	public int deathCount = 0;
 	public int exp = 0;
+	public int blocksMined;
+	public int balance;
 	
-	
-	
+	@Deprecated
 	public List<String> getMail(){
 		return mail;
 	}
@@ -67,6 +71,14 @@ public class WCPlayer {
 	
 	public Boolean getFireworks(){
 		return fireworks;
+	}
+	
+	public Boolean getEmotes(){
+		return emotes;
+	}
+	
+	public Boolean getScoreboard(){
+		return scoreboard;
 	}
 	
 	public Boolean getPVP(){
@@ -99,6 +111,10 @@ public class WCPlayer {
 	
 	public Boolean hasNick(){
 		return hasNick;
+	}
+	
+	public Boolean getExpDeposit(){
+		return depositExp;
 	}
 	
 	public Boolean getHomeSounds(){
@@ -172,11 +188,27 @@ public class WCPlayer {
 	public int getExp(){
 		return exp;
 	}
+
+	public int getBlocksMined(){
+		return blocksMined;
+	}
+	
+	public int getBalance(){
+		return balance;
+	}
 	
 	public void setDisHandle(Boolean a){
 		disHandle = a;
 	}
 	
+	public void setScoreboard(Boolean a){
+		scoreboard=  a;
+	}
+	
+	public void setDepositExp(Boolean a){
+		depositExp = a;
+	}
+
 	public void setInChat(Boolean a){
 		inChat = a;
 	}
@@ -187,6 +219,10 @@ public class WCPlayer {
 	
 	public void setHasInvite(Boolean a){
 		hasInvite = a;
+	}
+	
+	public void setEmotes(Boolean a){
+		emotes = a;
 	}
 	
 	public void setChatGuest(Boolean a){
@@ -273,10 +309,12 @@ public class WCPlayer {
 		lastChat = a;
 	}
 	
+	@Deprecated
 	public void addMail(String a){
 		mail.add(a);
 	}
 	
+	@Deprecated
 	public void remMail(String a){
 		mail.remove(a);
 	}
@@ -305,6 +343,7 @@ public class WCPlayer {
 		history = a;
 	}
 	
+	@Deprecated
 	public void setMail(List<String> a){
 		mail = a;
 	}
@@ -317,8 +356,16 @@ public class WCPlayer {
 		paragonLevel = a;
 	}
 	
+	public void setBalance(int a){
+		balance = a;
+	}
+	
 	public void setDeathCount(int a){
 		deathCount = a;
+	}
+	
+	public void setBlocksMined(int a){
+		blocksMined = a;
 	}
 	
 	public void setExp(int a){
