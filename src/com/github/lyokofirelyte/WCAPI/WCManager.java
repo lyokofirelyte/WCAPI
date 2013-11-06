@@ -7,26 +7,24 @@ import java.util.logging.Level;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-
 public class WCManager {
-	
+
 	WCAPI pl;
-    
+	
 	public WCManager(WCAPI instance){
 	pl = instance;
 	}
 	
-
-	public void addAlliance(WCAlliance wca, String name) throws IOException{
+	public void addAlliance(WCAlliance wca, String name) throws IOException {
 		
 		File listFile = new File("./plugins/WaterCloset/Alliances/list.yml");
 		File allianceFile = new File("./plugins/WaterCloset/Alliances/" + name + ".yml");
 		
-			if (!allianceFile.exists()){
-				allianceFile.createNewFile();
-			} else {
-				return;
-			}
+		if (!allianceFile.exists()){
+			allianceFile.createNewFile();
+		} else {
+			return;
+		}
 			
 	    YamlConfiguration listYaml = YamlConfiguration.loadConfiguration(listFile);
 	    YamlConfiguration allianceYaml = YamlConfiguration.loadConfiguration(allianceFile);
@@ -62,10 +60,10 @@ public class WCManager {
 		
 		File listFile = new File("./plugins/WaterCloset/Alliances/list.yml");
 		File allianceFile = new File("./plugins/WaterCloset/Alliances/" + name + ".yml");
-
+		
 	    YamlConfiguration listYaml = YamlConfiguration.loadConfiguration(listFile);
-	    
 	    List<String> alliances = listYaml.getStringList("Alliances");
+	    
 	    alliances.remove(name);
 	    listYaml.set("Alliances", alliances);
 	    listYaml.save(listFile);
@@ -79,33 +77,34 @@ public class WCManager {
 		File file = new File("./plugins/WaterCloset/Alliances/list.yml");
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 		List<String> alliances = yaml.getStringList("Alliances");
-			for (String a : alliances){
-				WCAlliance wca = new WCAlliance(a);
+		
+		for (String a : alliances){
 				
-				File aFile = new File("./plugins/WaterCloset/Alliances/" + a + ".yml");
-				YamlConfiguration ayaml = YamlConfiguration.loadConfiguration(aFile);
+			WCAlliance wca = new WCAlliance(a);
+			File aFile = new File("./plugins/WaterCloset/Alliances/" + a + ".yml");
+			YamlConfiguration ayaml = YamlConfiguration.loadConfiguration(aFile);
 				
-				wca.setCreated(ayaml.getBoolean("Created"));
-				wca.setLeader(ayaml.getString("Leader"));
-				wca.setCompletedColors(ayaml.getString("CompletedColors"));
-				wca.setDisbanded(ayaml.getBoolean("Disbanded"));
-				wca.setColors(ayaml.getString("Color1"), ayaml.getString("Color2"));
-				wca.setBank(ayaml.getInt("Bank"));
-				wca.setTier(ayaml.getInt("Tier"));
-				wca.setBanList(ayaml.getStringList("BanList"));
-				wca.setChatAdminList(ayaml.getStringList("ChatAdminList"));
-				wca.setChatUsers(ayaml.getStringList("ChatUsers"));
-				wca.setCoords(ayaml.getString("Coords"));
-				wca.setDoorLocks(ayaml.getBoolean("DoorLocks"));
-				wca.setMobSpawn(ayaml.getBoolean("MobSpawn"));
-				wca.setRadius(ayaml.getInt("Radius"));
-				wca.setChangedColors(ayaml.getBoolean("ChangedColors"));
-				wca.setMemberCount(ayaml.getInt("MemberCount"));
-				wca.setMembers(ayaml.getStringList("Members"));
-				pl.wcAlliances.put(a, wca);
-			}
+			wca.setCreated(ayaml.getBoolean("Created"));
+			wca.setLeader(ayaml.getString("Leader"));
+			wca.setCompletedColors(ayaml.getString("CompletedColors"));
+			wca.setDisbanded(ayaml.getBoolean("Disbanded"));
+			wca.setColors(ayaml.getString("Color1"), ayaml.getString("Color2"));
+			wca.setBank(ayaml.getInt("Bank"));
+			wca.setTier(ayaml.getInt("Tier"));
+			wca.setBanList(ayaml.getStringList("BanList"));
+			wca.setChatAdminList(ayaml.getStringList("ChatAdminList"));
+			wca.setChatUsers(ayaml.getStringList("ChatUsers"));
+			wca.setCoords(ayaml.getString("Coords"));
+			wca.setDoorLocks(ayaml.getBoolean("DoorLocks"));
+			wca.setMobSpawn(ayaml.getBoolean("MobSpawn"));
+			wca.setRadius(ayaml.getInt("Radius"));
+			wca.setChangedColors(ayaml.getBoolean("ChangedColors"));
+			wca.setMemberCount(ayaml.getInt("MemberCount"));
+			wca.setMembers(ayaml.getStringList("Members"));
+			pl.wcAlliances.put(a, wca);	
+		}
+			
 		pl.getLogger().log(Level.INFO,  alliances.size() + " alliances loaded!");
-		pl.getLogger().log(Level.INFO, "Waiting two minutes to schedule reboot!");
 	}
 	
 	public void saveAlliances() throws IOException {
@@ -113,9 +112,10 @@ public class WCManager {
 		File file = new File("./plugins/WaterCloset/Alliances/list.yml");
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 		List<String> alliances = yaml.getStringList("Alliances");
+		
 			for (String a : alliances){
-				WCAlliance wca = pl.wcAlliances.get(a);
 				
+				WCAlliance wca = pl.wcAlliances.get(a);
 				File aFile = new File("./plugins/WaterCloset/Alliances/" + a + ".yml");
 				YamlConfiguration ayaml = YamlConfiguration.loadConfiguration(aFile);
 				
@@ -139,7 +139,6 @@ public class WCManager {
 				ayaml.set("Members", wca.getUsers());
 				ayaml.save(aFile);
 			}
-		yaml.save(file);
 	}
 	
 	public void setupPlayer(String p) {
@@ -181,10 +180,13 @@ public class WCManager {
 	    wcp.setBalance(yaml.getInt("Balance"));
 	    wcp.setDepositExp(yaml.getBoolean("DepositExp"));
 	    wcp.setScoreboard(yaml.getBoolean("Scoreboard"));
+	    wcp.setParagonCount(yaml.getInt("ParagonCount"));
+	    wcp.setParagonReqLevel(yaml.getInt("ParagonReqLevel"));
+	    wcp.setParagonTempTotal(yaml.getInt("ParagonTempTotal"));
 		pl.wcPlayers.put(p, wcp);
 	}
 
-	public void savePlayer(String p) throws IOException{
+	public void savePlayer(String p) throws IOException {
 		
 		WCPlayer wcp = getWCPlayer(p);
 		File file = new File("./plugins/WaterCloset/Users/" + p + ".yml");
@@ -225,11 +227,14 @@ public class WCManager {
 		yaml.set("BlocksMined", wcp.getBlocksMined());
 		yaml.set("Balance", wcp.getBalance());
 		yaml.set("DepositExp", wcp.getExpDeposit());
+		yaml.set("ParagonCount", wcp.getParagonCount());
+		yaml.set("ParagonReqLevel", wcp.getParagonReqLevel());
+		yaml.set("ParagonTempTotal", wcp.getParagonTempTotal());
 		yaml.save(file);
-		pl.wcPlayers.remove(p);
 	}
 
 	public WCPlayer getWCPlayer(String player){
+		
 		if (pl.wcPlayers.containsKey(player)){
 			return pl.wcPlayers.get(player);
 		} else {
@@ -239,10 +244,22 @@ public class WCManager {
 	}
 	
 	public WCAlliance getWCAlliance(String name){
+		
 		if (pl.wcAlliances.containsKey(name)){
 			return pl.wcAlliances.get(name);
-		} 
-		return null;
+		} else {
+			pl.getLogger().log(Level.SEVERE, "NO ALLIANCE FOUND FOR " + name + "!");
+			return null;
+		}
+	}
+	
+	public WCSystem getWCSystem(String name){
+		if (pl.wcSystem.containsKey(name)){
+			return pl.wcSystem.get(name);
+		} else {
+			pl.getLogger().log(Level.SEVERE, "NO SYSTEM FILE FOUND FOR " + name + "!");
+			return null;
+		}
 	}
 	
 	public String getCompleted(String name, String c1, String c2){
@@ -261,38 +278,37 @@ public class WCManager {
 		return completed;
 	}
 	
-	public void foreverAlone() throws IOException{
-		
-		WCAlliance fA = new WCAlliance("ForeverAlone");
-		
-		File listFile = new File("./plugins/WaterCloset/Alliances/list.yml");
-		File allianceFile = new File("./plugins/WaterCloset/Alliances/ForeverAlone.yml");
-		
-			if (!allianceFile.exists()){
-				allianceFile.createNewFile();
-			} else {
-				return;
-			}
-			
-	    YamlConfiguration listYaml = YamlConfiguration.loadConfiguration(listFile);
-	    YamlConfiguration allianceYaml = YamlConfiguration.loadConfiguration(allianceFile);
-	    
-	    allianceYaml.set("Color1", "7");
-	    allianceYaml.set("Color2", "8");
-	    allianceYaml.save(allianceFile);
-	    pl.wcAlliances.put("ForeverAlone", fA);
-	    
-	    List<String> alliances = listYaml.getStringList("Alliances");
-	    alliances.add("ForeverAlone");
-	    listYaml.set("Alliances", alliances);
-	    listYaml.save(listFile);
-	}
-	
 	public void updateAllianceMap(String name, WCAlliance wcm){
 		pl.wcAlliances.put(name, wcm);
 	}
 	
 	public void updatePlayerMap(String name, WCPlayer wcp){
 		pl.wcPlayers.put(name, wcp);
+	}
+	
+	public void updateSystem(String name, WCSystem system){
+		pl.wcSystem.put(name, system);
+	}
+
+	public void setupSystem(YamlConfiguration systemYaml) {	
+		
+		WCSystem wcs = new WCSystem("system");
+		wcs.setParagonTotal(systemYaml.getInt("ParagonTotal"));	
+		wcs.setParagonTier(systemYaml.getInt("ParagonTier"));
+		wcs.setParagonNewListSize(systemYaml.getInt("ParagonNewListSize"));
+		wcs.setEmotes(systemYaml.getStringList("EmotesList"), systemYaml.getStringList("EmoteActions"));
+		pl.wcSystem.put("system", wcs);
+	}
+	
+	public void saveSystem(YamlConfiguration systemYaml, File systemFile) throws IOException{
+		
+		WCSystem wcs = getWCSystem("system");
+		systemYaml.set("ParagonTotal", wcs.getParagonTotal());
+		systemYaml.set("ParagonTier", wcs.getParagonTier());
+		systemYaml.set("ParagonNewListSize", wcs.getParagonNewListSize());
+		systemYaml.set("EmotesList", wcs.getEmotes());
+		systemYaml.set("EmoteActions", wcs.getEmoteActions());
+		
+		systemYaml.save(systemFile);
 	}
 }

@@ -12,11 +12,9 @@ public class ScoreboardUpdateEvent extends WCEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private Player p;
     private boolean cancelled;
-    private Boolean forced;
 
-    public ScoreboardUpdateEvent(Player p, Boolean forced) {
+    public ScoreboardUpdateEvent(Player p) {
         this.p = p;
-        this.forced = forced;
     }
     
     public void setPlayer(Player p){
@@ -33,14 +31,6 @@ public class ScoreboardUpdateEvent extends WCEvent implements Cancellable {
 
     public Player getPlayer(){
     	return p;
-    }
-
-    public Boolean getForced(){
-    	return forced;
-    }
-    
-    public void setForced(Boolean a){
-    	forced = a;
     }
  
     public HandlerList getHandlers() {

@@ -47,6 +47,9 @@ public class WCPlayer {
 	public String lastChat;
 	
 	public int paragonLevel = 0;
+	public int paragonCount = 0;
+	public int paragonTempTotal = 0;
+	public int paragonReqLevel = 0;
 	public int deathCount = 0;
 	public int exp = 0;
 	public int blocksMined;
@@ -179,6 +182,18 @@ public class WCPlayer {
 	
 	public int getParagonLevel(){
 		return paragonLevel;
+	}
+	
+	public int getParagonReqLevel(){
+		return paragonReqLevel;
+	}
+	
+	public int getParagonTempTotal(){
+		return paragonTempTotal;
+	}
+	
+	public int getParagonCount(){
+		return paragonCount;
 	}
 	
 	public int getDeathCount(){
@@ -366,6 +381,18 @@ public class WCPlayer {
 	
 	public void setBlocksMined(int a){
 		blocksMined = a;
+	}
+	
+	public void setParagonCount(int a){
+		paragonCount = a;
+	}
+	
+	public void setParagonTempTotal(int a){
+		paragonTempTotal = a;
+	}
+	
+	public void setParagonReqLevel(int a){
+		paragonReqLevel = a;
 	}
 	
 	public void setExp(int a){

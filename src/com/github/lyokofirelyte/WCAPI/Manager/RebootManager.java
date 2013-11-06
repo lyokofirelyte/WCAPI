@@ -1,6 +1,8 @@
-package com.github.lyokofirelyte.WCAPI;
+package com.github.lyokofirelyte.WCAPI.Manager;
 
 import org.bukkit.Bukkit;
+
+import com.github.lyokofirelyte.WCAPI.WCAPI;
 
 
 public class RebootManager {
