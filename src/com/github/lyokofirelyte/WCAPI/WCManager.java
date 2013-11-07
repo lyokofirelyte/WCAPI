@@ -297,6 +297,9 @@ public class WCManager {
 		wcs.setParagonTier(systemYaml.getInt("ParagonTier"));
 		wcs.setParagonNewListSize(systemYaml.getInt("ParagonNewListSize"));
 		wcs.setEmotes(systemYaml.getStringList("EmotesList"), systemYaml.getStringList("EmoteActions"));
+		wcs.setObelisks(systemYaml.getStringList("Obelisks"));
+		wcs.setWalkWayStarts(systemYaml.getStringList("WalkWayStarts"));
+		wcs.setWalkWayEnds(systemYaml.getStringList("WalkWayEnds"));
 		pl.wcSystem.put("system", wcs);
 	}
 	
@@ -308,6 +311,9 @@ public class WCManager {
 		systemYaml.set("ParagonNewListSize", wcs.getParagonNewListSize());
 		systemYaml.set("EmotesList", wcs.getEmotes());
 		systemYaml.set("EmoteActions", wcs.getEmoteActions());
+		systemYaml.set("Obelisks", wcs.getObelisks());
+		systemYaml.set("WalkWayStarts", wcs.getWalkWayStarts());
+		systemYaml.set("WalkWayEnds", wcs.getWalkWayEnds());
 		
 		systemYaml.save(systemFile);
 	}
