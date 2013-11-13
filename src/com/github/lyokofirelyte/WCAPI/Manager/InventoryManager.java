@@ -22,7 +22,7 @@ public class InventoryManager extends WCAPI {
 	ItemMeta iMeta;
 	List<String> loreSplit;
 	
-	public ItemStack makeItem(String dispName, String lore, Boolean e, Enchantment enchant, int itemType, Material mat, int itemAmount){
+	public ItemStack makeItem(String dispName, String lore, Boolean e, Enchantment enchant, int amplifier, int itemType, Material mat, int itemAmount){
 		
 		i = new ItemStack(mat, itemAmount, (short) itemType);
         iMeta = i.getItemMeta();
@@ -30,7 +30,7 @@ public class InventoryManager extends WCAPI {
     	loreList.add(lore);
         
         if (e){
-        	iMeta.addEnchant(enchant, 10, true);
+        	iMeta.addEnchant(enchant, amplifier, true);
         }
 
         iMeta.setDisplayName(dispName);

@@ -44,7 +44,7 @@ public class RebootManager {
 
 		Bukkit.broadcastMessage(WC + "The server will be executing the daily reboot in 5 minutes. It will be down around 60 seconds.");
 		
-		for (int x = 5; x > 0; x++){
+		for (int x = 5; x > 0; x--){
 		
 			y--;
 			delay = delay + 1200L;
