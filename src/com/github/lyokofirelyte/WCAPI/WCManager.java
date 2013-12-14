@@ -2,9 +2,12 @@ package com.github.lyokofirelyte.WCAPI;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class WCManager {
@@ -33,7 +36,6 @@ public class WCManager {
 	    alliances.add(name);
 	    listYaml.set("Alliances", alliances);
 	    listYaml.save(listFile);
-	    
 	    allianceYaml.set("Created", wca.getCreated());
 	    allianceYaml.set("Leader", wca.getLeader());
 	    allianceYaml.set("Color1", wca.getColor1());
@@ -183,15 +185,47 @@ public class WCManager {
 	    wcp.setParagonCount(yaml.getInt("ParagonCount"));
 	    wcp.setParagonReqLevel(yaml.getInt("ParagonReqLevel"));
 	    wcp.setParagonTempTotal(yaml.getInt("ParagonTempTotal"));
+	    wcp.setRootShortCut(yaml.getBoolean("RootShortCut"));
+	    wcp.setNamePlate(yaml.getBoolean("NamePlate"));
+	    wcp.setPatrolAchievements(yaml.getStringList("Patrol.Achievements"));
+	    wcp.setPatrolActives(yaml.getStringList("Patrol.Actives"));
+	    wcp.setScoreboardCoords(yaml.getBoolean("ScoreboardCoords"));
+	    wcp.setJoinMessage(yaml.getString("JoinMessage"));
+	    wcp.setQuitMessage(yaml.getString("QuitMessage"));
+	    wcp.setMessageCount(yaml.getInt("MessageCount"));
+	    wcp.setParagonBacks(yaml.getInt("Paragon.Backs"));
+	    wcp.setParagonTps(yaml.getInt("Paragon.Tps"));
+	    wcp.setParagonSpecialHome(getSpecialHome(yaml.getString("Paragon.SpecialHome")));
+	    wcp.setParagonMoney(yaml.getBoolean("Paragon.Money"));
+	    wcp.setParagonSpecialHomeSet(yaml.getBoolean("Paragon.SpecialHomeSet"));
+	    wcp.setPatrolLevel(yaml.getInt("PatrolLevel"));
+	    wcp.setRank(yaml.getString("Rank"));
+	    wcp.setTransfered(yaml.getBoolean("WCTRANSFER"));
+	    wcp.setQuickCommands(yaml.getStringList("QuickCommands"));
 		pl.wcPlayers.put(p, wcp);
 	}
-
+	
+	public Location getSpecialHome(String locText){
+		if (locText != null){
+			String[] locSplit = locText.split(" ");
+			return new Location(Bukkit.getWorld(locSplit[0]), Double.parseDouble(locSplit[1]), Double.parseDouble(locSplit[2]), Double.parseDouble(locSplit[3]), Float.parseFloat(locSplit[4]), Float.parseFloat(locSplit[4]));
+		}
+		return new Location(Bukkit.getWorld("world"), 10, 10, 10);
+	}
+	
 	public void savePlayer(String p) throws IOException {
 		
 		WCPlayer wcp = getWCPlayer(p);
 		File file = new File("./plugins/WaterCloset/Users/" + p + ".yml");
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 		
+		yaml.set("Paragon.Backs", wcp.getParagonBacks());
+		yaml.set("Paragon.Tps", wcp.getParagonTps());
+		yaml.set("Paragon.Money", wcp.getParagonMoney());
+		yaml.set("Paragon.SpecialHomeSet", wcp.getParagonSpecialHomeSet());
+		if (wcp.getParagonSpecialHomeSet()){
+			yaml.set("Paragon.SpecialHome", wcp.getParagonSpecialHome().getWorld().getName() + " " + wcp.getParagonSpecialHome().getX() + " " + wcp.getParagonSpecialHome().getY() + " " + wcp.getParagonSpecialHome().getZ() + " " + wcp.getParagonSpecialHome().getPitch() + " " + wcp.getParagonSpecialHome().getYaw());
+		}
 		yaml.set("History", wcp.getHistory());
 		yaml.set("HomeList", wcp.getHomes());
 		yaml.set("Chat.TimeCode", wcp.getTimeCode());
@@ -230,6 +264,18 @@ public class WCManager {
 		yaml.set("ParagonCount", wcp.getParagonCount());
 		yaml.set("ParagonReqLevel", wcp.getParagonReqLevel());
 		yaml.set("ParagonTempTotal", wcp.getParagonTempTotal());
+		yaml.set("RootShortCut", wcp.getRootShortCut());
+		yaml.set("NamePlate", wcp.getNamePlate());
+		yaml.set("Patrol.Achievements", wcp.getPatrolAchievements());
+		yaml.set("Patrol.Actives", wcp.getPatrolActives());
+		yaml.set("ScoreboardCoords", wcp.getScoreboardCoords());
+		yaml.set("JoinMessage", wcp.getJoinMessage());
+		yaml.set("QuitMessage", wcp.getQuitMessage());
+		yaml.set("MessageCount", wcp.getMessageCount());
+		yaml.set("PatrolLevel", wcp.getPatrolLevel());
+		yaml.set("Rank", wcp.getRank());
+		yaml.set("WCTRANSFER", wcp.getTransfered());
+		yaml.set("QuickCommands", wcp.getQuickCommands());
 		yaml.save(file);
 	}
 
@@ -298,9 +344,28 @@ public class WCManager {
 		wcs.setParagonNewListSize(systemYaml.getInt("ParagonNewListSize"));
 		wcs.setEmotes(systemYaml.getStringList("EmotesList"), systemYaml.getStringList("EmoteActions"));
 		wcs.setObelisks(systemYaml.getStringList("Obelisks"));
-		wcs.setWalkWayStarts(systemYaml.getStringList("WalkWayStarts"));
-		wcs.setWalkWayEnds(systemYaml.getStringList("WalkWayEnds"));
+		wcs.setChests(systemYaml.getStringList("Chests"));
+		wcs.setUsers(systemYaml.getStringList("TotalUsers"));
+		wcs.setTeleportPads(getPads(systemYaml));
 		pl.wcSystem.put("system", wcs);
+	}
+	
+	public List<Location> getPads(YamlConfiguration systemYaml){
+		List<Location> locs = new ArrayList<>();
+		for (String s : systemYaml.getStringList("TeleportPads")){
+			String[] a = s.split(" ");
+			locs.add(new Location(Bukkit.getWorld(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]), Double.parseDouble(a[3])));
+		}
+		return locs;
+	}
+	
+	public List<String> getPads2(){
+		WCSystem wcs = getWCSystem("system");
+		List<String> locs = new ArrayList<>();
+		for (Location l : wcs.getTeleportPads()){
+			locs.add(l.getWorld().getName() + " " + l.getX() + " " + l.getY() + " " + l.getZ());
+		}
+		return locs;
 	}
 	
 	public void saveSystem(YamlConfiguration systemYaml, File systemFile) throws IOException{
@@ -312,9 +377,15 @@ public class WCManager {
 		systemYaml.set("EmotesList", wcs.getEmotes());
 		systemYaml.set("EmoteActions", wcs.getEmoteActions());
 		systemYaml.set("Obelisks", wcs.getObelisks());
-		systemYaml.set("WalkWayStarts", wcs.getWalkWayStarts());
-		systemYaml.set("WalkWayEnds", wcs.getWalkWayEnds());
-		
+		systemYaml.set("Chests", wcs.getChests());
+		systemYaml.set("TotalUsers", wcs.getUsers());
+		systemYaml.set("TeleportPads", getPads2());
 		systemYaml.save(systemFile);
+	}
+	
+	public String getFullNick(String player){
+		WCPlayer wcp = getWCPlayer(player);
+		WCAlliance wca = getWCAlliance(wcp.getAlliance());
+		return getCompleted(wcp.getNick(), wca.getColor1(), wca.getColor2());
 	}
 }

@@ -2,6 +2,8 @@ package com.github.lyokofirelyte.WCAPI;
 
 import java.util.List;
 
+import org.bukkit.Location;
+
 
 public class WCSystem {
 	
@@ -15,46 +17,37 @@ public class WCSystem {
 	public int paragonNewListSize;
 	public int paragonTier;
 	
+	public Boolean rebooting = false;
+	
 	public List<String> emotes;
 	public List<String> emoteActions;
 	public List<String> obeliskLocations;
-	public List<String> walkwaystarts;
-	public List<String> walkwayends;
+	public List<String> users;
+	public List<String> chests;
+	public List<Location> teleportPads;
 	
+	public List<Location> getTeleportPads(){
+		return teleportPads;
+	}
+	
+	public void setTeleportPads(List<Location> a){
+		teleportPads = a;
+	}
+
 	public List<String> getObelisks(){
 		return obeliskLocations;
 	}
 	
-	public List<String> getWalkWayStarts(){
-		return walkwaystarts;
+	public List<String> getUsers(){
+		return users;
 	}
 	
-	public List<String> getWalkWayEnds(){
-		return walkwayends;
+	public void setUsers(List<String> a){
+		users = a;
 	}
 	
-	public void setWalkWayStarts(List<String> a){
-		walkwaystarts = a;
-	}
-	
-	public void setWalkWayEnds(List<String> a){
-		walkwayends = a;
-	}
-	
-	public void addWalkWayStart(String a){
-		walkwaystarts.add(a);
-	}
-	
-	public void addWalkWayEnd(String a){
-		walkwayends.add(a);
-	}
-	
-	public void remWalkWayStart(String a){
-		walkwaystarts.remove(a);
-	}
-	
-	public void remWalkWayEnd(String a){
-		walkwayends.remove(a);
+	public List<String> getChests(){
+		return chests;
 	}
 	
 	public void setParagonTotal(int a){
@@ -88,7 +81,18 @@ public class WCSystem {
 		emoteActions.remove(emotes.indexOf(a));
 	}
 	
+	public void setChests(List<String> a){
+		chests = a;
+	}
 	
+	public void setRebooting(Boolean a){
+		rebooting = a;
+	}
+	
+	
+	public Boolean isRebooting(){
+		return rebooting;
+	}
 	
 	public int getParagonTotal(){
 		return paragonTotal;
