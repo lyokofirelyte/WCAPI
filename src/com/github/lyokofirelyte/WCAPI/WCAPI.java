@@ -8,7 +8,6 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
@@ -20,7 +19,7 @@ public class WCAPI extends JavaPlugin {
 	public Map <String, WCPlayer> wcPlayers = new HashMap<>();
 	public Map <String, WCAlliance> wcAlliances = new HashMap<>();
 	public Map <String, WCSystem> wcSystem = new HashMap<>();
-	public Map <String, Inventory> wcParagonInventory = new HashMap<>();
+	public Map <String, WCPatrol> wcPatrols = new HashMap<>();
 	
 	File systemFile;
 	YamlConfiguration systemYaml;

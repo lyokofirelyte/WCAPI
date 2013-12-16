@@ -70,6 +70,10 @@ public class ParagonFindEvent extends WCEvent implements Cancellable {
     public Player getPlayer(){
     	return p;
     }
+    
+    public void setParagon(String a){
+    	paragon = a;
+    }
  
     public HandlerList getHandlers() {
         return handlers;

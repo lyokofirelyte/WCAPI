@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
 
 
 public class WCPlayer {
@@ -14,12 +15,16 @@ public class WCPlayer {
 	this.name = name;
 	}
 
+	Inventory patrolActives;
+	
 	public List <String> homeList = new ArrayList<String>();
 	public List <String> history = new ArrayList<String>();
 	public List <String> mail = new ArrayList<String>();
 	public List <String> patrolAchievements = new ArrayList<String>();
-	public List <String> patrolActives = new ArrayList<String>();
 	public List <String> quickCommands = new ArrayList<String>();
+	public List <String> powertools = new ArrayList<String>();
+	
+	public Location lastLocation;
 	
 	public Boolean timeCode = false;
 	public Boolean homeSounds = false;
@@ -45,6 +50,8 @@ public class WCPlayer {
 	public Boolean transfered = false;
 	public Boolean paragonSpecialHomeSet = false;
 	public Boolean paragonMoney = false;
+	public Boolean patrolFormCmd = false;
+	public Boolean canSoar = true;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -63,6 +70,7 @@ public class WCPlayer {
 	public String rank = "Guest";
 	public String tpaRequest = "none";
 	public String tpahereRequest = "none";
+	public String lastLoginLocation = "none";
 	
 	public Location selChest;
 	public Location paragonSpecialHome;
@@ -79,7 +87,35 @@ public class WCPlayer {
 	public int paragonBacks = 0;
 	public int paragonTps = 0;
 	public int patrolLevel = 0;
+	public int patrolExp = 0;
 	
+	public long canSoarTimer = 0;
+	public long soarTimer = 0;
+	
+	public float lastLogin = 0;
+	
+	public double patrolHeal = 0;
+	
+	public long getCanSoarTimer(){
+		return canSoarTimer;
+	}
+	
+	public long getSoarTimer(){
+		return soarTimer;
+	}
+	
+	public float getLastLogin(){
+		return lastLogin;
+	}
+	
+	public double getPatrolHeal(){
+		return patrolHeal;
+	}
+	
+	public List<String> getPowertools(){
+		return powertools;
+	}
+
 	public List<String> getMail(){
 		return mail;
 	}
@@ -88,7 +124,7 @@ public class WCPlayer {
 		return patrolAchievements;
 	}
 	
-	public List<String> getPatrolActives(){
+	public Inventory getPatrolActives(){
 		return patrolActives;
 	}
 	
@@ -109,6 +145,11 @@ public class WCPlayer {
 		return selChest;
 	}
 	
+	public Location getLastLocation(){
+		return lastLocation;
+	}
+	
+	
 	public Location getParagonSpecialHome(){
 		return paragonSpecialHome;
 	}
@@ -119,6 +160,10 @@ public class WCPlayer {
 	
 	public Boolean getScoreboardCoords(){
 		return scoreboardCoords;
+	}
+	
+	public Boolean getPatrolFormCmd(){
+		return patrolFormCmd;
 	}
 	
 	public Boolean getNamePlate(){
@@ -143,6 +188,10 @@ public class WCPlayer {
 	
 	public Boolean getEmotes(){
 		return emotes;
+	}
+	
+	public Boolean getCanSoar(){
+		return canSoar;
 	}
 	
 	public Boolean getScoreboard(){
@@ -237,6 +286,10 @@ public class WCPlayer {
 		return tpahereRequest;
 	}
 	
+	public String getLastLoginLocation(){
+		return lastLoginLocation;
+	}
+	
 	public String getGlobalColor(){
 		return globalColor;
 	}
@@ -297,6 +350,10 @@ public class WCPlayer {
 		return paragonTps;
 	}
 	
+	public int getPatrolExp(){
+		return patrolExp;
+	}
+	
 	public int getParagonCount(){
 		return paragonCount;
 	}
@@ -323,6 +380,10 @@ public class WCPlayer {
 	
 	public int getParagonBacks(){
 		return paragonBacks;
+	}
+	
+	public void setLastLocation(Location a){
+		lastLocation = a;
 	}
 	
 	@Deprecated
@@ -352,6 +413,10 @@ public class WCPlayer {
 	
 	public void setNamePlate(Boolean a){
 		namePlate = a;
+	}
+	
+	public void setPatrolFormCmd(Boolean a){
+		patrolFormCmd = a;
 	}
 	
 	public void setParagonMarket(Boolean a){
@@ -408,6 +473,10 @@ public class WCPlayer {
 	
 	public void setTimeCode(Boolean a){
 		timeCode = a;
+	}
+	
+	public void setCanSoar(Boolean a){
+		canSoar = a;
 	}
 	
 	public void setTransfered(Boolean a){
@@ -522,6 +591,10 @@ public class WCPlayer {
 		homeList.remove(a);
 	}
 	
+	public void setLastLoginLocation(String a){
+		lastLoginLocation = a;
+	}
+	
 	public void setHomes(List<String> a){
 		homeList = a;
 	}
@@ -534,7 +607,7 @@ public class WCPlayer {
 		mail = a;
 	}
 	
-	public void setPatrolActives(List<String> a){
+	public void setPatrolActives(Inventory a){
 		patrolActives = a;
 	}
 	
@@ -544,6 +617,10 @@ public class WCPlayer {
 	
 	public void setQuickCommands(List<String> a){
 		quickCommands = a;
+	}
+	
+	public void setPowertools(List<String> a){
+		powertools = a;
 	}
 	
 	public void clearMail(){
@@ -574,6 +651,10 @@ public class WCPlayer {
 		blocksMined = a;
 	}
 	
+	public void setPatrolExp(int a){
+		patrolExp = a;
+	}
+	
 	public void setParagonCount(int a){
 		paragonCount = a;
 	}
@@ -596,6 +677,22 @@ public class WCPlayer {
 	
 	public void setExp(int a){
 		exp = a;
+	}
+	
+	public void setPatrolHeal(double a){
+		patrolHeal = a;
+	}
+	
+	public void setLastLogin(float a){
+		lastLogin = a;
+	}
+	
+	public void setSoarTimer(long a){
+		soarTimer = a;
+	}
+	
+	public void setCanSoarTimer(long a){
+		canSoarTimer = a;
 	}
 		
 	public void setChat(Boolean timecode, String globalcolor, String pmcolor){

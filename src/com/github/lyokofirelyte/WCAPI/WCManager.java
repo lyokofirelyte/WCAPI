@@ -7,8 +7,14 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class WCManager {
 
@@ -188,7 +194,6 @@ public class WCManager {
 	    wcp.setRootShortCut(yaml.getBoolean("RootShortCut"));
 	    wcp.setNamePlate(yaml.getBoolean("NamePlate"));
 	    wcp.setPatrolAchievements(yaml.getStringList("Patrol.Achievements"));
-	    wcp.setPatrolActives(yaml.getStringList("Patrol.Actives"));
 	    wcp.setScoreboardCoords(yaml.getBoolean("ScoreboardCoords"));
 	    wcp.setJoinMessage(yaml.getString("JoinMessage"));
 	    wcp.setQuitMessage(yaml.getString("QuitMessage"));
@@ -198,11 +203,71 @@ public class WCManager {
 	    wcp.setParagonSpecialHome(getSpecialHome(yaml.getString("Paragon.SpecialHome")));
 	    wcp.setParagonMoney(yaml.getBoolean("Paragon.Money"));
 	    wcp.setParagonSpecialHomeSet(yaml.getBoolean("Paragon.SpecialHomeSet"));
-	    wcp.setPatrolLevel(yaml.getInt("PatrolLevel"));
+	    wcp.setPatrolLevel(yaml.getInt("Patrol.Level"));
 	    wcp.setRank(yaml.getString("Rank"));
 	    wcp.setTransfered(yaml.getBoolean("WCTRANSFER"));
 	    wcp.setQuickCommands(yaml.getStringList("QuickCommands"));
+	    wcp.setPatrolExp(yaml.getInt("Patrol.Exp"));
+	    wcp.setPatrolActives(getActives(yaml));
+	    wcp.setPowertools(yaml.getStringList("PowerTools"));
+	    wcp.setLastLoginLocation(yaml.getString("LastLoginLocation"));
+	    wcp.setLastLogin(yaml.getInt("LastLogin"));
 		pl.wcPlayers.put(p, wcp);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Inventory getActives(YamlConfiguration yaml){
+		  Inventory inv = Bukkit.createInventory(null, 9, "§aACTIVE GEAR");
+		  for (int x = 0; x < 10; x++){
+			  if (yaml.getBoolean("PatrolItems.Item" + x + ".Full")){
+				ItemStack i = new ItemStack(yaml.getInt("PatrolItems.Item" + x + ".ID"));
+				ItemMeta im = i.getItemMeta();
+				if (yaml.getBoolean("PatrolItems.Item" + x + ".Named")){
+					im.setDisplayName(yaml.getString("PatrolItems.Item" + x + ".Name"));
+				}
+				if (yaml.getBoolean("PatrolItems.Item" + x + ".Enchanted")){
+					im.addEnchant(Enchantment.DURABILITY, 10, true);
+				}
+				if (yaml.getBoolean("PatrolItems.Item" + x + ".HasLore")){
+					im.setLore(yaml.getStringList("PatrolItems.Item" + x + ".Lore"));
+				}
+				if (im != null){
+					i.setItemMeta(im);
+				}
+				inv.addItem(i);
+			  }
+		  }
+		  return inv;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public YamlConfiguration activeSorter(YamlConfiguration yaml, WCPlayer wcp){
+		
+		int x = 0;
+		
+		for (ItemStack i : wcp.getPatrolActives()){
+			if (i != null){
+				yaml.set("PatrolItems.Item" + x + ".Full", true);
+				yaml.set("PatrolItems.Item" + x + ".ID", i.getType().getId());
+				if (i.hasItemMeta()){
+					if (i.getItemMeta().hasDisplayName()){
+						yaml.set("PatrolItems.Item" + x + ".Named", true);
+						yaml.set("PatrolItems.Item" + x + ".Name", i.getItemMeta().getDisplayName());
+					}
+					if (i.getItemMeta().hasLore()){
+						yaml.set("PatrolItems.Item" + x + ".HasLore", true);
+						yaml.set("PatrolItems.Item" + x + ".Lore", i.getItemMeta().getLore());
+					}
+					if (i.getItemMeta().getEnchants().size() > 0){
+						yaml.set("PatrolItems.Item" + x + ".Enchanted", true);
+					}
+				}
+			} else {
+				yaml.set("PatrolItems.Item" + x + ".Full", false);
+			}
+			x++;
+		}	
+		return yaml;	
 	}
 	
 	public Location getSpecialHome(String locText){
@@ -267,15 +332,19 @@ public class WCManager {
 		yaml.set("RootShortCut", wcp.getRootShortCut());
 		yaml.set("NamePlate", wcp.getNamePlate());
 		yaml.set("Patrol.Achievements", wcp.getPatrolAchievements());
-		yaml.set("Patrol.Actives", wcp.getPatrolActives());
 		yaml.set("ScoreboardCoords", wcp.getScoreboardCoords());
 		yaml.set("JoinMessage", wcp.getJoinMessage());
 		yaml.set("QuitMessage", wcp.getQuitMessage());
 		yaml.set("MessageCount", wcp.getMessageCount());
-		yaml.set("PatrolLevel", wcp.getPatrolLevel());
+		yaml.set("Patrol.Level", wcp.getPatrolLevel());
 		yaml.set("Rank", wcp.getRank());
 		yaml.set("WCTRANSFER", wcp.getTransfered());
 		yaml.set("QuickCommands", wcp.getQuickCommands());
+		yaml.set("Patrol.Exp", wcp.getPatrolExp());
+		yaml.set("PowerTools", wcp.getPowertools());
+		yaml.set("LastLogin", wcp.getLastLogin());
+		yaml.set("LastLoginLocation", wcp.getLastLoginLocation());
+		yaml = activeSorter(yaml, wcp);
 		yaml.save(file);
 	}
 
@@ -295,6 +364,15 @@ public class WCManager {
 			return pl.wcAlliances.get(name);
 		} else {
 			pl.getLogger().log(Level.SEVERE, "NO ALLIANCE FOUND FOR " + name + "!");
+			return null;
+		}
+	}
+	
+	public WCPatrol getWCPatrol(String name){
+		
+		if (pl.wcPatrols.containsKey(name)){
+			return pl.wcPatrols.get(name);
+		} else {
 			return null;
 		}
 	}
@@ -324,6 +402,10 @@ public class WCManager {
 		return completed;
 	}
 	
+	public void updatePatrol(String name, WCPatrol wcpp){
+		pl.wcPatrols.put(name, wcpp);
+	}
+	
 	public void updateAllianceMap(String name, WCAlliance wcm){
 		pl.wcAlliances.put(name, wcm);
 	}
@@ -347,6 +429,7 @@ public class WCManager {
 		wcs.setChests(systemYaml.getStringList("Chests"));
 		wcs.setUsers(systemYaml.getStringList("TotalUsers"));
 		wcs.setTeleportPads(getPads(systemYaml));
+		wcs.setMarketSigns(systemYaml.getStringList("MarketSigns"));
 		pl.wcSystem.put("system", wcs);
 	}
 	
@@ -380,6 +463,7 @@ public class WCManager {
 		systemYaml.set("Chests", wcs.getChests());
 		systemYaml.set("TotalUsers", wcs.getUsers());
 		systemYaml.set("TeleportPads", getPads2());
+		systemYaml.set("MarketSigns", wcs.getMarketSigns());
 		systemYaml.save(systemFile);
 	}
 	
@@ -387,5 +471,62 @@ public class WCManager {
 		WCPlayer wcp = getWCPlayer(player);
 		WCAlliance wca = getWCAlliance(wcp.getAlliance());
 		return getCompleted(wcp.getNick(), wca.getColor1(), wca.getColor2());
+	}
+	
+	  
+	public void userCreate(Player p) {
+			
+		File file = new File("./plugins/WaterCloset/Users/" + p.getName() + ".yml");
+		
+		if (!file.exists() || !getWCSystem("system").getUsers().contains(p.getName())){
+			
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+			pl.getLogger().log(Level.INFO, "New user file created for " + p.getName() + "!");
+			YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+				
+			yaml.set("Chat.GlobalColor", "f");
+			yaml.set("Chat.PMColor", "d");
+			yaml.set("Inviter", "empty");
+			yaml.set("Invite", "empty");
+			yaml.set("AllianceRank2", "Guest");
+			yaml.set("AllianceColor", "b");
+			yaml.set("LastChat", "Hugh_Jasses");
+			yaml.set("Alliance", "ForeverAlone");
+			yaml.set("Pokes", true);
+			yaml.set("Emotes", true);
+			yaml.set("ItemThrow", true);
+			yaml.set("Fireworks", true);
+			yaml.set("Scoreboard", true);
+			yaml.set("ScoreboardCoords", false);
+			yaml.set("HomeSounds", true);
+			yaml.set("RootShortCut", true);
+			yaml.set("NamePlate", true);
+			yaml.set("Nick", p.getName());
+			yaml.set("JoinMessage", "Joined!");
+			yaml.set("QuitMessage", "Left!");
+			yaml.set("Rank", "Guest");
+			yaml.set("Prefix", "");
+			yaml.set("Transfered", true);
+			
+			WCSystem wcs = getWCSystem("system");
+			List<String> users = wcs.getUsers();
+			users.add(p.getName());
+			wcs.setUsers(users);
+			updateSystem("system", wcs);
+				
+			try {
+				yaml.save(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+			setupPlayer(p.getName());			
+			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&6Welcome &7" + p.getDisplayName() + " &6to Worlds Apart! :)"));
+		}
 	}
 }

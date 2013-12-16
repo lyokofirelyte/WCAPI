@@ -3,6 +3,7 @@ package com.github.lyokofirelyte.WCAPI.Manager;
 import org.bukkit.Bukkit;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
+import com.github.lyokofirelyte.WCAPI.WCSystem;
 
 
 public class RebootManager {
@@ -22,13 +23,6 @@ public class RebootManager {
 		
     	Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable(){
         public void run(){
-        	Bukkit.broadcastMessage(WC + "The server has been running successfully for two minutes so we've automatically scheduled the next reboot for 24 hours from now.");
-        }
-        }
-        , 2400L);	
-    	
-    	Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable(){
-        public void run(){
         	  wcReboot();
         }
         }
@@ -36,6 +30,10 @@ public class RebootManager {
 	}
 
 	public void wcReboot(){
+		
+		WCSystem wcs = pl.wcm.getWCSystem("system");
+		wcs.setRebooting(true);
+		pl.wcm.updateSystem("system", wcs);
 
 		Bukkit.broadcastMessage(WC + "The server will be executing the daily reboot in 5 minutes.");
 		
