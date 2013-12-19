@@ -8,7 +8,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-
 public class WCSystem {
 	
 	String name;
@@ -44,18 +43,9 @@ public class WCSystem {
 	public List<ItemStack> items = new ArrayList<ItemStack>();
 	public List<LivingEntity> ents = new ArrayList<LivingEntity>();
 	public List<String> markkitSigns = new ArrayList<String>();
-	public List<String> vanishedPlayers = new ArrayList<String>();
 	
 	public List<String> getMarketSigns(){
 		return markkitSigns;
-	}
-	
-	public List<String> getVanishedPlayers(){
-		return vanishedPlayers;
-	}
-	
-	public void setVanishedPlayers(List<String> a){
-		vanishedPlayers = a;
 	}
 
 	public void setMarketSigns(List<String> a){
@@ -253,5 +243,4 @@ public class WCSystem {
 	public void addObelisk(String a){
 		obeliskLocations.add(a);
 	}
-	
 }
