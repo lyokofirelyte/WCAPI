@@ -212,6 +212,7 @@ public class WCManager {
 	    wcp.setPowertools(yaml.getStringList("PowerTools"));
 	    wcp.setLastLoginLocation(yaml.getString("LastLoginLocation"));
 	    wcp.setLastLogin(yaml.getInt("LastLogin"));
+	    wcp.setMail(yaml.getStringList("Mail"));
 		pl.wcPlayers.put(p, wcp);
 	}
 	
@@ -344,6 +345,7 @@ public class WCManager {
 		yaml.set("PowerTools", wcp.getPowertools());
 		yaml.set("LastLogin", wcp.getLastLogin());
 		yaml.set("LastLoginLocation", wcp.getLastLoginLocation());
+		yaml.set("Mail", wcp.getMail());
 		yaml = activeSorter(yaml, wcp);
 		yaml.save(file);
 	}

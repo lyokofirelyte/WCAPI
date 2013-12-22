@@ -31,6 +31,7 @@ public class WCSystem {
 	public List<String> chests;
 	public List<Location> teleportPads = new ArrayList<Location>();
 	public List<Integer> sheepTasks = new ArrayList<Integer>();
+	public List<String> vanishedPlayers = new ArrayList<String>();
 	
 	public Location hotSpot;
 	public int diff = 0;
@@ -46,6 +47,14 @@ public class WCSystem {
 	
 	public List<String> getMarketSigns(){
 		return markkitSigns;
+	}
+	
+	public void setVanishedPlayers(List<String> a){
+		vanishedPlayers = a;
+	}
+	
+	public List<String> getVanishedPlayers(){
+		return vanishedPlayers;
 	}
 
 	public void setMarketSigns(List<String> a){
