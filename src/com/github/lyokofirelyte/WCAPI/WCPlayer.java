@@ -3,6 +3,9 @@ package com.github.lyokofirelyte.WCAPI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.inventory.Inventory;
+
 
 public class WCPlayer {
 	
@@ -12,9 +15,16 @@ public class WCPlayer {
 	this.name = name;
 	}
 
-	public List <String> homeList;
-	public List <String> history;
-	public List <String> mail;
+	Inventory patrolActives;
+	
+	public List <String> homeList = new ArrayList<String>();
+	public List <String> history = new ArrayList<String>();
+	public List <String> mail = new ArrayList<String>();
+	public List <String> patrolAchievements = new ArrayList<String>();
+	public List <String> quickCommands = new ArrayList<String>();
+	public List <String> powertools = new ArrayList<String>();
+	
+	public Location lastLocation;
 	
 	public Boolean timeCode = false;
 	public Boolean homeSounds = false;
@@ -33,6 +43,15 @@ public class WCPlayer {
 	public Boolean emotes = true;
 	public Boolean depositExp = false;
 	public Boolean scoreboard = true;
+	public Boolean rootShortCut = true;
+	public Boolean namePlate = true;
+	public Boolean scoreboardCoords = false;
+	public Boolean paragonMarket = false;
+	public Boolean transfered = false;
+	public Boolean paragonSpecialHomeSet = false;
+	public Boolean paragonMoney = false;
+	public Boolean patrolFormCmd = false;
+	public Boolean canSoar = true;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -45,6 +64,16 @@ public class WCPlayer {
 	public String alliance = "ForeverAlone";
 	public String currentChat;
 	public String lastChat;
+	public String patrol;
+	public String joinMessage = "Joined!";
+	public String quitMessage = "Left!";
+	public String rank = "Guest";
+	public String tpaRequest = "none";
+	public String tpahereRequest = "none";
+	public String lastLoginLocation = "none";
+	
+	public Location selChest;
+	public Location paragonSpecialHome;
 	
 	public int paragonLevel = 0;
 	public int paragonCount = 0;
@@ -54,10 +83,49 @@ public class WCPlayer {
 	public int exp = 0;
 	public int blocksMined;
 	public int balance;
+	public int messageCount = 0;
+	public int paragonBacks = 0;
+	public int paragonTps = 0;
+	public int patrolLevel = 0;
+	public int patrolExp = 0;
 	
-	@Deprecated
+	public long canSoarTimer = 0;
+	public long soarTimer = 0;
+	
+	public float lastLogin = 0;
+	
+	public double patrolHeal = 0;
+	
+	public long getCanSoarTimer(){
+		return canSoarTimer;
+	}
+	
+	public long getSoarTimer(){
+		return soarTimer;
+	}
+	
+	public float getLastLogin(){
+		return lastLogin;
+	}
+	
+	public double getPatrolHeal(){
+		return patrolHeal;
+	}
+	
+	public List<String> getPowertools(){
+		return powertools;
+	}
+
 	public List<String> getMail(){
 		return mail;
+	}
+	
+	public List<String> getPatrolAchievements(){
+		return patrolAchievements;
+	}
+	
+	public Inventory getPatrolActives(){
+		return patrolActives;
 	}
 	
 	public List<String> getHistory(){
@@ -68,8 +136,50 @@ public class WCPlayer {
 		return homeList;
 	}
 	
+	public List<String> getQuickCommands(){
+		return quickCommands;
+	}
+	
+	@Deprecated
+	public Location getSelChest(){
+		return selChest;
+	}
+	
+	public Location getLastLocation(){
+		return lastLocation;
+	}
+	
+	
+	public Location getParagonSpecialHome(){
+		return paragonSpecialHome;
+	}
+	
 	public Boolean getEvac(){
 		return partyEvac;
+	}
+	
+	public Boolean getScoreboardCoords(){
+		return scoreboardCoords;
+	}
+	
+	public Boolean getPatrolFormCmd(){
+		return patrolFormCmd;
+	}
+	
+	public Boolean getNamePlate(){
+		return namePlate;
+	}
+	
+	public Boolean getParagonMarket(){
+		return paragonMarket;
+	}
+
+	public Boolean getParagonSpecialHomeSet(){
+		return paragonSpecialHomeSet;
+	}
+	
+	public Boolean getRootShortCut(){
+		return rootShortCut;
 	}
 	
 	public Boolean getFireworks(){
@@ -78,6 +188,10 @@ public class WCPlayer {
 	
 	public Boolean getEmotes(){
 		return emotes;
+	}
+	
+	public Boolean getCanSoar(){
+		return canSoar;
 	}
 	
 	public Boolean getScoreboard(){
@@ -124,12 +238,20 @@ public class WCPlayer {
 		return homeSounds;
 	}
 	
+	public Boolean getParagonMoney(){
+		return paragonMoney;
+	}
+	
 	public Boolean getInAlliance(){
 		return inAlliance;
 	}
 	
 	public Boolean getInChat(){
 		return inChat;
+	}
+	
+	public Boolean getTransfered(){
+		return transfered;
 	}
 	
 	public Boolean getTimeCode(){
@@ -152,12 +274,40 @@ public class WCPlayer {
 		return currentChat;
 	}
 	
+	public String getRank(){
+		return rank;
+	}
+	
+	public String getTpaRequest(){
+		return tpaRequest;
+	}
+	
+	public String getTpahereRequest(){
+		return tpahereRequest;
+	}
+	
+	public String getLastLoginLocation(){
+		return lastLoginLocation;
+	}
+	
 	public String getGlobalColor(){
 		return globalColor;
 	}
 	
+	public String getJoinMessage(){
+		return joinMessage;
+	}
+	
+	public String getQuitMessage(){
+		return quitMessage;
+	}
+	
 	public String getPMColor(){
 		return pmColor;
+	}
+	
+	public String getPatrol(){
+		return patrol;
 	}
 	
 	public String getAllianceColor(){
@@ -184,6 +334,10 @@ public class WCPlayer {
 		return paragonLevel;
 	}
 	
+	public int getPatrolLevel(){
+		return patrolLevel;
+	}
+	
 	public int getParagonReqLevel(){
 		return paragonReqLevel;
 	}
@@ -192,12 +346,24 @@ public class WCPlayer {
 		return paragonTempTotal;
 	}
 	
+	public int getParagonTps(){
+		return paragonTps;
+	}
+	
+	public int getPatrolExp(){
+		return patrolExp;
+	}
+	
 	public int getParagonCount(){
 		return paragonCount;
 	}
 	
 	public int getDeathCount(){
 		return deathCount;
+	}
+	
+	public int getMessageCount(){
+		return messageCount;
 	}
 	
 	public int getExp(){
@@ -212,16 +378,57 @@ public class WCPlayer {
 		return balance;
 	}
 	
+	public int getParagonBacks(){
+		return paragonBacks;
+	}
+	
+	public void setLastLocation(Location a){
+		lastLocation = a;
+	}
+	
+	@Deprecated
+	public void setSelChest(Location a){
+		selChest = a;
+	}
+	
+	public void setParagonSpecialHome(Location a){
+		paragonSpecialHome = a;
+	}
+	
 	public void setDisHandle(Boolean a){
 		disHandle = a;
 	}
 	
+	public void setParagonMoney(Boolean a){
+		paragonMoney = a;
+	}
+	
+	public void setParagonSpecialHomeSet(Boolean a){
+		paragonSpecialHomeSet = a;
+	}
+	
 	public void setScoreboard(Boolean a){
-		scoreboard=  a;
+		scoreboard = a;
+	}
+	
+	public void setNamePlate(Boolean a){
+		namePlate = a;
+	}
+	
+	public void setPatrolFormCmd(Boolean a){
+		patrolFormCmd = a;
+	}
+	
+	public void setParagonMarket(Boolean a){
+		paragonMarket = a;
 	}
 	
 	public void setDepositExp(Boolean a){
 		depositExp = a;
+	}
+	
+	public void setScoreboardCoords(Boolean a){
+		scoreboardCoords = a;
 	}
 
 	public void setInChat(Boolean a){
@@ -234,6 +441,10 @@ public class WCPlayer {
 	
 	public void setHasInvite(Boolean a){
 		hasInvite = a;
+	}
+	
+	public void setRootShortCut(Boolean a){
+		rootShortCut = a;
 	}
 	
 	public void setEmotes(Boolean a){
@@ -262,6 +473,14 @@ public class WCPlayer {
 	
 	public void setTimeCode(Boolean a){
 		timeCode = a;
+	}
+	
+	public void setCanSoar(Boolean a){
+		canSoar = a;
+	}
+	
+	public void setTransfered(Boolean a){
+		transfered = a;
 	}
 	
 	public void setEvac(Boolean a){
@@ -296,8 +515,32 @@ public class WCPlayer {
 		inviter = a;
 	}
 	
+	public void setPatrol(String a){
+		patrol = a;
+	}
+	
+	public void setJoinMessage(String a){
+		joinMessage = a;
+	}
+	
+	public void setQuitMessage(String a){
+		quitMessage = a;
+	}
+	
+	public void setTpaRequest(String a){
+		tpaRequest = a;
+	}
+	
+	public void setTpahereRequest(String a){
+		tpahereRequest = a;
+	}
+	
 	public void setAllianceColor(String a){
 		allianceColor = a;
+	}
+	
+	public void setRank(String a){
+		rank = a;
 	}
 	
 	public void setGlobalColor(String a){
@@ -324,12 +567,10 @@ public class WCPlayer {
 		lastChat = a;
 	}
 	
-	@Deprecated
 	public void addMail(String a){
 		mail.add(a);
 	}
 	
-	@Deprecated
 	public void remMail(String a){
 		mail.remove(a);
 	}
@@ -350,6 +591,10 @@ public class WCPlayer {
 		homeList.remove(a);
 	}
 	
+	public void setLastLoginLocation(String a){
+		lastLoginLocation = a;
+	}
+	
 	public void setHomes(List<String> a){
 		homeList = a;
 	}
@@ -358,9 +603,24 @@ public class WCPlayer {
 		history = a;
 	}
 	
-	@Deprecated
 	public void setMail(List<String> a){
 		mail = a;
+	}
+	
+	public void setPatrolActives(Inventory a){
+		patrolActives = a;
+	}
+	
+	public void setPatrolAchievements(List<String> a){
+		patrolAchievements = a;
+	}
+	
+	public void setQuickCommands(List<String> a){
+		quickCommands = a;
+	}
+	
+	public void setPowertools(List<String> a){
+		powertools = a;
 	}
 	
 	public void clearMail(){
@@ -375,6 +635,14 @@ public class WCPlayer {
 		balance = a;
 	}
 	
+	public void setPatrolLevel(int a){
+		patrolLevel = a;
+	}
+	
+	public void setMessageCount(int a){
+		messageCount = a;
+	}
+	
 	public void setDeathCount(int a){
 		deathCount = a;
 	}
@@ -383,8 +651,20 @@ public class WCPlayer {
 		blocksMined = a;
 	}
 	
+	public void setPatrolExp(int a){
+		patrolExp = a;
+	}
+	
 	public void setParagonCount(int a){
 		paragonCount = a;
+	}
+	
+	public void setParagonTps(int a){
+		paragonTps = a;
+	}
+	
+	public void setParagonBacks(int a){
+		paragonBacks = a;
 	}
 	
 	public void setParagonTempTotal(int a){
@@ -397,6 +677,22 @@ public class WCPlayer {
 	
 	public void setExp(int a){
 		exp = a;
+	}
+	
+	public void setPatrolHeal(double a){
+		patrolHeal = a;
+	}
+	
+	public void setLastLogin(float a){
+		lastLogin = a;
+	}
+	
+	public void setSoarTimer(long a){
+		soarTimer = a;
+	}
+	
+	public void setCanSoarTimer(long a){
+		canSoarTimer = a;
 	}
 		
 	public void setChat(Boolean timecode, String globalcolor, String pmcolor){

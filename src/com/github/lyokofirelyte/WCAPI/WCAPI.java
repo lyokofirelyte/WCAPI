@@ -3,7 +3,6 @@ package com.github.lyokofirelyte.WCAPI;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -20,19 +19,23 @@ public class WCAPI extends JavaPlugin {
 	public Map <String, WCPlayer> wcPlayers = new HashMap<>();
 	public Map <String, WCAlliance> wcAlliances = new HashMap<>();
 	public Map <String, WCSystem> wcSystem = new HashMap<>();
+	public Map <String, WCPatrol> wcPatrols = new HashMap<>();
 	
-	File usersFile;
 	File systemFile;
-	YamlConfiguration usersYaml;
 	YamlConfiguration systemYaml;
 	
-	List<String> users;
+	int users = 0;
 	
 	public RebootManager r;
 	public InventoryManager invManager;
 	public WCManager wcm;
 
 	public void onEnable(){
+		
+		systemFile = new File("./plugins/WaterCloset/system.yml");
+		systemYaml = YamlConfiguration.loadConfiguration(systemFile);
+	
+		Bukkit.getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
 		
 		getLogger().log(Level.INFO, "Loading all users and all alliances...");
 		
@@ -42,40 +45,35 @@ public class WCAPI extends JavaPlugin {
 		
 		r.scheduleReboot();
 		
-		usersFile = new File("./plugins/WaterCloset/datacore.yml");
-		systemFile = new File("./plugins/WaterCloset/system.yml");
-		
-		usersYaml = YamlConfiguration.loadConfiguration(usersFile);
-		systemYaml = YamlConfiguration.loadConfiguration(systemFile);
-		
-		users = systemYaml.getStringList("TotalUsers");
-		
-		for (String user : users){
-			wcm.setupPlayer(user);
-		}
-		
 		wcm.setupSystem(systemYaml);
+		
+		for (String user : wcm.getWCSystem("system").getUsers()){
+			wcm.setupPlayer(user);
+			users++;
+		}
+
 		wcm.setupAlliances();
 		
-		Bukkit.broadcastMessage("§dWC §5// §aWCAPI IS ENABLED! §2Loaded " + users.size() + " §2users!");
-		getLogger().log(Level.INFO, "Loaded " + users.size() + " users!");
+		Bukkit.broadcastMessage("§dWC §5// §aWCAPI IS ENABLED! §2Loaded " + users + " §2users!");
+		getLogger().log(Level.INFO, "Loaded " + users + " users!");
 	}
 
 	public void onDisable(){
 		
+		users = 0;
+		
 		getLogger().log(Level.INFO, "WCAPI has been disabled. Saving all users and alliances...");
 		
-		users = systemYaml.getStringList("TotalUsers");
-		
-		for (String user : users){
+		for (String user : wcm.getWCSystem("system").getUsers()){
 			try {
 				wcm.savePlayer(user);
+				users++;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		Bukkit.broadcastMessage("§dWC §5// §4WCAPI IS DISABLED! §cSaved " + users.size() + " §cusers!");
+		Bukkit.broadcastMessage("§dWC §5// §4WCAPI IS DISABLED! §cSaved " + users + " §cusers!");
 		
 		try {
 			wcm.saveAlliances();

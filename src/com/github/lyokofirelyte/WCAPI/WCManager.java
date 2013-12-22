@@ -2,10 +2,19 @@ package com.github.lyokofirelyte.WCAPI;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class WCManager {
 
@@ -33,7 +42,6 @@ public class WCManager {
 	    alliances.add(name);
 	    listYaml.set("Alliances", alliances);
 	    listYaml.save(listFile);
-	    
 	    allianceYaml.set("Created", wca.getCreated());
 	    allianceYaml.set("Leader", wca.getLeader());
 	    allianceYaml.set("Color1", wca.getColor1());
@@ -183,15 +191,107 @@ public class WCManager {
 	    wcp.setParagonCount(yaml.getInt("ParagonCount"));
 	    wcp.setParagonReqLevel(yaml.getInt("ParagonReqLevel"));
 	    wcp.setParagonTempTotal(yaml.getInt("ParagonTempTotal"));
+	    wcp.setRootShortCut(yaml.getBoolean("RootShortCut"));
+	    wcp.setNamePlate(yaml.getBoolean("NamePlate"));
+	    wcp.setPatrolAchievements(yaml.getStringList("Patrol.Achievements"));
+	    wcp.setScoreboardCoords(yaml.getBoolean("ScoreboardCoords"));
+	    wcp.setJoinMessage(yaml.getString("JoinMessage"));
+	    wcp.setQuitMessage(yaml.getString("QuitMessage"));
+	    wcp.setMessageCount(yaml.getInt("MessageCount"));
+	    wcp.setParagonBacks(yaml.getInt("Paragon.Backs"));
+	    wcp.setParagonTps(yaml.getInt("Paragon.Tps"));
+	    wcp.setParagonSpecialHome(getSpecialHome(yaml.getString("Paragon.SpecialHome")));
+	    wcp.setParagonMoney(yaml.getBoolean("Paragon.Money"));
+	    wcp.setParagonSpecialHomeSet(yaml.getBoolean("Paragon.SpecialHomeSet"));
+	    wcp.setPatrolLevel(yaml.getInt("Patrol.Level"));
+	    wcp.setRank(yaml.getString("Rank"));
+	    wcp.setTransfered(yaml.getBoolean("WCTRANSFER"));
+	    wcp.setQuickCommands(yaml.getStringList("QuickCommands"));
+	    wcp.setPatrolExp(yaml.getInt("Patrol.Exp"));
+	    wcp.setPatrolActives(getActives(yaml));
+	    wcp.setPowertools(yaml.getStringList("PowerTools"));
+	    wcp.setLastLoginLocation(yaml.getString("LastLoginLocation"));
+	    wcp.setLastLogin(yaml.getInt("LastLogin"));
+	    wcp.setMail(yaml.getStringList("Mail"));
 		pl.wcPlayers.put(p, wcp);
 	}
-
+	
+	@SuppressWarnings("deprecation")
+	public Inventory getActives(YamlConfiguration yaml){
+		  Inventory inv = Bukkit.createInventory(null, 9, "§aACTIVE GEAR");
+		  for (int x = 0; x < 10; x++){
+			  if (yaml.getBoolean("PatrolItems.Item" + x + ".Full")){
+				ItemStack i = new ItemStack(yaml.getInt("PatrolItems.Item" + x + ".ID"));
+				ItemMeta im = i.getItemMeta();
+				if (yaml.getBoolean("PatrolItems.Item" + x + ".Named")){
+					im.setDisplayName(yaml.getString("PatrolItems.Item" + x + ".Name"));
+				}
+				if (yaml.getBoolean("PatrolItems.Item" + x + ".Enchanted")){
+					im.addEnchant(Enchantment.DURABILITY, 10, true);
+				}
+				if (yaml.getBoolean("PatrolItems.Item" + x + ".HasLore")){
+					im.setLore(yaml.getStringList("PatrolItems.Item" + x + ".Lore"));
+				}
+				if (im != null){
+					i.setItemMeta(im);
+				}
+				inv.addItem(i);
+			  }
+		  }
+		  return inv;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public YamlConfiguration activeSorter(YamlConfiguration yaml, WCPlayer wcp){
+		
+		int x = 0;
+		
+		for (ItemStack i : wcp.getPatrolActives()){
+			if (i != null){
+				yaml.set("PatrolItems.Item" + x + ".Full", true);
+				yaml.set("PatrolItems.Item" + x + ".ID", i.getType().getId());
+				if (i.hasItemMeta()){
+					if (i.getItemMeta().hasDisplayName()){
+						yaml.set("PatrolItems.Item" + x + ".Named", true);
+						yaml.set("PatrolItems.Item" + x + ".Name", i.getItemMeta().getDisplayName());
+					}
+					if (i.getItemMeta().hasLore()){
+						yaml.set("PatrolItems.Item" + x + ".HasLore", true);
+						yaml.set("PatrolItems.Item" + x + ".Lore", i.getItemMeta().getLore());
+					}
+					if (i.getItemMeta().getEnchants().size() > 0){
+						yaml.set("PatrolItems.Item" + x + ".Enchanted", true);
+					}
+				}
+			} else {
+				yaml.set("PatrolItems.Item" + x + ".Full", false);
+			}
+			x++;
+		}	
+		return yaml;	
+	}
+	
+	public Location getSpecialHome(String locText){
+		if (locText != null){
+			String[] locSplit = locText.split(" ");
+			return new Location(Bukkit.getWorld(locSplit[0]), Double.parseDouble(locSplit[1]), Double.parseDouble(locSplit[2]), Double.parseDouble(locSplit[3]), Float.parseFloat(locSplit[4]), Float.parseFloat(locSplit[4]));
+		}
+		return new Location(Bukkit.getWorld("world"), 10, 10, 10);
+	}
+	
 	public void savePlayer(String p) throws IOException {
 		
 		WCPlayer wcp = getWCPlayer(p);
 		File file = new File("./plugins/WaterCloset/Users/" + p + ".yml");
 		YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
 		
+		yaml.set("Paragon.Backs", wcp.getParagonBacks());
+		yaml.set("Paragon.Tps", wcp.getParagonTps());
+		yaml.set("Paragon.Money", wcp.getParagonMoney());
+		yaml.set("Paragon.SpecialHomeSet", wcp.getParagonSpecialHomeSet());
+		if (wcp.getParagonSpecialHomeSet()){
+			yaml.set("Paragon.SpecialHome", wcp.getParagonSpecialHome().getWorld().getName() + " " + wcp.getParagonSpecialHome().getX() + " " + wcp.getParagonSpecialHome().getY() + " " + wcp.getParagonSpecialHome().getZ() + " " + wcp.getParagonSpecialHome().getPitch() + " " + wcp.getParagonSpecialHome().getYaw());
+		}
 		yaml.set("History", wcp.getHistory());
 		yaml.set("HomeList", wcp.getHomes());
 		yaml.set("Chat.TimeCode", wcp.getTimeCode());
@@ -230,6 +330,23 @@ public class WCManager {
 		yaml.set("ParagonCount", wcp.getParagonCount());
 		yaml.set("ParagonReqLevel", wcp.getParagonReqLevel());
 		yaml.set("ParagonTempTotal", wcp.getParagonTempTotal());
+		yaml.set("RootShortCut", wcp.getRootShortCut());
+		yaml.set("NamePlate", wcp.getNamePlate());
+		yaml.set("Patrol.Achievements", wcp.getPatrolAchievements());
+		yaml.set("ScoreboardCoords", wcp.getScoreboardCoords());
+		yaml.set("JoinMessage", wcp.getJoinMessage());
+		yaml.set("QuitMessage", wcp.getQuitMessage());
+		yaml.set("MessageCount", wcp.getMessageCount());
+		yaml.set("Patrol.Level", wcp.getPatrolLevel());
+		yaml.set("Rank", wcp.getRank());
+		yaml.set("WCTRANSFER", wcp.getTransfered());
+		yaml.set("QuickCommands", wcp.getQuickCommands());
+		yaml.set("Patrol.Exp", wcp.getPatrolExp());
+		yaml.set("PowerTools", wcp.getPowertools());
+		yaml.set("LastLogin", wcp.getLastLogin());
+		yaml.set("LastLoginLocation", wcp.getLastLoginLocation());
+		yaml.set("Mail", wcp.getMail());
+		yaml = activeSorter(yaml, wcp);
 		yaml.save(file);
 	}
 
@@ -249,6 +366,15 @@ public class WCManager {
 			return pl.wcAlliances.get(name);
 		} else {
 			pl.getLogger().log(Level.SEVERE, "NO ALLIANCE FOUND FOR " + name + "!");
+			return null;
+		}
+	}
+	
+	public WCPatrol getWCPatrol(String name){
+		
+		if (pl.wcPatrols.containsKey(name)){
+			return pl.wcPatrols.get(name);
+		} else {
 			return null;
 		}
 	}
@@ -278,6 +404,10 @@ public class WCManager {
 		return completed;
 	}
 	
+	public void updatePatrol(String name, WCPatrol wcpp){
+		pl.wcPatrols.put(name, wcpp);
+	}
+	
 	public void updateAllianceMap(String name, WCAlliance wcm){
 		pl.wcAlliances.put(name, wcm);
 	}
@@ -298,9 +428,29 @@ public class WCManager {
 		wcs.setParagonNewListSize(systemYaml.getInt("ParagonNewListSize"));
 		wcs.setEmotes(systemYaml.getStringList("EmotesList"), systemYaml.getStringList("EmoteActions"));
 		wcs.setObelisks(systemYaml.getStringList("Obelisks"));
-		wcs.setWalkWayStarts(systemYaml.getStringList("WalkWayStarts"));
-		wcs.setWalkWayEnds(systemYaml.getStringList("WalkWayEnds"));
+		wcs.setChests(systemYaml.getStringList("Chests"));
+		wcs.setUsers(systemYaml.getStringList("TotalUsers"));
+		wcs.setTeleportPads(getPads(systemYaml));
+		wcs.setMarketSigns(systemYaml.getStringList("MarketSigns"));
 		pl.wcSystem.put("system", wcs);
+	}
+	
+	public List<Location> getPads(YamlConfiguration systemYaml){
+		List<Location> locs = new ArrayList<>();
+		for (String s : systemYaml.getStringList("TeleportPads")){
+			String[] a = s.split(" ");
+			locs.add(new Location(Bukkit.getWorld(a[0]), Double.parseDouble(a[1]), Double.parseDouble(a[2]), Double.parseDouble(a[3])));
+		}
+		return locs;
+	}
+	
+	public List<String> getPads2(){
+		WCSystem wcs = getWCSystem("system");
+		List<String> locs = new ArrayList<>();
+		for (Location l : wcs.getTeleportPads()){
+			locs.add(l.getWorld().getName() + " " + l.getX() + " " + l.getY() + " " + l.getZ());
+		}
+		return locs;
 	}
 	
 	public void saveSystem(YamlConfiguration systemYaml, File systemFile) throws IOException{
@@ -312,9 +462,73 @@ public class WCManager {
 		systemYaml.set("EmotesList", wcs.getEmotes());
 		systemYaml.set("EmoteActions", wcs.getEmoteActions());
 		systemYaml.set("Obelisks", wcs.getObelisks());
-		systemYaml.set("WalkWayStarts", wcs.getWalkWayStarts());
-		systemYaml.set("WalkWayEnds", wcs.getWalkWayEnds());
-		
+		systemYaml.set("Chests", wcs.getChests());
+		systemYaml.set("TotalUsers", wcs.getUsers());
+		systemYaml.set("TeleportPads", getPads2());
+		systemYaml.set("MarketSigns", wcs.getMarketSigns());
 		systemYaml.save(systemFile);
+	}
+	
+	public String getFullNick(String player){
+		WCPlayer wcp = getWCPlayer(player);
+		WCAlliance wca = getWCAlliance(wcp.getAlliance());
+		return getCompleted(wcp.getNick(), wca.getColor1(), wca.getColor2());
+	}
+	
+	  
+	public void userCreate(Player p) {
+			
+		File file = new File("./plugins/WaterCloset/Users/" + p.getName() + ".yml");
+		
+		if (!file.exists() || !getWCSystem("system").getUsers().contains(p.getName())){
+			
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+			pl.getLogger().log(Level.INFO, "New user file created for " + p.getName() + "!");
+			YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+				
+			yaml.set("Chat.GlobalColor", "f");
+			yaml.set("Chat.PMColor", "d");
+			yaml.set("Inviter", "empty");
+			yaml.set("Invite", "empty");
+			yaml.set("AllianceRank2", "Guest");
+			yaml.set("AllianceColor", "b");
+			yaml.set("LastChat", "Hugh_Jasses");
+			yaml.set("Alliance", "ForeverAlone");
+			yaml.set("Pokes", true);
+			yaml.set("Emotes", true);
+			yaml.set("ItemThrow", true);
+			yaml.set("Fireworks", true);
+			yaml.set("Scoreboard", true);
+			yaml.set("ScoreboardCoords", false);
+			yaml.set("HomeSounds", true);
+			yaml.set("RootShortCut", true);
+			yaml.set("NamePlate", true);
+			yaml.set("Nick", p.getName());
+			yaml.set("JoinMessage", "Joined!");
+			yaml.set("QuitMessage", "Left!");
+			yaml.set("Rank", "Guest");
+			yaml.set("Prefix", "");
+			yaml.set("Transfered", true);
+			
+			WCSystem wcs = getWCSystem("system");
+			List<String> users = wcs.getUsers();
+			users.add(p.getName());
+			wcs.setUsers(users);
+			updateSystem("system", wcs);
+				
+			try {
+				yaml.save(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+				
+			setupPlayer(p.getName());			
+			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&6Welcome &7" + p.getDisplayName() + " &6to Worlds Apart! :)"));
+		}
 	}
 }

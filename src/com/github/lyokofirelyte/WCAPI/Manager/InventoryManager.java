@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
 
-public class InventoryManager extends WCAPI {
+public class InventoryManager {
 	
 	WCAPI pl;
 	
