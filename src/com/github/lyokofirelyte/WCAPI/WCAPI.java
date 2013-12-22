@@ -43,6 +43,8 @@ public class WCAPI extends JavaPlugin {
 		wcm = new WCManager(this);
 		invManager = new InventoryManager(this);
 		
+		this.getServer().getPluginManager().registerEvents(this.wcm, this);
+		
 		r.scheduleReboot();
 		
 		wcm.setupSystem(systemYaml);
