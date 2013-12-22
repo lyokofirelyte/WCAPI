@@ -3,6 +3,7 @@ package com.github.lyokofirelyte.WCAPI;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -12,16 +13,34 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class WCManager {
+public class WCManager implements Listener {
 
-	WCAPI pl;
+	public WCAPI pl;
+	public HashMap<String, WCGui> guis;
 	
 	public WCManager(WCAPI instance){
 	pl = instance;
+	}
+	
+	public void displayGui(Player p, WCGui gui){
+		
+		gui.create();
+		p.openInventory(gui.getInv());
+		
+	}
+	
+	public void mouseClicked(Player p, int slot, WCGui gui){
+		
+		gui.slot = slot;
+		gui.actionPerformed(p);
+		
 	}
 	
 	public void addAlliance(WCAlliance wca, String name) throws IOException {
@@ -531,4 +550,34 @@ public class WCManager {
 			Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&6Welcome &7" + p.getDisplayName() + " &6to Worlds Apart! :)"));
 		}
 	}
+	
+	public void setupGui(WCGui gui){
+		
+		this.guis.put(this.AS(gui.title), gui);
+		
+	}
+	
+	@EventHandler
+	public void onClick(InventoryClickEvent e){
+		
+		if (e.getWhoClicked() instanceof Player){
+			
+			if (this.guis.containsKey(e.getInventory().getName())){
+				
+				e.setCancelled(true);
+				WCGui gui = this.guis.get(e.getInventory().getName());
+				this.mouseClicked((Player) e.getWhoClicked(), e.getSlot(), gui);
+				
+			}
+			
+		}
+		
+	}
+	
+	public static String AS(String message){
+		
+		return message = ChatColor.translateAlternateColorCodes('&', message);
+		
+	}
+	
 }
