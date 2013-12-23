@@ -564,9 +564,6 @@ public class WCManager implements Listener {
 				
 				WCGui gui = this.currentGui.get(p.getName());
 				
-				Bukkit.getLogger().info(e.getInventory().getName());
-				Bukkit.getLogger().info(AS(gui.title));
-				
 				if (e.getInventory().getName().equals(AS(gui.title))){
 					
 					e.setCancelled(true);
