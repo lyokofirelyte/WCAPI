@@ -23,15 +23,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class WCManager implements Listener {
 
 	public WCAPI pl;
-	public HashMap<String, WCGui> guis;
+	public HashMap<String, WCGui> currentGui;
 	
 	public WCManager(WCAPI instance){
-	pl = instance;
-	guis = new HashMap();
+		pl = instance;
+		currentGui = new HashMap();
 	}
 	
 	public void displayGui(Player p, WCGui gui){
 		
+		this.currentGui.put(p.getName(), gui);
 		gui.create();
 		p.openInventory(gui.getInv());
 		
@@ -552,22 +553,26 @@ public class WCManager implements Listener {
 		}
 	}
 	
-	public void setupGui(WCGui gui){
-		
-		this.guis.put(this.AS(gui.title), gui);
-		
-	}
-	
 	@EventHandler
 	public void onClick(InventoryClickEvent e){
 		
 		if (e.getWhoClicked() instanceof Player){
 			
-			if (this.guis.containsKey(e.getInventory().getName())){
+			Player p = (Player) e.getWhoClicked();
+			
+			if (this.currentGui.containsKey(p.getName())){
 				
-				e.setCancelled(true);
-				WCGui gui = this.guis.get(e.getInventory().getName());
-				this.mouseClicked((Player) e.getWhoClicked(), e.getSlot(), gui);
+				WCGui gui = this.currentGui.get(p.getName());
+				
+				Bukkit.getLogger().info(e.getInventory().getName());
+				Bukkit.getLogger().info(AS(gui.title));
+				
+				if (e.getInventory().getName().equals(AS(gui.title))){
+					
+					e.setCancelled(true);
+					this.mouseClicked(p, e.getSlot(), gui);
+					
+				}
 				
 			}
 			
