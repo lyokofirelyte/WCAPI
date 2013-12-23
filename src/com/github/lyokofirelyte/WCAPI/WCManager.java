@@ -27,6 +27,7 @@ public class WCManager implements Listener {
 	
 	public WCManager(WCAPI instance){
 	pl = instance;
+	guis = new HashMap();
 	}
 	
 	public void displayGui(Player p, WCGui gui){
@@ -579,5 +580,15 @@ public class WCManager implements Listener {
 		return message = ChatColor.translateAlternateColorCodes('&', message);
 		
 	}
+	
+	public static String[] AS(String[] message){
+		
+		for (int i = 0; i < message.length; i++)
+			
+			message[i] = AS(message[i]);
+		
+		return message;
+		
+	}	
 	
 }
