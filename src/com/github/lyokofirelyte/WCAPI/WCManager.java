@@ -38,9 +38,10 @@ public class WCManager implements Listener {
 		
 	}
 	
-	public void mouseClicked(Player p, int slot, WCGui gui){
+	public void mouseClicked(Player p, int slot, WCGui gui, ItemStack item){
 		
 		gui.slot = slot;
+		gui.item = item;
 		gui.actionPerformed(p);
 		
 	}
@@ -567,7 +568,7 @@ public class WCManager implements Listener {
 				if (e.getInventory().getName().equals(AS(gui.title))){
 					
 					e.setCancelled(true);
-					this.mouseClicked(p, e.getSlot(), gui);
+					this.mouseClicked(p, e.getSlot(), gui, e.getCurrentItem());
 					
 				}
 				

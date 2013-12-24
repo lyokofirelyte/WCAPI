@@ -9,6 +9,7 @@ public abstract class WCGui {
 	
 	public String title;
 	public int slot;
+	public ItemStack item;
 	
 	private Inventory inv;
 	
