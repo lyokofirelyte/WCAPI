@@ -16,6 +16,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -38,10 +41,43 @@ public class WCManager implements Listener {
 		
 	}
 	
-	public void mouseClicked(Player p, int slot, WCGui gui, InventoryClickEvent e){
+	public void mouseClicked(Player p, int slot, WCGui gui, ItemStack item, InventoryClickEvent click){
 		
+		gui.current = "click";
 		gui.slot = slot;
-		gui.actionPerformed(p, e);
+		gui.item = item;
+		gui.click = click;
+		
+		gui.actionPerformed(p);
+		
+	}
+	
+	public void mouseDragged(Player p, WCGui gui, ItemStack item, InventoryDragEvent drag){
+		
+		gui.current = "drag";
+		gui.item = item;
+		gui.drag = drag;
+		
+		gui.actionPerformed(p);
+		
+	}
+	
+	public void mouseMoved(Player p, WCGui gui, ItemStack item, InventoryMoveItemEvent move){
+		
+		gui.current = "move";
+		gui.item = item;
+		gui.move = move;
+		
+		gui.actionPerformed(p);
+		
+	}
+	
+	public void mouseInteracted(Player p, WCGui gui, InventoryInteractEvent interact){
+		
+		gui.current = "interact";
+		gui.interact = interact;
+		
+		gui.actionPerformed(p);
 		
 	}
 	
@@ -567,7 +603,83 @@ public class WCManager implements Listener {
 				if (e.getInventory().getName().equals(AS(gui.title))){
 					
 					e.setCancelled(true);
+<<<<<<< HEAD
 					mouseClicked(p, e.getSlot(), gui, e);
+=======
+					this.mouseClicked(p, e.getSlot(), gui, e.getCurrentItem(), e);
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onDrag(InventoryDragEvent e){
+		
+		if (e.getWhoClicked() instanceof Player){
+			
+			Player p = (Player) e.getWhoClicked();
+			
+			if (this.currentGui.containsKey(p.getName())){
+				
+				WCGui gui = this.currentGui.get(p.getName());
+				
+				if (e.getInventory().getName().equals(AS(gui.title))){
+					
+					e.setCancelled(true);
+					this.mouseDragged(p, gui, e.getCursor(), e);
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onMove(InventoryMoveItemEvent e){
+		
+		if (e.getSource().getHolder() instanceof Player){
+			
+			Player p = (Player) e.getSource().getHolder();
+			
+			if (this.currentGui.containsKey(p.getName())){
+				
+				WCGui gui = this.currentGui.get(p.getName());
+				
+				if (e.getSource().getHolder().getInventory().getName().equals(AS(gui.title))){
+					
+					e.setCancelled(true);
+					this.mouseMoved(p, gui, e.getItem(), e);
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	@EventHandler
+	public void onInteract(InventoryInteractEvent e){
+		
+		if (e.getWhoClicked() instanceof Player){
+			
+			Player p = (Player) e.getWhoClicked();
+			
+			if (this.currentGui.containsKey(p.getName())){
+				
+				WCGui gui = this.currentGui.get(p.getName());
+				
+				if (e.getInventory().getName().equals(AS(gui.title))){
+					
+					e.setCancelled(true);
+					this.mouseInteracted(p, gui, e);
+>>>>>>> FETCH_HEAD
 					
 				}
 			}
