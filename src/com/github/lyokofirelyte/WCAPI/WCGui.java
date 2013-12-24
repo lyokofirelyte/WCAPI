@@ -33,7 +33,7 @@ public abstract class WCGui {
 	
 	public abstract void create();
 	
-	public abstract void actionPerformed(Player p, InventoryClickEvent e);
+	public abstract void actionPerformed(Player p);
 	
 	public Inventory getInv(){
 		

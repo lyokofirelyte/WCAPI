@@ -603,9 +603,6 @@ public class WCManager implements Listener {
 				if (e.getInventory().getName().equals(AS(gui.title))){
 					
 					e.setCancelled(true);
-<<<<<<< HEAD
-					mouseClicked(p, e.getSlot(), gui, e);
-=======
 					this.mouseClicked(p, e.getSlot(), gui, e.getCurrentItem(), e);
 					
 				}
@@ -679,7 +676,6 @@ public class WCManager implements Listener {
 					
 					e.setCancelled(true);
 					this.mouseInteracted(p, gui, e);
->>>>>>> FETCH_HEAD
 					
 				}
 			}
