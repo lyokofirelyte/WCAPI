@@ -27,7 +27,7 @@ public class WCManager implements Listener {
 	
 	public WCManager(WCAPI instance){
 		pl = instance;
-		currentGui = new HashMap();
+		currentGui = new HashMap<String, WCGui>();
 	}
 	
 	public void displayGui(Player p, WCGui gui){
@@ -38,10 +38,10 @@ public class WCManager implements Listener {
 		
 	}
 	
-	public void mouseClicked(Player p, int slot, WCGui gui){
+	public void mouseClicked(Player p, int slot, WCGui gui, InventoryClickEvent e){
 		
 		gui.slot = slot;
-		gui.actionPerformed(p);
+		gui.actionPerformed(p, e);
 		
 	}
 	
@@ -560,21 +560,18 @@ public class WCManager implements Listener {
 			
 			Player p = (Player) e.getWhoClicked();
 			
-			if (this.currentGui.containsKey(p.getName())){
+			if (currentGui.containsKey(p.getName())){
 				
-				WCGui gui = this.currentGui.get(p.getName());
+				WCGui gui = currentGui.get(p.getName());
 				
 				if (e.getInventory().getName().equals(AS(gui.title))){
 					
 					e.setCancelled(true);
-					this.mouseClicked(p, e.getSlot(), gui);
+					mouseClicked(p, e.getSlot(), gui, e);
 					
 				}
-				
 			}
-			
 		}
-		
 	}
 	
 	public static String AS(String message){

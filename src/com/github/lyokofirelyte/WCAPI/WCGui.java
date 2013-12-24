@@ -2,6 +2,7 @@ package com.github.lyokofirelyte.WCAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,17 +22,17 @@ public abstract class WCGui {
 	
 	public abstract void create();
 	
-	public abstract void actionPerformed(Player p);
+	public abstract void actionPerformed(Player p, InventoryClickEvent e);
 	
 	public Inventory getInv(){
 		
-		return this.inv;
+		return inv;
 		
 	}
 	
 	protected void addButton(int slot, ItemStack item){
 		
-		this.inv.setItem(slot, item);
+		inv.setItem(slot, item);
 		
 	}
 	
