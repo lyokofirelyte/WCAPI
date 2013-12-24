@@ -3,8 +3,11 @@ package com.github.lyokofirelyte.WCAPI;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -19,6 +22,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -680,6 +684,13 @@ public class WCManager implements Listener {
 				}
 			}
 		}
+	}
+	
+	public static void callChat(Player p, String message){
+		
+		Set<Player> set = new HashSet<Player>(Arrays.asList(Bukkit.getOnlinePlayers()));
+		Bukkit.getServer().getPluginManager().callEvent(new AsyncPlayerChatEvent(false, p, message, set));
+		
 	}
 	
 	public static String AS(String message){
