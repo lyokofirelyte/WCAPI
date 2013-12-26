@@ -22,7 +22,7 @@ public abstract class WCGui {
 	
 	public String current;
 	
-	private Inventory inv;
+	public Inventory inv;
 	
 	public WCGui(int slots, String title){
 		
@@ -39,6 +39,10 @@ public abstract class WCGui {
 		
 		return inv;
 		
+	}
+	
+	public void setInv(Inventory a){
+		inv = a;
 	}
 	
 	protected void addButton(int slot, ItemStack item){

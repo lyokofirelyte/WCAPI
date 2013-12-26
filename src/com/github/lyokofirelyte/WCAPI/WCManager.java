@@ -51,9 +51,7 @@ public class WCManager implements Listener {
 		gui.slot = slot;
 		gui.item = item;
 		gui.click = click;
-		
 		gui.actionPerformed(p);
-		
 	}
 	
 	public void mouseDragged(Player p, WCGui gui, ItemStack item, InventoryDragEvent drag){
@@ -61,7 +59,6 @@ public class WCManager implements Listener {
 		gui.current = "drag";
 		gui.item = item;
 		gui.drag = drag;
-		
 		gui.actionPerformed(p);
 		
 	}
@@ -71,7 +68,6 @@ public class WCManager implements Listener {
 		gui.current = "move";
 		gui.item = item;
 		gui.move = move;
-		
 		gui.actionPerformed(p);
 		
 	}
@@ -80,9 +76,7 @@ public class WCManager implements Listener {
 		
 		gui.current = "interact";
 		gui.interact = interact;
-		
 		gui.actionPerformed(p);
-		
 	}
 	
 	public void addAlliance(WCAlliance wca, String name) throws IOException {
@@ -607,8 +601,7 @@ public class WCManager implements Listener {
 				if (e.getInventory().getName().equals(AS(gui.title))){
 					
 					e.setCancelled(true);
-					this.mouseClicked(p, e.getSlot(), gui, e.getCurrentItem(), e);
-					
+					mouseClicked(p, e.getSlot(), gui, e.getCurrentItem(), e);
 				}
 				
 			}
@@ -679,7 +672,7 @@ public class WCManager implements Listener {
 				if (e.getInventory().getName().equals(AS(gui.title))){
 					
 					e.setCancelled(true);
-					this.mouseInteracted(p, gui, e);
+					mouseInteracted(p, gui, e);
 					
 				}
 			}
@@ -695,18 +688,16 @@ public class WCManager implements Listener {
 	
 	public static String AS(String message){
 		
-		return message = ChatColor.translateAlternateColorCodes('&', message);
+		return ChatColor.translateAlternateColorCodes('&', message);
 		
 	}
 	
 	public static String[] AS(String[] message){
 		
-		for (int i = 0; i < message.length; i++)
-			
+		for (int i = 0; i < message.length; i++){
 			message[i] = AS(message[i]);
+		}
 		
 		return message;
-		
 	}	
-	
 }

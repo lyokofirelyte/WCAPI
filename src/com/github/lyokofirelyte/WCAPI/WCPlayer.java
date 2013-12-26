@@ -52,6 +52,7 @@ public class WCPlayer {
 	public Boolean paragonMoney = false;
 	public Boolean patrolFormCmd = false;
 	public Boolean canSoar = true;
+	public Boolean markkitEditMode = false;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -71,6 +72,7 @@ public class WCPlayer {
 	public String tpaRequest = "none";
 	public String tpahereRequest = "none";
 	public String lastLoginLocation = "none";
+	public String currentMarkkitEdit = "none";
 	
 	public Location selChest;
 	public Location paragonSpecialHome;
@@ -180,6 +182,10 @@ public class WCPlayer {
 	
 	public Boolean getRootShortCut(){
 		return rootShortCut;
+	}
+	
+	public Boolean getMarkkitEditMode(){
+		return markkitEditMode;
 	}
 	
 	public Boolean getFireworks(){
@@ -292,6 +298,10 @@ public class WCPlayer {
 	
 	public String getGlobalColor(){
 		return globalColor;
+	}
+	
+	public String getCurrentMarkkitEdit(){
+		return currentMarkkitEdit;
 	}
 	
 	public String getJoinMessage(){
@@ -421,6 +431,10 @@ public class WCPlayer {
 	
 	public void setParagonMarket(Boolean a){
 		paragonMarket = a;
+	}
+	
+	public void setMarkkitEditMode(Boolean a){
+		markkitEditMode = a;
 	}
 	
 	public void setDepositExp(Boolean a){
@@ -589,6 +603,10 @@ public class WCPlayer {
 	
 	public void remHome(String a){
 		homeList.remove(a);
+	}
+	
+	public void setCurrentMarkkitEdit(String a){
+		currentMarkkitEdit = a;
 	}
 	
 	public void setLastLoginLocation(String a){

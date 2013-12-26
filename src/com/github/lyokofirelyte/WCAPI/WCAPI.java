@@ -34,8 +34,6 @@ public class WCAPI extends JavaPlugin {
 		
 		systemFile = new File("./plugins/WaterCloset/system.yml");
 		systemYaml = YamlConfiguration.loadConfiguration(systemFile);
-	
-		Bukkit.getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
 		
 		getLogger().log(Level.INFO, "Loading all users and all alliances...");
 		
@@ -43,7 +41,8 @@ public class WCAPI extends JavaPlugin {
 		wcm = new WCManager(this);
 		invManager = new InventoryManager(this);
 		
-		this.getServer().getPluginManager().registerEvents(this.wcm, this);
+		getServer().getPluginManager().registerEvents(wcm, this);
+		getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
 		
 		r.scheduleReboot();
 		
