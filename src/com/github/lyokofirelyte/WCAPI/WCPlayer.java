@@ -53,6 +53,7 @@ public class WCPlayer {
 	public Boolean patrolFormCmd = false;
 	public Boolean canSoar = true;
 	public Boolean markkitEditMode = false;
+	public Boolean allowDeathLocation = true;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -194,6 +195,10 @@ public class WCPlayer {
 	
 	public Boolean getEmotes(){
 		return emotes;
+	}
+	
+	public Boolean getAllowDeathLocation(){
+		return allowDeathLocation;
 	}
 	
 	public Boolean getCanSoar(){
@@ -427,6 +432,10 @@ public class WCPlayer {
 	
 	public void setPatrolFormCmd(Boolean a){
 		patrolFormCmd = a;
+	}
+	
+	public void setAllowDeathLocation(Boolean a){
+		allowDeathLocation = a;
 	}
 	
 	public void setParagonMarket(Boolean a){
