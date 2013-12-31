@@ -29,6 +29,7 @@ public class WCAPI extends JavaPlugin {
 	public RebootManager r;
 	public InventoryManager invManager;
 	public WCManager wcm;
+	public WCUtils utils;
 
 	public void onEnable(){
 		
@@ -40,6 +41,7 @@ public class WCAPI extends JavaPlugin {
 		r = new RebootManager(this);
 		wcm = new WCManager(this);
 		invManager = new InventoryManager(this);
+		utils = new WCUtils(this);
 		
 		getServer().getPluginManager().registerEvents(wcm, this);
 		getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
