@@ -3,13 +3,16 @@ package com.github.lyokofirelyte.WCAPI;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.lyokofirelyte.WC.WCMain;
 import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
 import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
 
@@ -20,6 +23,8 @@ public class WCAPI extends JavaPlugin {
 	public Map <String, WCAlliance> wcAlliances = new HashMap<>();
 	public Map <String, WCSystem> wcSystem = new HashMap<>();
 	public Map <String, WCPatrol> wcPatrols = new HashMap<>();
+	public static Map <Class<?>, List<String>> commandMap = new HashMap<>();
+	public static Map<String, String> commandAssignments = new HashMap<>();
 	
 	File systemFile;
 	YamlConfiguration systemYaml;
@@ -30,6 +35,8 @@ public class WCAPI extends JavaPlugin {
 	public InventoryManager invManager;
 	public WCManager wcm;
 	public WCUtils utils;
+	public WCRegistry reg;
+	public WCMain WCMAIN;
 
 	public void onEnable(){
 		
@@ -42,6 +49,10 @@ public class WCAPI extends JavaPlugin {
 		wcm = new WCManager(this);
 		invManager = new InventoryManager(this);
 		utils = new WCUtils(this);
+		reg = new WCRegistry(this);
+		
+		Plugin WC = Bukkit.getServer().getPluginManager().getPlugin("WaterCloset");
+		WCMAIN = (WCMain) WC;
 		
 		getServer().getPluginManager().registerEvents(wcm, this);
 		getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
