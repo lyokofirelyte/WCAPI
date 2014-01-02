@@ -268,6 +268,8 @@ public class WCManager implements Listener {
 	    wcp.setLastLoginLocation(yaml.getString("LastLoginLocation"));
 	    wcp.setLastLogin(yaml.getInt("LastLogin"));
 	    wcp.setMail(yaml.getStringList("Mail"));
+	    wcp.setAllowDeathLocation(yaml.getBoolean("AllowDeathLocation"));
+	    wcp.setCreativeRank(yaml.getString("CreativeRank"));
 		pl.wcPlayers.put(p, wcp);
 	}
 	
@@ -401,6 +403,8 @@ public class WCManager implements Listener {
 		yaml.set("LastLogin", wcp.getLastLogin());
 		yaml.set("LastLoginLocation", wcp.getLastLoginLocation());
 		yaml.set("Mail", wcp.getMail());
+		yaml.set("AllowDeathLocation", wcp.getAllowDeathLocation());
+		yaml.set("CreativeRank", wcp.getCreativeRank());
 		yaml = activeSorter(yaml, wcp);
 		yaml.save(file);
 	}

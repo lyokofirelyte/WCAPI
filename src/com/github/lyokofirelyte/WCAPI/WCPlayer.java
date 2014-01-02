@@ -53,6 +53,7 @@ public class WCPlayer {
 	public Boolean patrolFormCmd = false;
 	public Boolean canSoar = true;
 	public Boolean markkitEditMode = false;
+	public Boolean allowDeathLocation = true;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -69,6 +70,7 @@ public class WCPlayer {
 	public String joinMessage = "Joined!";
 	public String quitMessage = "Left!";
 	public String rank = "Guest";
+	public String creativeRank = "&7Guest";
 	public String tpaRequest = "none";
 	public String tpahereRequest = "none";
 	public String lastLoginLocation = "none";
@@ -196,6 +198,10 @@ public class WCPlayer {
 		return emotes;
 	}
 	
+	public Boolean getAllowDeathLocation(){
+		return allowDeathLocation;
+	}
+	
 	public Boolean getCanSoar(){
 		return canSoar;
 	}
@@ -286,6 +292,10 @@ public class WCPlayer {
 	
 	public String getTpaRequest(){
 		return tpaRequest;
+	}
+	
+	public String getCreativeRank(){
+		return creativeRank;
 	}
 	
 	public String getTpahereRequest(){
@@ -429,6 +439,10 @@ public class WCPlayer {
 		patrolFormCmd = a;
 	}
 	
+	public void setAllowDeathLocation(Boolean a){
+		allowDeathLocation = a;
+	}
+	
 	public void setParagonMarket(Boolean a){
 		paragonMarket = a;
 	}
@@ -543,6 +557,10 @@ public class WCPlayer {
 	
 	public void setTpaRequest(String a){
 		tpaRequest = a;
+	}
+	
+	public void setCreativeRank(String a){
+		creativeRank = a;
 	}
 	
 	public void setTpahereRequest(String a){
