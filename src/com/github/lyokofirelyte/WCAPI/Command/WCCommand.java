@@ -1,4 +1,4 @@
-package com.github.lyokofirelyte.WCAPI;
+package com.github.lyokofirelyte.WCAPI.Command;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.METHOD)
 public @interface WCCommand {
 	public String[] aliases();
-	public String name() default "";
+	public String name() default "none";
 	public String desc() default "A WC Command";
 	public String help() default "/wc ?";
 	public String perm() default "wa.member";

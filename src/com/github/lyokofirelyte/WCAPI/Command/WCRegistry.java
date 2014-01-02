@@ -1,4 +1,4 @@
-package com.github.lyokofirelyte.WCAPI;
+package com.github.lyokofirelyte.WCAPI.Command;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -12,9 +12,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
+
+import com.github.lyokofirelyte.WCAPI.WCAPI;
 
 import static com.github.lyokofirelyte.WCAPI.WCAPI.commandAssignments;
 import static com.github.lyokofirelyte.WCAPI.WCAPI.commandMap;
@@ -22,13 +23,13 @@ import static com.github.lyokofirelyte.WCAPI.WCAPI.commandMap;
 public class WCRegistry implements CommandExecutor {
 	
 	WCAPI pl;
-	WCRegistry(WCAPI i){
+	public WCRegistry(WCAPI i){
 		pl = i;
 	}
 	
 	public void registerCommands(List<Class<?>> cls, Plugin plugin){
 		
-		SimplePluginManager spm = (SimplePluginManager) Bukkit.getServer().getPluginManager();
+		//SimplePluginManager spm = (SimplePluginManager) Bukkit.getServer().getPluginManager();
 		Field f = null;
 		CommandMap scm = null;
 		
@@ -49,10 +50,10 @@ public class WCRegistry implements CommandExecutor {
 		            	command.setUsage(anno.help());
 		            	command.setAliases(Arrays.asList(anno.aliases()));
 		            	command.setDescription(anno.desc());
-		            	if (spm.getPermission(anno.perm()) == null){
+		            	/*if (spm.getPermission(anno.perm()) == null){
 		            		Permission perm = new Permission(anno.perm());
 		            		spm.addPermission(perm);
-		            	}
+		            	}*/
 		            	scm.register("wc", command);
 		            	command.setExecutor(this);
 		            	commandMap.put(c, Arrays.asList(anno.aliases()));
@@ -78,14 +79,12 @@ public class WCRegistry implements CommandExecutor {
   						  try {
   							Player p = ((Player)sender);
   							if (p.hasPermission(m.getAnnotation(WCCommand.class).perm())){
-  								Constructor<?> cont = null;
-  								Object obj = null;
-  		  						cont = Class.forName(c.getName()).getConstructor(commandAssignments.get(command).getClass());
-  		  						obj = cont.newInstance(new Object[] { commandAssignments.get(command)});	
-  		  						if (m.getAnnotation(WCCommand.class).name() == ""){
-  		  							m.invoke(obj, p, Arrays.asList(args));
+  								Constructor<?> cont = Class.forName(c.getName()).getConstructor(commandAssignments.get(command).getClass());
+  								Object obj = cont.newInstance(new Object[] { commandAssignments.get(command)});	
+  		  						if (m.getAnnotation(WCCommand.class).name().equals("none")){
+  		  							m.invoke(obj, p, args);
   		  						} else {
-  		  							m.invoke(obj, p, Arrays.asList(args), cmd.getName());
+  		  							m.invoke(obj, p, args, cmd.getName());
   		  						}
   							}
   							return true;

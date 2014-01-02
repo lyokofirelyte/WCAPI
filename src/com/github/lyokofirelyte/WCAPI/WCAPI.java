@@ -11,6 +11,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
+import com.github.lyokofirelyte.WCAPI.Loops.LoopSetup;
 import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
 import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
 
@@ -34,6 +37,7 @@ public class WCAPI extends JavaPlugin {
 	public WCManager wcm;
 	public WCUtils utils;
 	public WCRegistry reg;
+	public LoopSetup ls;
 
 	public void onEnable(){
 		
@@ -47,6 +51,7 @@ public class WCAPI extends JavaPlugin {
 		invManager = new InventoryManager(this);
 		utils = new WCUtils(this);
 		reg = new WCRegistry(this);
+		ls = new LoopSetup(this);
 		
 		getServer().getPluginManager().registerEvents(wcm, this);
 		getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);

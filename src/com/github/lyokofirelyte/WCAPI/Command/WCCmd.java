@@ -1,4 +1,4 @@
-package com.github.lyokofirelyte.WCAPI;
+package com.github.lyokofirelyte.WCAPI.Command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
