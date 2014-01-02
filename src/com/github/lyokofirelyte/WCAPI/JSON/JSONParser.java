@@ -2,10 +2,8 @@
  * $Id: JSONParser.java,v 1.1 2006/04/15 14:10:48 platform Exp $
  * Created on 2006-4-15
  */
-package org.json.simple.parser;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -30,12 +28,14 @@ public class JSONParser {
     public static final int S_END = 6;
     public static final int S_IN_ERROR = -1;
 
-    private LinkedList handlerStatusStack;
+    @SuppressWarnings("rawtypes")
+	private LinkedList handlerStatusStack;
     private Yylex lexer = new Yylex((Reader) null);
     private Yytoken token = null;
     private int status = S_INIT;
 
-    private int peekStatus(LinkedList statusStack) {
+    @SuppressWarnings("rawtypes")
+	private int peekStatus(LinkedList statusStack) {
         if (statusStack.size() == 0)
             return -1;
         Integer status = (Integer) statusStack.getFirst();
@@ -56,7 +56,7 @@ public class JSONParser {
      *
      * @param in - The new character reader.
      * @throws java.io.IOException
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      */
     public void reset(Reader in) {
@@ -104,7 +104,7 @@ public class JSONParser {
      *         java.lang.Boolean,
      *         null
      * @throws java.io.IOException
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      */
     public Object parse(Reader in, ContainerFactory containerFactory) throws IOException, ParseException {
@@ -315,9 +315,9 @@ public class JSONParser {
      *                       If set to true, resume parsing the old stream, and parameter 'in' will be ignored.
      *                       If this method is called for the first time in this instance, isResume will be ignored.
      * @throws java.io.IOException
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
-     * @see org.json.simple.parser.ContentHandler
+     * @see com.github.lyokofirelyte.WCAPI.JSON.ContentHandler
      */
     public void parse(Reader in, ContentHandler contentHandler, boolean isResume) throws IOException, ParseException {
         if (!isResume) {

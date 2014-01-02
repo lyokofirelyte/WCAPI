@@ -1,4 +1,4 @@
-package org.json.simple;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
 /**
  * Beans that support customized output of JSON text shall implement this interface.

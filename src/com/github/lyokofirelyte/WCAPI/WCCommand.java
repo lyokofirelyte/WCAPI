@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.METHOD)
 public @interface WCCommand {
 	public String[] aliases();
+	public String name() default "";
 	public String desc() default "A WC Command";
 	public String help() default "/wc ?";
 	public String perm() default "wa.member";

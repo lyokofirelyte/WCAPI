@@ -16,7 +16,7 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 
-
+import static com.github.lyokofirelyte.WCAPI.WCAPI.commandAssignments;
 import static com.github.lyokofirelyte.WCAPI.WCAPI.commandMap;
 
 public class WCRegistry implements CommandExecutor {
@@ -57,7 +57,7 @@ public class WCRegistry implements CommandExecutor {
 		            	command.setExecutor(this);
 		            	commandMap.put(c, Arrays.asList(anno.aliases()));
 		            	for (String al : anno.aliases()){
-		            		WCAPI.commandAssignments.put(al, plugin);
+		            		commandAssignments.put(al, plugin);
 		            	}
 		            } catch (Exception e) {
 		                e.printStackTrace();
@@ -80,9 +80,13 @@ public class WCRegistry implements CommandExecutor {
   							if (p.hasPermission(m.getAnnotation(WCCommand.class).perm())){
   								Constructor<?> cont = null;
   								Object obj = null;
-  		  						cont = Class.forName(c.getName()).getConstructor(WCAPI.commandAssignments.get(command).getClass());
-  		  						obj = cont.newInstance(new Object[] { WCAPI.commandAssignments.get(command)});		
-  								m.invoke(obj, p, Arrays.asList(args));
+  		  						cont = Class.forName(c.getName()).getConstructor(commandAssignments.get(command).getClass());
+  		  						obj = cont.newInstance(new Object[] { commandAssignments.get(command)});	
+  		  						if (m.getAnnotation(WCCommand.class).name() == ""){
+  		  							m.invoke(obj, p, Arrays.asList(args));
+  		  						} else {
+  		  							m.invoke(obj, p, Arrays.asList(args), cmd.getName());
+  		  						}
   							}
   							return true;
   						} catch (Exception e) {

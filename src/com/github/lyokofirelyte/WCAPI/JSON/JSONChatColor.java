@@ -1,11 +1,7 @@
-package com.bobacadodl.JSONChatLib;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
-/**
- * User: bobacadodl
- * Date: 10/27/13
- * Time: 8:04 PM
- */
 public enum JSONChatColor {
+	
     WHITE("white"),
     YELLOW("yellow"),
     LIGHT_PURPLE("light_purple"),
@@ -22,6 +18,7 @@ public enum JSONChatColor {
     DARK_GREEN("dark_green"),
     DARK_BLUE("dark_blue"),
     BLACK("black");
+    
     private final String color;
 
     JSONChatColor(String color) {

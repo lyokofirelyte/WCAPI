@@ -1,4 +1,4 @@
-package org.json.simple;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
 import java.io.IOException;
 import java.io.Writer;

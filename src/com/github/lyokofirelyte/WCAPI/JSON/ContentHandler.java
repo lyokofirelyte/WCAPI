@@ -1,4 +1,4 @@
-package org.json.simple.parser;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
 import java.io.IOException;
 
@@ -7,14 +7,14 @@ import java.io.IOException;
  *
  * @author FangYidong<fangyidong@yahoo.com.cn>
  * @see org.xml.sax.ContentHandler
- * @see JSONParser#parse(java.io.Reader, org.json.simple.parser.ContentHandler, boolean)
+ * @see JSONParser#parse(java.io.Reader, com.github.lyokofirelyte.WCAPI.JSON.ContentHandler, boolean)
  */
 public interface ContentHandler {
     /**
      * Receive notification of the beginning of JSON processing.
      * The parser will invoke this method only once.
      *
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *          - JSONParser will stop and throw the same exception to the caller when receiving this exception.
      */
     void startJSON() throws ParseException, IOException;
@@ -22,7 +22,7 @@ public interface ContentHandler {
     /**
      * Receive notification of the end of JSON processing.
      *
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      */
     void endJSON() throws ParseException, IOException;
@@ -31,7 +31,7 @@ public interface ContentHandler {
      * Receive notification of the beginning of a JSON object.
      *
      * @return false if the handler wants to stop parsing after return.
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *          - JSONParser will stop and throw the same exception to the caller when receiving this exception.
      * @see #endJSON
      */
@@ -41,7 +41,7 @@ public interface ContentHandler {
      * Receive notification of the end of a JSON object.
      *
      * @return false if the handler wants to stop parsing after return.
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      * @see #startObject
      */
@@ -52,7 +52,7 @@ public interface ContentHandler {
      *
      * @param key - Key of a JSON object entry.
      * @return false if the handler wants to stop parsing after return.
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      * @see #endObjectEntry
      */
@@ -62,7 +62,7 @@ public interface ContentHandler {
      * Receive notification of the end of the value of previous object entry.
      *
      * @return false if the handler wants to stop parsing after return.
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      * @see #startObjectEntry
      */
@@ -72,7 +72,7 @@ public interface ContentHandler {
      * Receive notification of the beginning of a JSON array.
      *
      * @return false if the handler wants to stop parsing after return.
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      * @see #endArray
      */
@@ -82,7 +82,7 @@ public interface ContentHandler {
      * Receive notification of the end of a JSON array.
      *
      * @return false if the handler wants to stop parsing after return.
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      * @see #startArray
      */
@@ -101,7 +101,7 @@ public interface ContentHandler {
      *              java.lang.Boolean
      *              null
      * @return false if the handler wants to stop parsing after return.
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
      */
     boolean primitive(Object value) throws ParseException, IOException;

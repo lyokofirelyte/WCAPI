@@ -1,4 +1,4 @@
-package org.json.simple.parser;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
 import java.util.List;
 import java.util.Map;

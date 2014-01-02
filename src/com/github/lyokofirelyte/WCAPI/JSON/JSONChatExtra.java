@@ -1,6 +1,5 @@
-package com.bobacadodl.JSONChatLib;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
-import org.json.simple.JSONObject;
 
 import java.util.List;
 

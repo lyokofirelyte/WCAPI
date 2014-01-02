@@ -2,10 +2,8 @@
  * $Id: JSONValue.java,v 1.1 2006/04/15 14:37:04 platform Exp $
  * Created on 2006-4-15
  */
-package org.json.simple;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -31,7 +29,7 @@ public class JSONValue {
      *         java.lang.Number,
      *         java.lang.Boolean,
      *         null
-     * @see org.json.simple.parser.JSONParser#parse(java.io.Reader)
+     * @see com.github.lyokofirelyte.WCAPI.JSON.JSONParser#parse(java.io.Reader)
      * @see #parseWithException(java.io.Reader)
      */
     public static Object parse(Reader in) {
@@ -60,9 +58,9 @@ public class JSONValue {
      *         java.lang.Boolean,
      *         null
      * @throws java.io.IOException
-     * @throws org.json.simple.parser.ParseException
+     * @throws com.github.lyokofirelyte.WCAPI.JSON.ParseException
      *
-     * @see org.json.simple.parser.JSONParser
+     * @see com.github.lyokofirelyte.WCAPI.JSON.JSONParser
      */
     public static Object parseWithException(Reader in) throws IOException, ParseException {
         JSONParser parser = new JSONParser();

@@ -1,4 +1,4 @@
-package org.json.simple.parser;
+package com.github.lyokofirelyte.WCAPI.JSON;
 
 /**
  * ParseException explains why and where the error occurs in source JSON text.
