@@ -12,7 +12,7 @@ public class WCCmd extends Command  {
         super(name);
     }
 
-    public boolean execute(CommandSender sender, String commandLabel,String[] args) {
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
         if(exe != null){
             exe.onCommand(sender, this, commandLabel,args);
         }

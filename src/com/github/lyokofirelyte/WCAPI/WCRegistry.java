@@ -13,9 +13,9 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 
-import com.github.lyokofirelyte.WC.WCMain;
 
 import static com.github.lyokofirelyte.WCAPI.WCAPI.commandMap;
 
@@ -26,7 +26,7 @@ public class WCRegistry implements CommandExecutor {
 		pl = i;
 	}
 	
-	public void registerCommands(List<Class<?>> cls, String plugin){
+	public void registerCommands(List<Class<?>> cls, Plugin plugin){
 		
 		SimplePluginManager spm = (SimplePluginManager) Bukkit.getServer().getPluginManager();
 		Field f = null;
@@ -80,17 +80,8 @@ public class WCRegistry implements CommandExecutor {
   							if (p.hasPermission(m.getAnnotation(WCCommand.class).perm())){
   								Constructor<?> cont = null;
   								Object obj = null;
-  								switch (WCAPI.commandAssignments.get(command)){	
-  									case "WCMain":
-  		  								cont = Class.forName(c.getName()).getConstructor(WCMain.class);
-  		  								obj = cont.newInstance(new Object[] { pl.WCMAIN });
-  		  								break;
-  									case "WCAPI":
-  										cont = Class.forName(c.getName()).getConstructor(WCAPI.class);
-  										obj = cont.newInstance(new Object[] { this });
-  										break;
-  								}
-  								
+  		  						cont = Class.forName(c.getName()).getConstructor(WCAPI.commandAssignments.get(command).getClass());
+  		  						obj = cont.newInstance(new Object[] { WCAPI.commandAssignments.get(command)});		
   								m.invoke(obj, p, Arrays.asList(args));
   							}
   							return true;
