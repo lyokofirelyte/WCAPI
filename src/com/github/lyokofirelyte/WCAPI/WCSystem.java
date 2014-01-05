@@ -1,17 +1,12 @@
 package com.github.lyokofirelyte.WCAPI;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import com.github.lyokofirelyte.WC.WCLiftFloor;
 
 public class WCSystem {
 	
@@ -40,11 +35,7 @@ public class WCSystem {
 	public List<Location> teleportPads = new ArrayList<Location>();
 	public List<Integer> sheepTasks = new ArrayList<Integer>();
 	public List<String> vanishedPlayers = new ArrayList<String>();
-<<<<<<< HEAD
-=======
-	public Map <String, WCLiftFloor> elevatorMap = new HashMap<>();
 	public String borderCenter;
->>>>>>> FETCH_HEAD
 	
 	public Location hotSpot;
 	public int diff = 0;
@@ -57,17 +48,7 @@ public class WCSystem {
 	public List<ItemStack> items = new ArrayList<ItemStack>();
 	public List<LivingEntity> ents = new ArrayList<LivingEntity>();
 	public List<String> markkitSigns = new ArrayList<String>();
-<<<<<<< HEAD
-=======
 	public List<String> signUsers = new ArrayList<String>();
-	
-	public Map <String, WCLiftFloor> getElevatorMap(){
-		return elevatorMap;
-	}
-	
-	public void setElevatorMap(Map <String, WCLiftFloor> a){
-		elevatorMap = a;
-	}
 	
 	public Player getElevatorUser(){
 		return elevatorUser;
@@ -84,14 +65,11 @@ public class WCSystem {
 	public void setSignUsers(List<String> a){
 		signUsers = a;
 	}
->>>>>>> FETCH_HEAD
 	
 	public List<String> getMarketSigns(){
 		return markkitSigns;
 	}
 	
-<<<<<<< HEAD
-=======
 	public void setBorder(String a){
 		borderCenter = a;
 	}
@@ -108,7 +86,6 @@ public class WCSystem {
 		return borderCenter;
 	}
 	
->>>>>>> FETCH_HEAD
 	public void setVanishedPlayers(List<String> a){
 		vanishedPlayers = a;
 	}
