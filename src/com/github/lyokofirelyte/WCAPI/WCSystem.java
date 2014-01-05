@@ -1,12 +1,17 @@
 package com.github.lyokofirelyte.WCAPI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import com.github.lyokofirelyte.WC.WCLiftFloor;
 
 public class WCSystem {
 	
@@ -19,9 +24,12 @@ public class WCSystem {
 	public int paragonTotal;
 	public int paragonNewListSize;
 	public int paragonTier;
+
+	public Player elevatorUser;
 	
 	public Entity patrolCrystal; 
 	
+	public Boolean elevatorActive = false;
 	public Boolean rebooting = false;
 	
 	public List<String> emotes;
@@ -32,6 +40,7 @@ public class WCSystem {
 	public List<Location> teleportPads = new ArrayList<Location>();
 	public List<Integer> sheepTasks = new ArrayList<Integer>();
 	public List<String> vanishedPlayers = new ArrayList<String>();
+	public Map <String, WCLiftFloor> elevatorMap = new HashMap<>();
 	public String borderCenter;
 	
 	public Location hotSpot;
@@ -47,6 +56,22 @@ public class WCSystem {
 	public List<String> markkitSigns = new ArrayList<String>();
 	public List<String> signUsers = new ArrayList<String>();
 	
+	public Map <String, WCLiftFloor> getElevatorMap(){
+		return elevatorMap;
+	}
+	
+	public void setElevatorMap(Map <String, WCLiftFloor> a){
+		elevatorMap = a;
+	}
+	
+	public Player getElevatorUser(){
+		return elevatorUser;
+	}
+	
+	public void setElevatorUser(Player p){
+		elevatorUser = p;
+	}
+	
 	public List<String> getSignUsers(){
 		return signUsers;
 	}
@@ -61,6 +86,14 @@ public class WCSystem {
 	
 	public void setBorder(String a){
 		borderCenter = a;
+	}
+	
+	public Boolean isElevatorActive(){
+		return elevatorActive;
+	}
+	
+	public void setElevatorActive(Boolean a){
+		elevatorActive = a;
 	}
 	
 	public String getBorder(){
