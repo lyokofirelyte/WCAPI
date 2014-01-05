@@ -42,6 +42,15 @@ public class WCUtils {
 		return sounds.get(nextInt);
 	}
 	
+    public static Boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+	
 	public static void s(Player p, String s){
 		p.sendMessage(AS(WC + s));
 	}
