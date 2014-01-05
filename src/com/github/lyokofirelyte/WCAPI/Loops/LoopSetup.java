@@ -14,9 +14,15 @@ public class LoopSetup {
 		pl = i;
 	}
 	
-	public void callLoop(Method m, Class<?> c, final Plugin pl){
+	public void callLoop(Method m, Class<?> c, Plugin pl){
 		
 		LoopControl l = new LoopControl(this.pl);
 		l.callLoop(m, c, pl);
+	}
+	
+	public void callDelay(Method m, Class<?> c, Plugin pl){
+	
+		DelayControl d = new DelayControl(this.pl);
+		d.callDelay(m, c, pl);
 	}
 }
