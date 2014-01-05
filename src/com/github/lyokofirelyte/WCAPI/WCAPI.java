@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.lyokofirelyte.WCAPI.Command.WCCmd;
 import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
 import com.github.lyokofirelyte.WCAPI.Loops.LoopSetup;
 import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
@@ -25,9 +24,8 @@ public class WCAPI extends JavaPlugin {
 	public Map <String, WCAlliance> wcAlliances = new HashMap<>();
 	public Map <String, WCSystem> wcSystem = new HashMap<>();
 	public Map <String, WCPatrol> wcPatrols = new HashMap<>();
-	public static Map <List<String>, Class<?>> commandMap = new HashMap<>();
+	public static Map <Class<?>, List<String>> commandMap = new HashMap<>();
 	public static Map<String, Plugin> commandAssignments = new HashMap<>();
-	public Map<String, WCCmd> cmdClasses = new HashMap<>();
 	
 	File systemFile;
 	YamlConfiguration systemYaml;

@@ -32,7 +32,6 @@ public class WCSystem {
 	public List<Location> teleportPads = new ArrayList<Location>();
 	public List<Integer> sheepTasks = new ArrayList<Integer>();
 	public List<String> vanishedPlayers = new ArrayList<String>();
-	public String borderCenter;
 	
 	public Location hotSpot;
 	public int diff = 0;
@@ -45,26 +44,9 @@ public class WCSystem {
 	public List<ItemStack> items = new ArrayList<ItemStack>();
 	public List<LivingEntity> ents = new ArrayList<LivingEntity>();
 	public List<String> markkitSigns = new ArrayList<String>();
-	public List<String> signUsers = new ArrayList<String>();
-	
-	public List<String> getSignUsers(){
-		return signUsers;
-	}
-	
-	public void setSignUsers(List<String> a){
-		signUsers = a;
-	}
 	
 	public List<String> getMarketSigns(){
 		return markkitSigns;
-	}
-	
-	public void setBorder(String a){
-		borderCenter = a;
-	}
-	
-	public String getBorder(){
-		return borderCenter;
 	}
 	
 	public void setVanishedPlayers(List<String> a){

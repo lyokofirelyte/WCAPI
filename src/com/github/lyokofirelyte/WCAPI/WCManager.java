@@ -491,7 +491,6 @@ public class WCManager implements Listener {
 		wcs.setUsers(systemYaml.getStringList("TotalUsers"));
 		wcs.setTeleportPads(getPads(systemYaml));
 		wcs.setMarketSigns(systemYaml.getStringList("MarketSigns"));
-		wcs.setBorder(systemYaml.getString("Border"));
 		pl.wcSystem.put("system", wcs);
 	}
 	
@@ -526,7 +525,6 @@ public class WCManager implements Listener {
 		systemYaml.set("TotalUsers", wcs.getUsers());
 		systemYaml.set("TeleportPads", getPads2());
 		systemYaml.set("MarketSigns", wcs.getMarketSigns());
-		systemYaml.set("Border", wcs.getBorder());
 		systemYaml.save(systemFile);
 	}
 	
