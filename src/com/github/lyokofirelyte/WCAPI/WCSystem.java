@@ -21,11 +21,12 @@ public class WCSystem {
 	public int paragonTier;
 
 	public Player elevatorUser;
-	
+	public Player minendashUser;
 	public Entity patrolCrystal; 
 	
 	public Boolean elevatorActive = false;
 	public Boolean rebooting = false;
+	public Boolean minendashActive = false;
 	
 	public List<String> emotes;
 	public List<String> emoteActions;
@@ -33,6 +34,7 @@ public class WCSystem {
 	public List<String> users;
 	public List<String> chests;
 	public List<Location> teleportPads = new ArrayList<Location>();
+	public List<Location> minendashLocs = new ArrayList<Location>();
 	public List<Integer> sheepTasks = new ArrayList<Integer>();
 	public List<String> vanishedPlayers = new ArrayList<String>();
 	public String borderCenter;
@@ -42,6 +44,7 @@ public class WCSystem {
 	public int kills = 0;
 	public int checkTask;
 	public int healthTimerTask = 0;
+	public int minendashCountDown = 3;
 	public long sheepStart = 0L;
 	public List<Location> hotSpotAreas = new ArrayList<Location>();
 	public List<String> participants = new ArrayList<String>();
@@ -50,12 +53,44 @@ public class WCSystem {
 	public List<String> markkitSigns = new ArrayList<String>();
 	public List<String> signUsers = new ArrayList<String>();
 	
+	public void setMinendashLocs(List<Location> a){
+		minendashLocs = a;
+	}
+	
+	public List<Location> getMinendashLocs(){
+		return minendashLocs;
+	}
+	
+	public int getMinendashCountDown(){
+		return minendashCountDown;
+	}
+	
+	public void setMinendashCountDown(int a){
+		minendashCountDown = a;
+	}
+	
+	public Player getMinendashUser(){
+		return minendashUser;
+	}
+	
+	public void setMinendashUser(Player a){
+		minendashUser = a;
+	}
+	
 	public Player getElevatorUser(){
 		return elevatorUser;
 	}
 	
 	public void setElevatorUser(Player p){
 		elevatorUser = p;
+	}
+	
+	public void setMinendashActive(Boolean a){
+		minendashActive = a;
+	}
+	
+	public Boolean getMinendashActive(){
+		return minendashActive;
 	}
 	
 	public List<String> getSignUsers(){

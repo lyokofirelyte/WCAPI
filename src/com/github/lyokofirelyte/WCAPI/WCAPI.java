@@ -24,7 +24,7 @@ public class WCAPI extends JavaPlugin {
 	public Map <String, WCAlliance> wcAlliances = new HashMap<>();
 	public Map <String, WCSystem> wcSystem = new HashMap<>();
 	public Map <String, WCPatrol> wcPatrols = new HashMap<>();
-	public static Map <Class<?>, List<String>> commandMap = new HashMap<>();
+	public static Map <List<String>, Class<?>> commandMap = new HashMap<>();
 	public static Map<String, Plugin> commandAssignments = new HashMap<>();
 	
 	File systemFile;

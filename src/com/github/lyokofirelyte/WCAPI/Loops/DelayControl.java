@@ -39,9 +39,9 @@ public class DelayControl {
 	
 	public void callDelay(final Method m, Class<?> c, final Plugin pl){
 		
-		if (m.getAnnotation(WCLoop.class) != null){
+		if (m.getAnnotation(WCDelay.class) != null){
 			
-			final WCLoop anno = m.getAnnotation(WCLoop.class);
+			final WCDelay anno = m.getAnnotation(WCDelay.class);
 			setTask(0);		
 			Constructor<?> cont = null;
 			

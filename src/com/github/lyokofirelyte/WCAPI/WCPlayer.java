@@ -95,6 +95,7 @@ public class WCPlayer {
 	
 	public long canSoarTimer = 0;
 	public long soarTimer = 0;
+	public long mineTimer = 0;
 	
 	public float lastLogin = 0;
 	
@@ -106,6 +107,10 @@ public class WCPlayer {
 	
 	public long getSoarTimer(){
 		return soarTimer;
+	}
+	
+	public long getMineTimer(){
+		return mineTimer;
 	}
 	
 	public float getLastLogin(){
@@ -731,6 +736,10 @@ public class WCPlayer {
 		canSoarTimer = a;
 	}
 		
+	public void setMineTimer(long a){
+		mineTimer = a;
+	}
+	
 	public void setChat(Boolean timecode, String globalcolor, String pmcolor){
 		timeCode = timecode;
 		globalColor = globalcolor;
