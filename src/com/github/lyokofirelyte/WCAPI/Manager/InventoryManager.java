@@ -10,16 +10,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
+import com.github.lyokofirelyte.WCAPI.WCLink;
 import com.github.lyokofirelyte.WCAPI.WCManager;
 
-public class InventoryManager {
+public class InventoryManager extends WCLink {
 	
-	WCAPI pl;
-	
-	public InventoryManager(WCAPI instance){
-	pl = instance;
+	public InventoryManager(WCAPI i) {
+		super(i);
 	}
-	
+
 	ItemStack i;
 	ItemMeta iMeta;
 	List<String> loreSplit;

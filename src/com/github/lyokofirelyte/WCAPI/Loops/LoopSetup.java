@@ -5,15 +5,14 @@ import java.lang.reflect.Method;
 import org.bukkit.plugin.Plugin;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
+import com.github.lyokofirelyte.WCAPI.WCLink;
 
-public class LoopSetup {
+public class LoopSetup extends WCLink {
 
-	WCAPI pl;
-	
-	public LoopSetup(WCAPI i){
-		pl = i;
+	public LoopSetup(WCAPI i) {
+		super(i);
 	}
-	
+
 	public void callLoop(Method m, Class<?> c, final Plugin pl){
 		
 		LoopControl l = new LoopControl(this.pl);

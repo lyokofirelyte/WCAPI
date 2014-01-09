@@ -57,4 +57,8 @@ public class PlayerEmoteEvent extends WCEvent implements Cancellable {
     public static HandlerList getHandlerList() {
         return handlers;
     }
+
+	public void setPlayer(Player p) {
+		
+	}
 }
