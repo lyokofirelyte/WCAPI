@@ -3,17 +3,16 @@ package com.github.lyokofirelyte.WCAPI.Manager;
 import org.bukkit.Bukkit;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
+import com.github.lyokofirelyte.WCAPI.WCLink;
 import com.github.lyokofirelyte.WCAPI.WCSystem;
 
 
-public class RebootManager {
-	
-	WCAPI pl;
-    
-	public RebootManager(WCAPI instance){
-	pl = instance;
+public class RebootManager extends WCLink {
+
+	public RebootManager(WCAPI i) {
+		super(i);
 	}
-	
+
 	public String WC = "§dWC §5// §d";
 
 	

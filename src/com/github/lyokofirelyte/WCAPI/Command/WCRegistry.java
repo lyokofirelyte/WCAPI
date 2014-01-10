@@ -16,16 +16,16 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
+import com.github.lyokofirelyte.WCAPI.WCLink;
 import com.github.lyokofirelyte.WCAPI.WCUtils;
 
-public class WCRegistry implements CommandExecutor {
-        
-        WCAPI pl;
-        public WCRegistry(WCAPI i){
-                pl = i;
+public class WCRegistry extends WCLink implements CommandExecutor {
+          
+        public WCRegistry(WCAPI i) {
+        	super(i);
         }
-        
-        public void registerCommands(List<Class<?>> cls, Plugin plugin){
+
+		public void registerCommands(List<Class<?>> cls, Plugin plugin){
                 
                 //SimplePluginManager spm = (SimplePluginManager) Bukkit.getServer().getPluginManager();
                 Field f = null;
@@ -77,10 +77,15 @@ public class WCRegistry implements CommandExecutor {
     						if (m.getAnnotation(WCCommand.class) != null && Arrays.asList(m.getAnnotation(WCCommand.class).aliases()).contains(command)){
     							try {
     								Player p = ((Player)sender);
-    								if (p.hasPermission(m.getAnnotation(WCCommand.class).perm())){
+    								WCCommand anno = m.getAnnotation(WCCommand.class);
+    								if (p.hasPermission(anno.perm())){
+    									if (args.length > anno.max() || args.length < anno.min()){
+    										WCUtils.s(p, anno.help());
+    										return true;
+    									}
     									Constructor<?> cont = Class.forName(WCAPI.commandMap.get(cmdList).getName()).getConstructor(WCAPI.commandAssignments.get(command).getClass());
     									Object obj = cont.newInstance(new Object[] { WCAPI.commandAssignments.get(command)});        
-    									if (m.getAnnotation(WCCommand.class).name().equals("none")){
+    									if (anno.name().equals("none")){
     										m.invoke(obj, p, args);
     									} else {
     										m.invoke(obj, p, args, label);

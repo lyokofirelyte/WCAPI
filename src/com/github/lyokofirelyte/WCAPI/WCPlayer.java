@@ -1,7 +1,9 @@
 package com.github.lyokofirelyte.WCAPI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
@@ -23,6 +25,8 @@ public class WCPlayer {
 	public List <String> patrolAchievements = new ArrayList<String>();
 	public List <String> quickCommands = new ArrayList<String>();
 	public List <String> powertools = new ArrayList<String>();
+	
+	public Map<String, Integer> skills = new HashMap<String, Integer>();
 	
 	public Location lastLocation;
 	
@@ -100,6 +104,14 @@ public class WCPlayer {
 	public float lastLogin = 0;
 	
 	public double patrolHeal = 0;
+	
+	public Map<String, Integer> skills(){
+		return skills;
+	}
+	
+	public void skills(Map<String, Integer> a){
+		skills = a;
+	}
 	
 	public long getCanSoarTimer(){
 		return canSoarTimer;

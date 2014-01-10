@@ -20,17 +20,68 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 
-public class WCUtils {
-	
-	WCAPI plugin;
-	public WCUtils(WCAPI instance){
-	    plugin = instance;
-	}
+public abstract class WCUtils {
 	
 	public static String WC = "§dWC §5// §d";
 	
 	public static void bc(String s){
 		Bukkit.broadcastMessage(WC + AS(s));
+	}
+	
+	public static String[] AS(String[] s){
+		
+		for (int i = 0; i < s.length; i++){
+			
+			s[i] = AS(s[i]);
+			
+		}
+		
+		return s;
+		
+	}
+	
+	public static void s(Player p, String[] s){
+		
+		p.sendMessage(AS(s));
+		
+	}
+	
+	public static void b(String s){
+		
+		Bukkit.broadcastMessage(AS(WC + s));
+		  
+	}
+	
+	public static void b(String[] s){
+		
+		for (String ss : s){
+			
+			Bukkit.broadcastMessage(AS(ss));
+			
+		}
+		
+	}
+	
+	public static void blankB(String s){
+		
+		Bukkit.broadcastMessage(s);
+		
+	}
+	
+	public static void blankB(String[] s){
+		
+		for (String ss : s){
+			  
+			blankB(ss);
+			
+		}
+		
+	}
+	  
+	public static void b2(String s){
+		
+		Bukkit.broadcastMessage(AS(s));
+		
 	}
 	
 	public static Sound getRandomNote(){
@@ -221,4 +272,5 @@ public class WCUtils {
 		int sel = rand.nextInt(entities.size());
 		return entities.get(sel);
 	}
+	
 }
