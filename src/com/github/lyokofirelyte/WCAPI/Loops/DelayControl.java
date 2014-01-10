@@ -1,11 +1,8 @@
 package com.github.lyokofirelyte.WCAPI.Loops;
 
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
 
@@ -19,7 +16,6 @@ public class DelayControl {
 	
 	int x = 0;
 	int task = 0;
-	Object o;
 	
 	public int getTask(){
 		return task;
@@ -29,37 +25,57 @@ public class DelayControl {
 		task = a;
 	}
 	
-	public void setObject(Object o){
-		this.o = o;
-	}
-	
-	public Object getObject(){
-		return o;
-	}
-	
-	public void callDelay(final Method m, Class<?> c, final Plugin pl){
+	public void callDelay(final Object clazz, final String method, final Object... args){
 		
-		if (m.getAnnotation(WCDelay.class) != null){
+		Class<?> c = clazz.getClass();
+		
+		try {
 			
-			final WCDelay anno = m.getAnnotation(WCDelay.class);
-			setTask(0);		
-			Constructor<?> cont = null;
+			Class<?>[] types = new Class<?>[args.length];
 			
-			try {
-				cont = Class.forName(c.getName()).getConstructor(pl.getClass());
-				setObject(cont.newInstance(new Object[] { pl }));	
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			for (int i = 0; i < args.length; i++){
+				
+				types[i] = args[i].getClass();
+				
 			}
 			
-			task = Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable(){
-			public void run() { 
+			final Method m = c.getMethod(method, types);
+			
+			if (m.getAnnotation(WCDelay.class) != null){
 				
-				try {
-					m.invoke(getObject());
-				} catch (Exception e) {
-					e.printStackTrace();		
-			} } }, anno.time());
+				WCDelay anno = m.getAnnotation(WCDelay.class);
+				
+				setTask(Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable(){
+					
+					public void run(){
+						
+						try {
+							
+							m.invoke(clazz, args);
+							
+						} catch (Exception e){
+							
+							Bukkit.getLogger().severe("An error occured calling the delay method '" + method + "'!");
+							
+						}
+						
+					}
+					
+				}, anno.time()));
+				
+			} else {
+				
+				Bukkit.getLogger().severe("The method '" + method + "' does not have the WCDelay annotation!");
+				
+			}
+			
+		} catch (Exception e){
+			
+			Bukkit.getLogger().severe("An error occured calling the delay method '" + method + "'!");
+			e.printStackTrace();
+			
 		}
+		
 	}
+	
 }

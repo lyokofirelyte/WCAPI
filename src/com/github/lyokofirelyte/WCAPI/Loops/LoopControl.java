@@ -1,11 +1,8 @@
 package com.github.lyokofirelyte.WCAPI.Loops;
 
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
 
@@ -19,7 +16,6 @@ public class LoopControl {
 	
 	int x = 0;
 	int task = 0;
-	Object o;
 	
 	public int getX(){
 		return x;
@@ -37,42 +33,65 @@ public class LoopControl {
 		task = a;
 	}
 	
-	public void setObject(Object o){
-		this.o = o;
-	}
-	
-	public Object getObject(){
-		return o;
-	}
-	
-	public void callLoop(final Method m, Class<?> c, final Plugin pl){
+	public void callLoop(final Object clazz, final String method, final Object... args){
 		
-		if (m.getAnnotation(WCLoop.class) != null){
+		Class<?> c = clazz.getClass();
+		
+		try {
 			
-			final WCLoop anno = m.getAnnotation(WCLoop.class);
-			setX(0);
-			setTask(0);		
-			Constructor<?> cont = null;
+			Class<?>[] types = new Class<?>[args.length];
 			
-			try {
-				cont = Class.forName(c.getName()).getConstructor(pl.getClass());
-				setObject(cont.newInstance(new Object[] { pl }));	
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			for (int i = 0; i < args.length; i++){
+				
+				types[i] = args[i].getClass();
+				
 			}
 			
-			task = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(pl, new Runnable(){
-			public void run() { 
+			final Method m = c.getMethod(method, types);
+			
+			if (m.getAnnotation(WCLoop.class) != null){
 				
-				try {
-					m.invoke(getObject());
-					setX(getX() + 1);
-					if (getX() >= anno.repeats()){
-						Bukkit.getServer().getScheduler().cancelTask(getTask());
+				final WCLoop anno = m.getAnnotation(WCLoop.class);
+				setX(0);
+				
+				setTask(Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(pl, new Runnable(){
+					
+					public void run(){
+						
+						try {
+							
+							m.invoke(clazz, args);
+							setX(getX() + 1);
+							
+							if (getX() >= anno.repeats()){
+								
+								Bukkit.getServer().getScheduler().cancelTask(getTask());
+								
+							}
+							
+						} catch (Exception e){
+							
+							Bukkit.getLogger().severe("An error occured calling the loop method '" + method + "'!");
+							
+						}
+						
 					}
-				} catch (Exception e) {
-					e.printStackTrace();		
-			} } }, anno.delay(), anno.time());
+					
+				}, anno.delay(), anno.time()));
+				
+			} else {
+				
+				Bukkit.getLogger().severe("The method '" + method + "' does not have the WCLoop annotation!");
+				
+			}
+			
+		} catch (Exception e){
+			
+			Bukkit.getLogger().severe("An error occured calling the loop method '" + method + "'!");
+			e.printStackTrace();
+			
 		}
+		
 	}
+	
 }

@@ -1,9 +1,5 @@
 package com.github.lyokofirelyte.WCAPI.Loops;
 
-import java.lang.reflect.Method;
-
-import org.bukkit.plugin.Plugin;
-
 import com.github.lyokofirelyte.WCAPI.WCAPI;
 import com.github.lyokofirelyte.WCAPI.WCLink;
 
@@ -13,15 +9,15 @@ public class LoopSetup extends WCLink {
 		super(i);
 	}
 
-	public void callLoop(Method m, Class<?> c, final Plugin pl){
+	public void callLoop(final Object clazz, String method, final Object... args){
 		
 		LoopControl l = new LoopControl(this.pl);
-		l.callLoop(m, c, pl);
+		l.callLoop(clazz, method, args);
 	}
 	
-	public void callDelay(Method m, Class<?> c, Plugin pl){
+	public void callDelay(final Object clazz, String method, final Object... args){
 		
 		DelayControl dl = new DelayControl(this.pl);
-		dl.callDelay(m, c, pl);
+		dl.callDelay(clazz, method, args);
 	}
 }
