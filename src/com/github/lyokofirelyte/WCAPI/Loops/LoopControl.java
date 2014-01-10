@@ -3,6 +3,7 @@ package com.github.lyokofirelyte.WCAPI.Loops;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
 
@@ -33,7 +34,7 @@ public class LoopControl {
 		task = a;
 	}
 	
-	public void callLoop(final Object clazz, final String method, final Object... args){
+	public void callLoop(Plugin plugin, final Object clazz, final String method, final Object... args){
 		
 		Class<?> c = clazz.getClass();
 		
@@ -54,7 +55,7 @@ public class LoopControl {
 				final WCLoop anno = m.getAnnotation(WCLoop.class);
 				setX(0);
 				
-				setTask(Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(pl, new Runnable(){
+				setTask(Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable(){
 					
 					public void run(){
 						
