@@ -32,42 +32,54 @@ public class DelayControl {
 		
 		try {
 			
-			Class<?>[] types = new Class<?>[args.length];
+			Method[] methods = c.getMethods();
+			Method mmm = null;
 			
-			for (int i = 0; i < args.length; i++){
+			for (Method mm : methods){
 				
-				types[i] = args[i].getClass();
-				System.out.println(types[i].getName());
+				if (mm.getName().equals(method)){
+					
+					mmm = mm;
+					
+				}
 				
 			}
 			
-			final Method m = c.getMethod(method, types);
-			
-			if (m.getAnnotation(WCDelay.class) != null){
+			if (mmm != null){
 				
-				WCDelay anno = m.getAnnotation(WCDelay.class);
+				final Method m = mmm;
 				
-				setTask(Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+				if (m.getAnnotation(WCDelay.class) != null){
 					
-					public void run(){
+					WCDelay anno = m.getAnnotation(WCDelay.class);
+					
+					setTask(Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
 						
-						try {
+						public void run(){
 							
-							m.invoke(clazz, args);
-							
-						} catch (Exception e){
-							
-							Bukkit.getLogger().severe("An error occured calling the delay method '" + method + "'!");
+							try {
+								
+								m.invoke(clazz, args);
+								
+							} catch (Exception e){
+								
+								Bukkit.getLogger().severe("An error occured calling the delay method '" + method + "'!");
+								
+							}
 							
 						}
 						
-					}
+					}, anno.time()));
 					
-				}, anno.time()));
+				} else {
+					
+					Bukkit.getLogger().severe("The method '" + method + "' does not have the WCDelay annotation!");
+					
+				}
 				
 			} else {
 				
-				Bukkit.getLogger().severe("The method '" + method + "' does not have the WCDelay annotation!");
+				Bukkit.getLogger().severe("Could not find the correct method!");
 				
 			}
 			
