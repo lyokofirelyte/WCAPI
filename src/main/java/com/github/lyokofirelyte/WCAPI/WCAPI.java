@@ -32,7 +32,6 @@ public class WCAPI extends JavaPlugin {
         
         int users = 0;
         
-        public RebootManager r;
         public InventoryManager invManager;
         public WCManager wcm;
         public WCRegistry reg;
@@ -45,7 +44,7 @@ public class WCAPI extends JavaPlugin {
                 
         	getLogger().log(Level.INFO, "Loading all users and all alliances...");
                 
-        	r = new RebootManager(this);
+        	new RebootManager(this).scheduleReboot();
         	wcm = new WCManager(this);
         	invManager = new InventoryManager(this);
         	reg = new WCRegistry(this);
@@ -53,9 +52,6 @@ public class WCAPI extends JavaPlugin {
                 
         	getServer().getPluginManager().registerEvents(wcm, this);
         	getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
-                
-        	r.scheduleReboot();
-                
         	wcm.setupSystem(systemYaml);
                 
         	for (String user : wcm.getWCSystem("system").getUsers()){

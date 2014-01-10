@@ -14,7 +14,7 @@ public class WCPlayer {
 	String name;
 
 	public WCPlayer(String name) {
-	this.name = name;
+		this.name = name;
 	}
 
 	Inventory patrolActives;

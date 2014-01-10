@@ -9,6 +9,7 @@
   <url>com.github.lyokofirelyte.WCAPI</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <github.global.server>github</github.global.server>
     <bukkitVersion>1.7.2-R0.1-SNAPSHOT</bukkitVersion>
     <craftbukkitVersion>1.7.2-R0.3-SNAPSHOT</craftbukkitVersion>
     <mainClass>com.github.lyokofirelyte.WCAPI.WCAPI</mainClass>
@@ -55,12 +56,34 @@
           <target>1.7</target>
         </configuration>
       </plugin>
+        <plugin>
+          <groupId>com.github.github</groupId>
+          <artifactId>site-maven-plugin</artifactId>
+          <version>0.9</version>
+          <configuration>
+            <message>Maven artifacts for ${project.version}</message>
+            <noJekyll>true</noJekyll>
+            <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+            <branch>refs/heads/mvn-repo</branch>
+            <includes><include>**/*</include></includes>
+            <repositoryName>WCAPI</repositoryName>
+            <repositoryOwner>lyokofirelyte</repositoryOwner>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>site</goal>
+              </goals>
+              <phase>deploy</phase>
+            </execution>
+          </executions>
+      </plugin>
 	</plugins>
   </build>
   <distributionManagement>
     <repository>
-        <id>wcapi-repo</id>
-        <url>https://github.com/lyokofirelyte/WCAPI/repo</url>
+        <id>mvn-repo</id>
+        <url>file://${project.build.directory}/mvn-repo</url>
     </repository>
   </distributionManagement>
 </project>

@@ -9,4 +9,5 @@ public abstract class WCLink {
 	}
 
 	/* Represents a link to the API that can be accessed from other plugins */
+	/* Extending this gives a constructor for the main API class. */
 }
