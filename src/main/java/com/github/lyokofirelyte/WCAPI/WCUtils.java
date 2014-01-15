@@ -20,12 +20,36 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 
+import com.github.lyokofirelyte.WCAPI.Events.WCPluginMessageEvent;
+import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
+import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
+
 public abstract class WCUtils {
 	
 	public static String WC = "§dWC §5// §d";
 	
+	public static void callChat(Player p, WCMessageType type, String message){
+		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, type, message));
+	}
+	
+	public static void callChat(WCMessageType type, String message){
+		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(type, message));
+	}
+	
+	public static void callChat(Player p, WCMessageType type, JSONChatMessage message){
+		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, type, message));
+	}
+	
+	public static void callChat(WCMessageType type, JSONChatMessage message){
+		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(type, message));
+	}
+	
 	public static void bc(String s){
-		Bukkit.broadcastMessage(WC + AS(s));
+		callChat(WCMessageType.BROADCAST, WC + AS(s));
+	}
+	
+	public static void b(String s){
+		callChat(WCMessageType.BROADCAST, WC + AS(s));
 	}
 	
 	public static String[] AS(String[] s){
@@ -45,18 +69,12 @@ public abstract class WCUtils {
 		p.sendMessage(AS(s));
 		
 	}
-	
-	public static void b(String s){
-		
-		Bukkit.broadcastMessage(AS(WC + s));
-		  
-	}
-	
+
 	public static void b(String[] s){
 		
 		for (String ss : s){
 			
-			Bukkit.broadcastMessage(AS(ss));
+			callChat(WCMessageType.BROADCAST, AS(ss));
 			
 		}
 		
@@ -64,7 +82,7 @@ public abstract class WCUtils {
 	
 	public static void blankB(String s){
 		
-		Bukkit.broadcastMessage(s);
+		callChat(WCMessageType.BROADCAST, s);
 		
 	}
 	
@@ -80,7 +98,7 @@ public abstract class WCUtils {
 	  
 	public static void b2(String s){
 		
-		Bukkit.broadcastMessage(AS(s));
+		callChat(WCMessageType.BROADCAST, WC + AS(s));
 		
 	}
 	
@@ -103,11 +121,11 @@ public abstract class WCUtils {
     }
 	
 	public static void s(Player p, String s){
-		p.sendMessage(AS(WC + s));
+		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, WCMessageType.PLAYER, WC + AS(s)));
 	}
 		  
 	public static void s2(Player p, String s){
-		p.sendMessage(AS(s));
+		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, WCMessageType.PLAYER, AS(s)));
 	}
 	
 	public static String getRandomChatColor(){

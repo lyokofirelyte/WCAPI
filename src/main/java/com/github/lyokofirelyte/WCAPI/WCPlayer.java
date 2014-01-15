@@ -27,6 +27,7 @@ public class WCPlayer {
 	public List <String> powertools = new ArrayList<String>();
 	
 	public Map<String, Integer> skills = new HashMap<String, Integer>();
+	public Map<String, Integer> skillExp = new HashMap<String, Integer>();
 	
 	public Location lastLocation;
 	
@@ -105,12 +106,12 @@ public class WCPlayer {
 	
 	public double patrolHeal = 0;
 	
-	public Map<String, Integer> skills(){
-		return skills;
+	public Map<String, Integer> skillExp(){
+		return skillExp;
 	}
 	
-	public void skills(Map<String, Integer> a){
-		skills = a;
+	public Map<String, Integer> skills(){
+		return skills;
 	}
 	
 	public long getCanSoarTimer(){
@@ -750,6 +751,14 @@ public class WCPlayer {
 		
 	public void setMineTimer(long a){
 		mineTimer = a;
+	}
+	
+	public void skills(Map<String, Integer> a){
+		skills = a;
+	}
+	
+	public void skillExp(Map<String, Integer> a){
+		skillExp = a;
 	}
 	
 	public void setChat(Boolean timecode, String globalcolor, String pmcolor){

@@ -7,15 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
+import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
 import com.github.lyokofirelyte.WCAPI.Loops.LoopSetup;
 import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
 import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
+import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
 
 public class WCAPI extends JavaPlugin {
@@ -24,6 +26,7 @@ public class WCAPI extends JavaPlugin {
         public Map <String, WCAlliance> wcAlliances = new HashMap<>();
         public Map <String, WCSystem> wcSystem = new HashMap<>();
         public Map <String, WCPatrol> wcPatrols = new HashMap<>();
+        public Map <Player, List<JSONChatMessage>> latestMessages = new HashMap<>();
         public static Map <List<String>, Class<?>> commandMap = new HashMap<>();
         public static Map<String, Plugin> commandAssignments = new HashMap<>();
         
@@ -52,6 +55,7 @@ public class WCAPI extends JavaPlugin {
                 
         	getServer().getPluginManager().registerEvents(wcm, this);
         	getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
+        	getServer().getPluginManager().registerEvents(new WCMessage(this), this);
         	wcm.setupSystem(systemYaml);
                 
         	for (String user : wcm.getWCSystem("system").getUsers()){
@@ -61,7 +65,7 @@ public class WCAPI extends JavaPlugin {
 
         	wcm.setupAlliances();
                 
-        	Bukkit.broadcastMessage("§dWC §5// §aWCAPI IS ENABLED! §2Loaded " + users + " §2users!");
+        	WCUtils.callChat(WCMessageType.BROADCAST, "§dWC §5// §aWCAPI IS ENABLED! §2Loaded " + users + " §2users!");
         	getLogger().log(Level.INFO, "Loaded " + users + " users!");
         }
 
@@ -80,7 +84,7 @@ public class WCAPI extends JavaPlugin {
         		}
         	}
                 
-        	Bukkit.broadcastMessage("§dWC §5// §4WCAPI IS DISABLED! §cSaved " + users + " §cusers!");
+        	WCUtils.callChat(WCMessageType.BROADCAST, "§dWC §5// §4WCAPI IS DISABLED! §cSaved " + users + " §cusers!");
                 
         	try {
         		wcm.saveAlliances();

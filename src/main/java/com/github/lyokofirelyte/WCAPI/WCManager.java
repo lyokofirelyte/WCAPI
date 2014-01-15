@@ -28,13 +28,33 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class WCManager extends WCLink implements Listener {
+import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
+import com.github.lyokofirelyte.WCAPI.Manager.SkillType;
 
+public class WCManager extends WCLink implements Listener {
+	
+	public HashMap<String, WCGui> currentGui;
+	
 	public WCManager(WCAPI i) {
 		super(i);
+		currentGui = new HashMap<String, WCGui>();
 	}
-
-	public HashMap<String, WCGui> currentGui;
+	
+	public void recallMessages(Player p){
+		
+		for (int y = 0; y <= pl.latestMessages.get(p).size()-1; y++){
+			
+			try {
+				
+				if (pl.latestMessages.get(p).get(y) != null){
+					pl.latestMessages.get(p).get(y).sendToPlayer(p);
+				}
+				
+			} catch (Exception e){
+				// nothing because we don't want to hear this crap
+			}
+		}
+	}
 
 	public void displayGui(Player p, WCGui gui){
 		
@@ -270,20 +290,39 @@ public class WCManager extends WCLink implements Listener {
 	    wcp.setAllowDeathLocation(yaml.getBoolean("AllowDeathLocation"));
 	    wcp.setCreativeRank(yaml.getString("CreativeRank"));
 	    wcp.setMineTimer(yaml.getLong("MineNDashTimer"));
-	    wcp = setupSkills(wcp, yaml.getStringList("Skills"));
+	    wcp = setupSkills(wcp, yaml.getStringList("Skills"));	
 		pl.wcPlayers.put(p, wcp);
+		
+		List<JSONChatMessage> jsonList = new ArrayList<JSONChatMessage>();
+		
+		for (int x = 0; x <= 50; x++){
+			jsonList.add(new JSONChatMessage("", null, null));
+		}
+		
+		pl.latestMessages.put(Bukkit.getPlayer(p), jsonList);
 	}
 	
 	public WCPlayer setupSkills(WCPlayer wcp, List<String> skills){
 		
 		Map<String, Integer> skillz = new HashMap<String, Integer>();
+		Map<String, Integer> skillExp = new HashMap<String, Integer>();
 		
 		for (String s : skills){
 			String[] ss = s.split(" ");
 			skillz.put(ss[0], Integer.parseInt(ss[1]));
+			skillExp.put(ss[0], Integer.parseInt(ss[2]));
+		}
+		
+		for (SkillType s : SkillType.values()){
+			if (!skillz.keySet().contains(s.name())){
+				skillz.put(s.name(), 0);
+				skillExp.put(s.name(), 0);
+			}
 		}
 		
 		wcp.skills(skillz);
+		wcp.skillExp(skillExp);
+		
 		return wcp;
 	}
 	
@@ -292,7 +331,7 @@ public class WCManager extends WCLink implements Listener {
 		List<String> skills = new ArrayList<String>();
 		
 		for (String s : wcp.skills().keySet()){
-			skills.add(s +  " " + wcp.skills().get(s));
+			skills.add(s +  " " + wcp.skills().get(s) + " " + wcp.skillExp.get(s));
 		}
 		
 		return skills;
