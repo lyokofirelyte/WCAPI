@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .settings/
 target/
 src/lib/
@@ -5,3 +6,12 @@ src/test/
 *.classpath
 *.project
 bin/
+=======
+.settings/
+target/
+src/test/
+*.classpath
+*.project
+bin/
+dependency-reduced-pom.xml
+>>>>>>> FETCH_HEAD
