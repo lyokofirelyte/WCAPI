@@ -16,6 +16,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,6 +30,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
+import com.github.lyokofirelyte.WCAPI.Manager.SkillAbility;
 import com.github.lyokofirelyte.WCAPI.Manager.SkillType;
 
 public class WCManager extends WCLink implements Listener {
@@ -42,18 +44,13 @@ public class WCManager extends WCLink implements Listener {
 	
 	public void recallMessages(Player p){
 		
-		for (int y = 0; y <= pl.latestMessages.get(p).size()-1; y++){
+		try {
 			
-			try {
-				
-				if (pl.latestMessages.get(p).get(y) != null){
-					pl.latestMessages.get(p).get(y).sendToPlayer(p);
-				}
-				
-			} catch (Exception e){
-				// nothing because we don't want to hear this crap
+			for (int y = pl.latestMessages.get(p.getName()).size()-21; y <= pl.latestMessages.get(p.getName()).size()-1; y++){
+				pl.latestMessages.get(p.getName()).get(y).sendToPlayer(p);
 			}
-		}
+				
+		} catch (Exception e){}
 	}
 
 	public void displayGui(Player p, WCGui gui){
@@ -290,16 +287,42 @@ public class WCManager extends WCLink implements Listener {
 	    wcp.setAllowDeathLocation(yaml.getBoolean("AllowDeathLocation"));
 	    wcp.setCreativeRank(yaml.getString("CreativeRank"));
 	    wcp.setMineTimer(yaml.getLong("MineNDashTimer"));
-	    wcp = setupSkills(wcp, yaml.getStringList("Skills"));	
+	    wcp.setChatBar(yaml.getBoolean("ChatBar"));
+	    wcp = setupSkills(wcp, yaml.getStringList("Skills"));
+	    wcp = setupSlayer(wcp, yaml.getString("Slayer.Assignment"), yaml.getInt("Slayer.Left"));
 		pl.wcPlayers.put(p, wcp);
 		
 		List<JSONChatMessage> jsonList = new ArrayList<JSONChatMessage>();
 		
 		for (int x = 0; x <= 50; x++){
-			jsonList.add(new JSONChatMessage("", null, null));
+			jsonList.add(new JSONChatMessage(" ", null, null));
 		}
 		
-		pl.latestMessages.put(Bukkit.getPlayer(p), jsonList);
+		pl.latestMessages.put(p, jsonList);
+	}
+	
+	public WCPlayer setupSlayer(WCPlayer wcp, String slayer, int left){
+		
+		Map<EntityType, Integer> map = new HashMap<EntityType, Integer>();
+		
+		for (EntityType e : EntityType.values()){
+			if (e.name().equalsIgnoreCase(slayer)){
+				map.put(e, left);
+			}
+		}
+		
+		wcp.setSlayerAssignment(map);
+		return wcp;
+	}
+	
+	public YamlConfiguration saveSlayer(YamlConfiguration yaml, Map<EntityType, Integer> map){
+		
+		for (EntityType e : map.keySet()){
+			yaml.set("Slayer.Assignment", e.name());
+			yaml.set("Slayer.Left", map.get(e));
+		}
+		
+		return yaml;
 	}
 	
 	public WCPlayer setupSkills(WCPlayer wcp, List<String> skills){
@@ -318,6 +341,10 @@ public class WCManager extends WCLink implements Listener {
 				skillz.put(s.name(), 0);
 				skillExp.put(s.name(), 0);
 			}
+		}
+		
+		for (SkillAbility a : SkillAbility.values()){
+			wcp.skillCooldowns().put(a, 0L);
 		}
 		
 		wcp.skills(skillz);
@@ -471,7 +498,9 @@ public class WCManager extends WCLink implements Listener {
 		yaml.set("CreativeRank", wcp.getCreativeRank());
 		yaml.set("MineNDashTimer", wcp.getMineTimer());
 		yaml.set("Skills", getSkills(wcp));
+		yaml.set("ChatBar", wcp.useChatBar());
 		yaml = activeSorter(yaml, wcp);
+		yaml = saveSlayer(yaml, wcp.getSlayerAssignment());
 		yaml.save(file);
 	}
 

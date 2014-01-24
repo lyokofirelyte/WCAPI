@@ -12,6 +12,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -42,6 +43,10 @@ public abstract class WCUtils {
 	
 	public static void callChat(WCMessageType type, JSONChatMessage message){
 		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(type, message));
+	}
+	
+	public static void callChat(WCMessageType type, Player p){
+		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, type, ""));
 	}
 	
 	public static void bc(String s){
@@ -160,6 +165,13 @@ public abstract class WCUtils {
 	  	cal.getTime();
 	  	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	  	return ( sdf.format(cal.getTime()) );
+	}
+	
+	public static String getTime(Long l) {
+	  	Calendar cal = Calendar.getInstance();
+	  	cal.setTimeInMillis(l);
+	  	SimpleDateFormat sdf = new SimpleDateFormat("M.dd @ HH:mm");
+	  	return ( sdf.format(cal.getTime()) );
 	  }
 	
     public static List<Location> circle (Location loc, Integer r, Integer h, Boolean hollow, Boolean sphere, int plus_y) {
@@ -246,6 +258,30 @@ public abstract class WCUtils {
 		for (Location l : circleblocks2){
 			ll.getWorld().playEffect(l, Effect.SMOKE, 0);
 			ll.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+			ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static void specialEffects(Location ll, Material m){
+		
+		List<Location> circleblocks = circle(ll, 3, 1, true, false, 0);
+		List<Location> circleblocks2 = circle(ll, 3, 1, true, false, 1);
+	
+		for (Location l : circleblocks){
+			ll.getWorld().playEffect(l, Effect.STEP_SOUND, m.getId());
+		}
+			
+		for (Location l : circleblocks2){
+			ll.getWorld().playEffect(l, Effect.STEP_SOUND, m.getId());
+		}
+	}
+	
+	public static void lowerEffects(Location ll){
+		
+		List<Location> circleblocks = circle(ll, 3, 1, true, false, 0);
+
+		for (Location l : circleblocks){
 			ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
 		}
 	}

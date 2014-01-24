@@ -6,7 +6,8 @@ public enum WCMessageType {
 	PLAYER("player"),
 	CONSOLE("console"),
 	JSON_PLAYER("json_player"),
-	JSON_BROADCAST("json_broadcast");
+	JSON_BROADCAST("json_broadcast"),
+	BAR("bar_call");
 	
 	String type;
 	

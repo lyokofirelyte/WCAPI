@@ -9,8 +9,6 @@ import com.github.lyokofirelyte.WCAPI.Manager.SkillType;
 
 public class WCMMOLevelUpEvent extends WCEvent implements Cancellable {
 	
-	/* You never have to call this event manually, just extend SkillManager and use incrementSkill() */
-	
     private static final HandlerList handlers = new HandlerList();
     private Player p;
     private boolean cancelled;

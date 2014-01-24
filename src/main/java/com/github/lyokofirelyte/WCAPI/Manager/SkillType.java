@@ -2,7 +2,6 @@ package com.github.lyokofirelyte.WCAPI.Manager;
 
 public enum SkillType {
 
-	ACROBATICS("acrobatics"),
 	WOODCUTTING("woodcutting"),
 	DIGGING("digging"),
 	FARMING("farming"),
@@ -13,7 +12,8 @@ public enum SkillType {
 	ARCHERY("archery"),
 	SMELTING("smelting"),
 	MAGIC("magic"),
-	MINING("mining");
+	MINING("mining"),
+	SUMMONING("summoning");
 	
 	String skill;
 	

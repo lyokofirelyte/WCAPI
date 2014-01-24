@@ -27,6 +27,7 @@ public class WCSystem {
 	public Boolean elevatorActive = false;
 	public Boolean rebooting = false;
 	public Boolean minendashActive = false;
+	public Boolean canPatrolAware = false;
 	
 	public List<String> emotes;
 	public List<String> emoteActions;
@@ -87,6 +88,14 @@ public class WCSystem {
 	
 	public void setMinendashActive(Boolean a){
 		minendashActive = a;
+	}
+	
+	public Boolean canPatrolAware(){
+		return canPatrolAware;
+	}
+	
+	public void setCanPatrolAware(Boolean a){
+		canPatrolAware = a;
 	}
 	
 	public Boolean getMinendashActive(){

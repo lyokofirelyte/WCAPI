@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,7 +25,7 @@ public class WCAPI extends JavaPlugin {
         public Map <String, WCAlliance> wcAlliances = new HashMap<>();
         public Map <String, WCSystem> wcSystem = new HashMap<>();
         public Map <String, WCPatrol> wcPatrols = new HashMap<>();
-        public Map <Player, List<JSONChatMessage>> latestMessages = new HashMap<>();
+        public Map <String, List<JSONChatMessage>> latestMessages = new HashMap<>();
         public static Map <List<String>, Class<?>> commandMap = new HashMap<>();
         public static Map<String, Plugin> commandAssignments = new HashMap<>();
         

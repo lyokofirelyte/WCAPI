@@ -5,8 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
+
+import com.github.lyokofirelyte.WCAPI.Manager.SkillAbility;
 
 
 public class WCPlayer {
@@ -28,10 +33,18 @@ public class WCPlayer {
 	
 	public Map<String, Integer> skills = new HashMap<String, Integer>();
 	public Map<String, Integer> skillExp = new HashMap<String, Integer>();
+	public Map<SkillAbility, Long> skillCooldowns = new HashMap<SkillAbility, Long>();
+	
+	public LivingEntity pet;
+	public LivingEntity target;
+	public LivingEntity targetHit;
+	
+	public Inventory offlineInventory;
 	
 	public Location lastLocation;
 	
 	public Boolean timeCode = false;
+	public Boolean ridingPet = false;
 	public Boolean homeSounds = false;
 	public Boolean partyEvac = false;
 	public Boolean hasNick = false;
@@ -59,6 +72,14 @@ public class WCPlayer {
 	public Boolean canSoar = true;
 	public Boolean markkitEditMode = false;
 	public Boolean allowDeathLocation = true;
+	public Boolean isDoubleJumping = false;
+	public Boolean isTreeFelling = false;
+	public Boolean followMode = false;
+	public Boolean usingInstaKill = false;
+	public Boolean chatBar = false;
+	public Boolean patrolAware = false;
+	public Boolean superAfk = false;
+	public Boolean afkFreeze = false;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -81,8 +102,11 @@ public class WCPlayer {
 	public String lastLoginLocation = "none";
 	public String currentMarkkitEdit = "none";
 	
+	public Map<EntityType, Integer> slayerAssignment = new HashMap<EntityType, Integer>();
+	
 	public Location selChest;
 	public Location paragonSpecialHome;
+	public Location afkSpot;
 	
 	public int paragonLevel = 0;
 	public int paragonCount = 0;
@@ -97,14 +121,20 @@ public class WCPlayer {
 	public int paragonTps = 0;
 	public int patrolLevel = 0;
 	public int patrolExp = 0;
+	public int lastSkillExp = 0;
 	
 	public long canSoarTimer = 0;
 	public long soarTimer = 0;
 	public long mineTimer = 0;
+	public long doubleJumpTimer = 0;
 	
 	public float lastLogin = 0;
 	
 	public double patrolHeal = 0;
+	
+	public Map<EntityType, Integer> getSlayerAssignment(){
+		return slayerAssignment;
+	}
 	
 	public Map<String, Integer> skillExp(){
 		return skillExp;
@@ -112,6 +142,22 @@ public class WCPlayer {
 	
 	public Map<String, Integer> skills(){
 		return skills;
+	}
+	
+	public Map<SkillAbility, Long> skillCooldowns(){
+		return skillCooldowns;
+	}
+	
+	public LivingEntity getPet(){
+		return pet;
+	}
+	
+	public LivingEntity getTarget(){
+		return target;
+	}
+	
+	public LivingEntity getTargetHit(){
+		return targetHit;
 	}
 	
 	public long getCanSoarTimer(){
@@ -124,6 +170,10 @@ public class WCPlayer {
 	
 	public long getMineTimer(){
 		return mineTimer;
+	}
+	
+	public long getDoubleJumpTimer(){
+		return doubleJumpTimer;
 	}
 	
 	public float getLastLogin(){
@@ -150,6 +200,14 @@ public class WCPlayer {
 		return patrolActives;
 	}
 	
+	public Inventory getOfflineInventory(){
+		
+		if (offlineInventory == null){
+			return Bukkit.createInventory(null, 9, "NO INVENTORY FOUND");
+		}
+		return offlineInventory;
+	}
+	
 	public List<String> getHistory(){
 		return history;
 	}
@@ -171,13 +229,62 @@ public class WCPlayer {
 		return lastLocation;
 	}
 	
+	public Location getAfkSpot(){
+		return afkSpot;
+	}
 	
 	public Location getParagonSpecialHome(){
 		return paragonSpecialHome;
 	}
 	
+	
+	public Boolean cooldownDone(SkillAbility sa){
+		
+		if (skillCooldowns.get(sa) == null){
+			skillCooldowns.put(sa, 0L);
+		}
+		
+		if (skillCooldowns().get(sa) <= System.currentTimeMillis()){
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public Boolean getEvac(){
 		return partyEvac;
+	}
+	
+	public Boolean getAfkFreeze(){
+		return afkFreeze;
+	}
+	
+	public Boolean useChatBar(){
+		return chatBar;
+	}
+	
+	public Boolean isPatrolAware(){
+		return patrolAware;
+	}
+	
+	public Boolean getFollowMode(){
+		return followMode;
+	}
+	
+	public Boolean isRidingPet(){
+		return ridingPet;
+	}
+	
+	public Boolean isSuperAfk(){
+		return superAfk;
+	}
+	
+	public Boolean isUsingInstaKill(){
+		return usingInstaKill;
+	}
+	
+	public Boolean isTreeFelling(){
+		return isTreeFelling;
 	}
 	
 	public Boolean getScoreboardCoords(){
@@ -206,6 +313,10 @@ public class WCPlayer {
 	
 	public Boolean getMarkkitEditMode(){
 		return markkitEditMode;
+	}
+	
+	public Boolean isDoubleJumping(){
+		return isDoubleJumping;
 	}
 	
 	public Boolean getFireworks(){
@@ -396,6 +507,10 @@ public class WCPlayer {
 		return paragonCount;
 	}
 	
+	public int getLastSkillExp(){
+		return lastSkillExp;
+	}
+	
 	public int getDeathCount(){
 		return deathCount;
 	}
@@ -420,8 +535,16 @@ public class WCPlayer {
 		return paragonBacks;
 	}
 	
+	public void setAfkSpot(Location a){
+		afkSpot = a;
+	}
+	
 	public void setLastLocation(Location a){
 		lastLocation = a;
+	}
+	
+	public void setSlayerAssignment(Map<EntityType, Integer> a){
+		slayerAssignment = a;
 	}
 	
 	@Deprecated
@@ -437,6 +560,10 @@ public class WCPlayer {
 		disHandle = a;
 	}
 	
+	public void setTreeFelling(Boolean a){
+		isTreeFelling = a;
+	}
+	
 	public void setParagonMoney(Boolean a){
 		paragonMoney = a;
 	}
@@ -445,8 +572,32 @@ public class WCPlayer {
 		paragonSpecialHomeSet = a;
 	}
 	
+	public void setUsingInstaKill(Boolean a){
+		usingInstaKill = a;
+	}
+	
+	public void setAfkFreeze(Boolean a){
+		afkFreeze = a;
+	}
+	
 	public void setScoreboard(Boolean a){
 		scoreboard = a;
+	}
+	
+	public void setRidingPet(Boolean a){
+		ridingPet = a;
+	}
+	
+	public void setSuperAfk(Boolean a){
+		superAfk = a;
+	}
+	
+	public void setPatrolAware(Boolean a){
+		patrolAware = a;
+	}
+	
+	public void setFollowMode(Boolean a){
+		followMode = a;
 	}
 	
 	public void setNamePlate(Boolean a){
@@ -476,6 +627,10 @@ public class WCPlayer {
 	public void setScoreboardCoords(Boolean a){
 		scoreboardCoords = a;
 	}
+	
+	public void setDoubleJumping(Boolean a){
+		isDoubleJumping = a;
+	}
 
 	public void setInChat(Boolean a){
 		inChat = a;
@@ -483,6 +638,10 @@ public class WCPlayer {
 	
 	public void setWCOP(Boolean a){
 		isWCOp = a;
+	}
+	
+	public void setChatBar(Boolean a){
+		chatBar = a;
 	}
 	
 	public void setHasInvite(Boolean a){
@@ -665,6 +824,10 @@ public class WCPlayer {
 		patrolActives = a;
 	}
 	
+	public void setOfflineInventory(Inventory a){
+		offlineInventory = a;
+	}
+	
 	public void setPatrolAchievements(List<String> a){
 		patrolAchievements = a;
 	}
@@ -703,6 +866,10 @@ public class WCPlayer {
 	
 	public void setBlocksMined(int a){
 		blocksMined = a;
+	}
+	
+	public void setLastSkillExp(int a){
+		lastSkillExp = a;
 	}
 	
 	public void setPatrolExp(int a){
@@ -753,8 +920,24 @@ public class WCPlayer {
 		mineTimer = a;
 	}
 	
+	public void setDoubleJumpTimer(long a){
+		doubleJumpTimer = a;
+	}
+	
 	public void skills(Map<String, Integer> a){
 		skills = a;
+	}
+	
+	public void setPet(LivingEntity a){
+		pet = a;
+	}
+	
+	public void setTarget(LivingEntity a){
+		target = a;
+	}
+	
+	public void setTargetHit(LivingEntity a){
+		targetHit = a;
 	}
 	
 	public void skillExp(Map<String, Integer> a){
