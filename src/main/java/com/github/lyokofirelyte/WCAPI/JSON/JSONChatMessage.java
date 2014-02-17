@@ -6,7 +6,6 @@ import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-
 import java.util.List;
 
 public class JSONChatMessage {
