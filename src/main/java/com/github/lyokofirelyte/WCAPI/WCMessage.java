@@ -39,7 +39,7 @@ public class WCMessage extends WCLink implements Listener {
 				if (pl.wcm.getWCPlayer(p.getName()).useChatBar()){
 					callBar(p);
 				} else {
-					e.getJsonMessage().sendToPlayer(p);
+					p.sendMessage(e.getMessage());
 				}
 				
 				cleanList(p);
@@ -58,7 +58,7 @@ public class WCMessage extends WCLink implements Listener {
 					if (pl.wcm.getWCPlayer(p2.getName()).useChatBar()){
 						callBar(p2);
 					} else {
-						e.getJsonMessage().sendToPlayer(p2);
+						p2.sendMessage(e.getMessage());
 					}
 					
 					cleanList(p2);

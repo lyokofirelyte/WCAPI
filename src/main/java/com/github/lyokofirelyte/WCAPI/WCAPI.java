@@ -14,6 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
 import com.github.lyokofirelyte.WCAPI.Loops.LoopSetup;
+import com.github.lyokofirelyte.WCAPI.Manager.FileManager;
 import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
 import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
@@ -37,6 +38,7 @@ public class WCAPI extends JavaPlugin {
         public InventoryManager invManager;
         public WCManager wcm;
         public WCRegistry reg;
+        public FileManager fm;
         public LoopSetup ls;
 
         public void onEnable(){ 
@@ -51,6 +53,7 @@ public class WCAPI extends JavaPlugin {
         	invManager = new InventoryManager(this);
         	reg = new WCRegistry(this);
         	ls = new LoopSetup(this);
+        	fm = new FileManager(this);
                 
         	getServer().getPluginManager().registerEvents(wcm, this);
         	getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
