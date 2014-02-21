@@ -288,6 +288,8 @@ public class WCManager extends WCLink implements Listener {
 	    wcp.setCreativeRank(yaml.getString("CreativeRank"));
 	    wcp.setMineTimer(yaml.getLong("MineNDashTimer"));
 	    wcp.setChatBar(yaml.getBoolean("ChatBar"));
+	    wcp.setWebsiteCode(yaml.getString("Website.Code"));
+	    wcp.setWebsiteRegistered(yaml.getBoolean("Website.Registered"));
 	    wcp = setupSkills(wcp, yaml.getStringList("Skills"));
 	    wcp = setupSlayer(wcp, yaml.getString("Slayer.Assignment"), yaml.getInt("Slayer.Left"));
 		pl.wcPlayers.put(p, wcp);
@@ -499,6 +501,8 @@ public class WCManager extends WCLink implements Listener {
 		yaml.set("MineNDashTimer", wcp.getMineTimer());
 		yaml.set("Skills", getSkills(wcp));
 		yaml.set("ChatBar", wcp.useChatBar());
+		yaml.set("Website.Registered", wcp.websiteRegistered());
+		yaml.set("Website.Code", wcp.getWebsiteCode());
 		yaml = activeSorter(yaml, wcp);
 		yaml = saveSlayer(yaml, wcp.getSlayerAssignment());
 		yaml.save(file);
