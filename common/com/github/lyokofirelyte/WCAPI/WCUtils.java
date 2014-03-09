@@ -28,7 +28,7 @@ import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
 public abstract class WCUtils {
 	
-	public static String WC = "§dWC §5// §d";
+	public static String WC = "§d" + WCNode.name + " §5// §d";
 	
 	public static void callChat(Player p, WCMessageType type, String message){
 		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, type, message));
