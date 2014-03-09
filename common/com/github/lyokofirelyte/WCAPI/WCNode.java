@@ -6,6 +6,14 @@ public abstract class WCNode extends JavaPlugin {
 	
 	/* Represents a plugin hooking into the API */
 	
+	public static String name;
+	
+	public WCNode(){
+		
+		name = "WC";
+		
+	}
+	
 	WCAPI api;
 
 	public WCAPI getAPI(){	
@@ -16,4 +24,11 @@ public abstract class WCNode extends JavaPlugin {
 		
 		return api;
 	}
+	
+	public void setTitle(String name){
+		
+		this.name = name;
+		
+	}
+	
 }
