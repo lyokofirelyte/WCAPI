@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
@@ -19,7 +18,6 @@ import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
 import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
-
 public class WCAPI extends JavaPlugin {
         
         public Map <String, WCPlayer> wcPlayers = new HashMap<>();
@@ -27,8 +25,7 @@ public class WCAPI extends JavaPlugin {
         public Map <String, WCSystem> wcSystem = new HashMap<>();
         public Map <String, WCPatrol> wcPatrols = new HashMap<>();
         public Map <String, List<JSONChatMessage>> latestMessages = new HashMap<>();
-        public static Map <List<String>, Class<?>> commandMap = new HashMap<>();
-        public static Map<String, Plugin> commandAssignments = new HashMap<>();
+        public static Map <List<String>, Object> commandMap = new HashMap<>();
         
         File systemFile;
         YamlConfiguration systemYaml;

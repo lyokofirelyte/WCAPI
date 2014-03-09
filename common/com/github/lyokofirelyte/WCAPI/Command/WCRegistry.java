@@ -1,6 +1,5 @@
 package com.github.lyokofirelyte.WCAPI.Command;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -12,7 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
@@ -25,7 +23,7 @@ public class WCRegistry extends WCLink implements CommandExecutor {
         	super(i);
         }
 
-		public void registerCommands(List<Class<?>> cls, Plugin plugin){
+		public void registerCommands(Object... classes){
                 
                 //SimplePluginManager spm = (SimplePluginManager) Bukkit.getServer().getPluginManager();
                 Field f = null;
@@ -39,8 +37,8 @@ public class WCRegistry extends WCLink implements CommandExecutor {
                         e1.printStackTrace();
                 }
                 
-                for (Class<?> c : cls){
-                    for (Method method : c.getMethods()) {
+                for (Object obj : classes){
+                    for (Method method : obj.getClass().getMethods()) {
                         if (method.getAnnotation(WCCommand.class) != null){
                                 WCCommand anno = method.getAnnotation(WCCommand.class);
                             try {
@@ -53,10 +51,7 @@ public class WCRegistry extends WCLink implements CommandExecutor {
                                     }
                                     scm.register("wc", command);
                                     command.setExecutor(this);
-                                    WCAPI.commandMap.put(Arrays.asList(anno.aliases()), c);
-                                    for (String al : anno.aliases()){
-                                            WCAPI.commandAssignments.put(al, plugin);
-                                    }
+                                    WCAPI.commandMap.put(Arrays.asList(anno.aliases()), obj);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -72,7 +67,8 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     		if (cmdList.contains(label)){
     			for (String command : cmdList){
     				if (command.equals(label)){
-    					for (Method m : WCAPI.commandMap.get(cmdList).getMethods()){
+    					Object obj = WCAPI.commandMap.get(cmdList);
+    					for (Method m : obj.getClass().getMethods()){
     						if (m.getAnnotation(WCCommand.class) != null && Arrays.asList(m.getAnnotation(WCCommand.class).aliases()).contains(command)){
     							try {
     								Player p = ((Player)sender);
@@ -81,9 +77,7 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     									if (args.length > anno.max() || args.length < anno.min()){
     										WCUtils.s(p, anno.help());
     										return true;
-    									}
-    									Constructor<?> cont = Class.forName(WCAPI.commandMap.get(cmdList).getName()).getConstructor(WCAPI.commandAssignments.get(command).getClass());
-    									Object obj = cont.newInstance(new Object[] { WCAPI.commandAssignments.get(command)});        
+    									}     
     									if (anno.name().equals("none")){
     										m.invoke(obj, p, args);
     									} else {
