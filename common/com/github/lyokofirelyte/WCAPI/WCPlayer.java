@@ -2,8 +2,8 @@ package com.github.lyokofirelyte.WCAPI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,126 +13,253 @@ import org.bukkit.inventory.Inventory;
 
 import com.github.lyokofirelyte.WCAPI.Manager.SkillAbility;
 
-
 public class WCPlayer {
 	
-	String name;
-
-	public WCPlayer(String name) {
+	private String name;
+	
+	private List<String> homeList;
+	private List<String> history;
+	private List<String> mail;
+	private List<String> patrolAchievements;
+	private List<String> quickCommands;
+	private List<String> powertools;
+	
+	private Map<String, Integer> skills;
+	private Map<String, Integer> skillExp;
+	private Map<SkillAbility, Long> skillCooldowns;
+	private Map<EntityType, Integer> slayerAssignment;
+	
+	private LivingEntity pet;
+	private LivingEntity target;
+	private LivingEntity targetHit;
+	
+	private Inventory offlineInventory;
+	private Inventory patrolActives;
+	
+	private Location lastLocation;
+	private Location selChest;
+	private Location paragonSpecialHome;
+	private Location afkSpot;
+	
+	private boolean timeCode;
+	private boolean ridingPet;
+	private boolean homeSounds;
+	private boolean partyEvac;
+	
+	private boolean hasNick;
+	private boolean inAlliance;
+	private boolean inChat;
+	private boolean disHandle;
+	
+	private boolean chatGuest;
+	private boolean hasInvite;
+	private boolean isWCOp;
+	private boolean itemThrow;
+	
+	private boolean pvp;
+	private boolean fireworks;
+	private boolean pokes;
+	private boolean emotes;
+	
+	private boolean depositExp;
+	private boolean scoreboard;
+	private boolean rootShortCut;
+	private boolean namePlate;
+	
+	private boolean scoreboardCoords;
+	private boolean paragonMarket;
+	private boolean transfered;
+	private boolean paragonSpecialHomeSet;
+	
+	private boolean paragonMoney;
+	private boolean patrolFormCmd;
+	private boolean canSoar;
+	private boolean markkitEditMode;
+	
+	private boolean allowDeathLocation;
+	private boolean isDoubleJumping;
+	private boolean isTreeFelling;
+	private boolean followMode;
+	
+	private boolean usingInstaKill;
+	private boolean chatBar;
+	private boolean patrolAware;
+	private boolean superAfk;
+	
+	private boolean afkFreeze;
+	private boolean website;
+	
+	private String globalColor;
+	private String pmColor;
+	private String allianceColor;
+	private String allianceRank;
+	
+	private String allianceRankTemp;
+	private String nick;
+	private String invite;
+	private String inviter;
+	
+	private String alliance;
+	private String currentChat;
+	private String lastChat;
+	private String patrol;
+	
+	private String joinMessage;
+	private String quitMessage;
+	private String rank;
+	private String creativeRank;
+	
+	private String tpaRequest;
+	private String tpahereRequest;
+	private String lastLoginLocation;
+	private String currentMarkkitEdit;
+	
+	private String websiteCode;
+	
+	private int paragonLevel;
+	private int paragonCount;
+	private int paragonTempTotal;
+	private int paragonReqLevel;
+	
+	private int deathCount;
+	private int exp;
+	private int blocksMined;
+	private int balance;
+	
+	private int messageCount;
+	private int paragonBacks;
+	private int paragonTps;
+	private int patrolLevel;
+	
+	private int patrolExp;
+	private int lastSkillExp;
+	
+	private float lastLogin;
+	
+	private long canSoarTimer;
+	private long soarTimer;
+	private long mineTimer;
+	private long doubleJumpTimer;
+	
+	private double patrolHeal;
+	
+	public WCPlayer(String name){
+		
 		this.name = name;
-	}
+		
+		homeList = new ArrayList<String>();
+		history = new ArrayList<String>();
+		mail = new ArrayList<String>();
+		patrolAchievements = new ArrayList<String>();
+		quickCommands = new ArrayList<String>();
+		powertools = new ArrayList<String>();
 
-	Inventory patrolActives;
+		skills = new HashMap<String, Integer>();
+		skillExp = new HashMap<String, Integer>();
+		skillCooldowns = new HashMap<SkillAbility, Long>();
+		slayerAssignment = new HashMap<EntityType, Integer>();
+		
+		timeCode = false;
+		ridingPet = false;
+		homeSounds = false;
+		partyEvac = false;
+		
+		hasNick = false;
+		inAlliance = false;
+		inChat = false;
+		disHandle = false;
+		
+		chatGuest = false;
+		hasInvite = false;
+		isWCOp = false;
+		itemThrow = false;
+		
+		pvp = false;
+		fireworks = true;
+		pokes = true;
+		emotes = true;
+		
+		depositExp = false;
+		scoreboard = true;
+		rootShortCut = true;
+		namePlate = true;
+		
+		scoreboardCoords = false;
+		paragonMarket = false;
+		transfered = false;
+		paragonSpecialHomeSet = false;
+		
+		paragonMoney = false;
+		patrolFormCmd = false;
+		canSoar = true;
+		markkitEditMode = false;
+		
+		allowDeathLocation = true;
+		isDoubleJumping = false;
+		isTreeFelling = false;
+		followMode = false;
+		
+		usingInstaKill = false;
+		chatBar = false;
+		patrolAware = false;
+		superAfk = false;
+		
+		afkFreeze = false;
+		website = false;
+		
+		globalColor = "f";
+		pmColor = "d";
+		allianceColor = "b";
+		allianceRank = "Guest";
+		
+		allianceRankTemp = "Guest";
+		alliance = "ForeverAlone";
+		joinMessage = "Joined!";
+		quitMessage = "Left!";
+		
+		rank = "Guest";
+		creativeRank = "&7Guest";
+		tpaRequest = "none";
+		tpahereRequest = "none";
+		
+		lastLoginLocation = "none";
+		currentMarkkitEdit = "none";
+		websiteCode = "none";
+		
+		paragonLevel = 0;
+		paragonCount = 0;
+		paragonTempTotal = 0;
+		paragonReqLevel = 0;
+		
+		deathCount = 0;
+		exp = 0;
+		blocksMined = 0;
+		balance = 0;
+		
+		messageCount = 0;
+		paragonBacks = 0;
+		paragonTps = 0;
+		patrolLevel = 0;
+		
+		patrolExp = 0;
+		lastSkillExp = 0;
+		
+		lastLogin = 0;
+		
+		canSoarTimer = 0;
+		soarTimer = 0;
+		mineTimer = 0;
+		doubleJumpTimer = 0;
+		
+		patrolHeal = 0;
+		
+	}
 	
-	public List <String> homeList = new ArrayList<String>();
-	public List <String> history = new ArrayList<String>();
-	public List <String> mail = new ArrayList<String>();
-	public List <String> patrolAchievements = new ArrayList<String>();
-	public List <String> quickCommands = new ArrayList<String>();
-	public List <String> powertools = new ArrayList<String>();
-	
-	public Map<String, Integer> skills = new HashMap<String, Integer>();
-	public Map<String, Integer> skillExp = new HashMap<String, Integer>();
-	public Map<SkillAbility, Long> skillCooldowns = new HashMap<SkillAbility, Long>();
-	
-	public LivingEntity pet;
-	public LivingEntity target;
-	public LivingEntity targetHit;
-	
-	public Inventory offlineInventory;
-	
-	public Location lastLocation;
-	
-	public Boolean timeCode = false;
-	public Boolean ridingPet = false;
-	public Boolean homeSounds = false;
-	public Boolean partyEvac = false;
-	public Boolean hasNick = false;
-	public Boolean inAlliance = false;
-	public Boolean inChat = false;
-	public Boolean disHandle = false;
-	public Boolean chatGuest = false;
-	public Boolean hasInvite = false;
-	public Boolean isWCOp = false;
-	public Boolean itemThrow = false;
-	public Boolean pvp = false;
-	public Boolean fireworks = true;
-	public Boolean pokes = true;
-	public Boolean emotes = true;
-	public Boolean depositExp = false;
-	public Boolean scoreboard = true;
-	public Boolean rootShortCut = true;
-	public Boolean namePlate = true;
-	public Boolean scoreboardCoords = false;
-	public Boolean paragonMarket = false;
-	public Boolean transfered = false;
-	public Boolean paragonSpecialHomeSet = false;
-	public Boolean paragonMoney = false;
-	public Boolean patrolFormCmd = false;
-	public Boolean canSoar = true;
-	public Boolean markkitEditMode = false;
-	public Boolean allowDeathLocation = true;
-	public Boolean isDoubleJumping = false;
-	public Boolean isTreeFelling = false;
-	public Boolean followMode = false;
-	public Boolean usingInstaKill = false;
-	public Boolean chatBar = false;
-	public Boolean patrolAware = false;
-	public Boolean superAfk = false;
-	public Boolean afkFreeze = false;
-	public Boolean website = false;
-	
-	public String globalColor = "f";
-	public String pmColor = "d";
-	public String allianceColor = "b";
-	public String allianceRank = "Guest";
-	public String allianceRank2 = "Guest";
-	public String nick;
-	public String invite;
-	public String inviter;
-	public String alliance = "ForeverAlone";
-	public String currentChat;
-	public String lastChat;
-	public String patrol;
-	public String joinMessage = "Joined!";
-	public String quitMessage = "Left!";
-	public String rank = "Guest";
-	public String creativeRank = "&7Guest";
-	public String tpaRequest = "none";
-	public String tpahereRequest = "none";
-	public String lastLoginLocation = "none";
-	public String currentMarkkitEdit = "none";
-	public String websiteCode = "none";
-	
-	public Map<EntityType, Integer> slayerAssignment = new HashMap<EntityType, Integer>();
-	
-	public Location selChest;
-	public Location paragonSpecialHome;
-	public Location afkSpot;
-	
-	public int paragonLevel = 0;
-	public int paragonCount = 0;
-	public int paragonTempTotal = 0;
-	public int paragonReqLevel = 0;
-	public int deathCount = 0;
-	public int exp = 0;
-	public int blocksMined;
-	public int balance;
-	public int messageCount = 0;
-	public int paragonBacks = 0;
-	public int paragonTps = 0;
-	public int patrolLevel = 0;
-	public int patrolExp = 0;
-	public int lastSkillExp = 0;
-	
-	public long canSoarTimer = 0;
-	public long soarTimer = 0;
-	public long mineTimer = 0;
-	public long doubleJumpTimer = 0;
-	
-	public float lastLogin = 0;
-	
-	public double patrolHeal = 0;
+	public String getName(){
+		
+		return name;
+		
+	}
 	
 	public Map<EntityType, Integer> getSlayerAssignment(){
 		return slayerAssignment;
@@ -240,7 +367,7 @@ public class WCPlayer {
 	}
 	
 	
-	public Boolean cooldownDone(SkillAbility sa){
+	public boolean cooldownDone(SkillAbility sa){
 		
 		if (skillCooldowns.get(sa) == null){
 			skillCooldowns.put(sa, 0L);
@@ -253,155 +380,155 @@ public class WCPlayer {
 		return false;
 	}
 	
-	public Boolean getEvac(){
+	public boolean getEvac(){
 		return partyEvac;
 	}
 	
-	public Boolean websiteRegistered(){
+	public boolean websiteRegistered(){
 		return website;
 	}
 	
-	public Boolean getAfkFreeze(){
+	public boolean getAfkFreeze(){
 		return afkFreeze;
 	}
 	
-	public Boolean useChatBar(){
+	public boolean useChatBar(){
 		return chatBar;
 	}
 	
-	public Boolean isPatrolAware(){
+	public boolean isPatrolAware(){
 		return patrolAware;
 	}
 	
-	public Boolean getFollowMode(){
+	public boolean getFollowMode(){
 		return followMode;
 	}
 	
-	public Boolean isRidingPet(){
+	public boolean isRidingPet(){
 		return ridingPet;
 	}
 	
-	public Boolean isSuperAfk(){
+	public boolean isSuperAfk(){
 		return superAfk;
 	}
 	
-	public Boolean isUsingInstaKill(){
+	public boolean isUsingInstaKill(){
 		return usingInstaKill;
 	}
 	
-	public Boolean isTreeFelling(){
+	public boolean isTreeFelling(){
 		return isTreeFelling;
 	}
 	
-	public Boolean getScoreboardCoords(){
+	public boolean getScoreboardCoords(){
 		return scoreboardCoords;
 	}
 	
-	public Boolean getPatrolFormCmd(){
+	public boolean getPatrolFormCmd(){
 		return patrolFormCmd;
 	}
 	
-	public Boolean getNamePlate(){
+	public boolean getNamePlate(){
 		return namePlate;
 	}
 	
-	public Boolean getParagonMarket(){
+	public boolean getParagonMarket(){
 		return paragonMarket;
 	}
 
-	public Boolean getParagonSpecialHomeSet(){
+	public boolean getParagonSpecialHomeSet(){
 		return paragonSpecialHomeSet;
 	}
 	
-	public Boolean getRootShortCut(){
+	public boolean getRootShortCut(){
 		return rootShortCut;
 	}
 	
-	public Boolean getMarkkitEditMode(){
+	public boolean getMarkkitEditMode(){
 		return markkitEditMode;
 	}
 	
-	public Boolean isDoubleJumping(){
+	public boolean isDoubleJumping(){
 		return isDoubleJumping;
 	}
 	
-	public Boolean getFireworks(){
+	public boolean getFireworks(){
 		return fireworks;
 	}
 	
-	public Boolean getEmotes(){
+	public boolean getEmotes(){
 		return emotes;
 	}
 	
-	public Boolean getAllowDeathLocation(){
+	public boolean getAllowDeathLocation(){
 		return allowDeathLocation;
 	}
 	
-	public Boolean getCanSoar(){
+	public boolean getCanSoar(){
 		return canSoar;
 	}
 	
-	public Boolean getScoreboard(){
+	public boolean getScoreboard(){
 		return scoreboard;
 	}
 	
-	public Boolean getPVP(){
+	public boolean getPVP(){
 		return pvp;
 	}
 	
-	public Boolean isWCOp(){
+	public boolean isWCOp(){
 		return isWCOp;
 	}
 	
-	public Boolean getAllowPokes(){
+	public boolean getAllowPokes(){
 		return pokes;
 	}
 	
-	public Boolean itemThrow(){
+	public boolean itemThrow(){
 		return itemThrow;
 	}
 	
-	public Boolean hasInvite(){
+	public boolean hasInvite(){
 		return hasInvite;
 	}
 	
-	public Boolean getChatGuest(){
+	public boolean getChatGuest(){
 		return chatGuest;
 	}
 	
-	public Boolean getDisHandle(){
+	public boolean getDisHandle(){
 		return disHandle;
 	}
 	
-	public Boolean hasNick(){
+	public boolean hasNick(){
 		return hasNick;
 	}
 	
-	public Boolean getExpDeposit(){
+	public boolean getExpDeposit(){
 		return depositExp;
 	}
 	
-	public Boolean getHomeSounds(){
+	public boolean getHomeSounds(){
 		return homeSounds;
 	}
 	
-	public Boolean getParagonMoney(){
+	public boolean getParagonMoney(){
 		return paragonMoney;
 	}
 	
-	public Boolean getInAlliance(){
+	public boolean getInAlliance(){
 		return inAlliance;
 	}
 	
-	public Boolean getInChat(){
+	public boolean getInChat(){
 		return inChat;
 	}
 	
-	public Boolean getTransfered(){
+	public boolean getTransfered(){
 		return transfered;
 	}
 	
-	public Boolean getTimeCode(){
+	public boolean getTimeCode(){
 		return timeCode;
 	}
 	
@@ -470,7 +597,7 @@ public class WCPlayer {
 	}
 	
 	public String getAllianceRank2(){
-		return allianceRank2;
+		return allianceRankTemp;
 	}
 	
 	public String getWebsiteCode(){
@@ -566,155 +693,155 @@ public class WCPlayer {
 		paragonSpecialHome = a;
 	}
 	
-	public void setDisHandle(Boolean a){
+	public void setDisHandle(boolean a){
 		disHandle = a;
 	}
 	
-	public void setTreeFelling(Boolean a){
+	public void setTreeFelling(boolean a){
 		isTreeFelling = a;
 	}
 	
-	public void setParagonMoney(Boolean a){
+	public void setParagonMoney(boolean a){
 		paragonMoney = a;
 	}
 	
-	public void setParagonSpecialHomeSet(Boolean a){
+	public void setParagonSpecialHomeSet(boolean a){
 		paragonSpecialHomeSet = a;
 	}
 	
-	public void setWebsiteRegistered(Boolean a){
+	public void setWebsiteRegistered(boolean a){
 		website = a;
 	}
 	
-	public void setUsingInstaKill(Boolean a){
+	public void setUsingInstaKill(boolean a){
 		usingInstaKill = a;
 	}
 	
-	public void setAfkFreeze(Boolean a){
+	public void setAfkFreeze(boolean a){
 		afkFreeze = a;
 	}
 	
-	public void setScoreboard(Boolean a){
+	public void setScoreboard(boolean a){
 		scoreboard = a;
 	}
 	
-	public void setRidingPet(Boolean a){
+	public void setRidingPet(boolean a){
 		ridingPet = a;
 	}
 	
-	public void setSuperAfk(Boolean a){
+	public void setSuperAfk(boolean a){
 		superAfk = a;
 	}
 	
-	public void setPatrolAware(Boolean a){
+	public void setPatrolAware(boolean a){
 		patrolAware = a;
 	}
 	
-	public void setFollowMode(Boolean a){
+	public void setFollowMode(boolean a){
 		followMode = a;
 	}
 	
-	public void setNamePlate(Boolean a){
+	public void setNamePlate(boolean a){
 		namePlate = a;
 	}
 	
-	public void setPatrolFormCmd(Boolean a){
+	public void setPatrolFormCmd(boolean a){
 		patrolFormCmd = a;
 	}
 	
-	public void setAllowDeathLocation(Boolean a){
+	public void setAllowDeathLocation(boolean a){
 		allowDeathLocation = a;
 	}
 	
-	public void setParagonMarket(Boolean a){
+	public void setParagonMarket(boolean a){
 		paragonMarket = a;
 	}
 	
-	public void setMarkkitEditMode(Boolean a){
+	public void setMarkkitEditMode(boolean a){
 		markkitEditMode = a;
 	}
 	
-	public void setDepositExp(Boolean a){
+	public void setDepositExp(boolean a){
 		depositExp = a;
 	}
 	
-	public void setScoreboardCoords(Boolean a){
+	public void setScoreboardCoords(boolean a){
 		scoreboardCoords = a;
 	}
 	
-	public void setDoubleJumping(Boolean a){
+	public void setDoubleJumping(boolean a){
 		isDoubleJumping = a;
 	}
 
-	public void setInChat(Boolean a){
+	public void setInChat(boolean a){
 		inChat = a;
 	}
 	
-	public void setWCOP(Boolean a){
+	public void setWCOP(boolean a){
 		isWCOp = a;
 	}
 	
-	public void setChatBar(Boolean a){
+	public void setChatBar(boolean a){
 		chatBar = a;
 	}
 	
-	public void setHasInvite(Boolean a){
+	public void setHasInvite(boolean a){
 		hasInvite = a;
 	}
 	
-	public void setRootShortCut(Boolean a){
+	public void setRootShortCut(boolean a){
 		rootShortCut = a;
 	}
 	
-	public void setEmotes(Boolean a){
+	public void setEmotes(boolean a){
 		emotes = a;
 	}
 	
-	public void setChatGuest(Boolean a){
+	public void setChatGuest(boolean a){
 		chatGuest = a;
 	}
 	
-	public void setItemThrow(Boolean a){
+	public void setItemThrow(boolean a){
 		itemThrow = a;
 	}
 	
-	public void setInAlliance(Boolean a){
+	public void setInAlliance(boolean a){
 		inAlliance = a;
 	}
 	
-	public void setFireworks(Boolean a){
+	public void setFireworks(boolean a){
 		fireworks = a;
 	}
 	
-	public void setAllowPokes(Boolean a){
+	public void setAllowPokes(boolean a){
 		pokes = a;
 	}
 	
-	public void setTimeCode(Boolean a){
+	public void setTimeCode(boolean a){
 		timeCode = a;
 	}
 	
-	public void setCanSoar(Boolean a){
+	public void setCanSoar(boolean a){
 		canSoar = a;
 	}
 	
-	public void setTransfered(Boolean a){
+	public void setTransfered(boolean a){
 		transfered = a;
 	}
 	
-	public void setEvac(Boolean a){
+	public void setEvac(boolean a){
 		partyEvac = a;
 	}
 	
-	public void setHomeSounds(Boolean a){
+	public void setHomeSounds(boolean a){
 		homeSounds = a;
 	}
 	
-	public void setHasNick(Boolean a) {
+	public void setHasNick(boolean a) {
 		hasNick = a;
 	}	
 	
-	public void setPVP(Boolean a){
+	public void setPVP(boolean a){
 		pvp = a;
 	}
 	
@@ -787,7 +914,7 @@ public class WCPlayer {
 	}
 	
 	public void setAllianceRank2(String a){
-		allianceRank2 = a;
+		allianceRankTemp = a;
 	}
 
 	public void setLastChat(String a){
@@ -962,9 +1089,10 @@ public class WCPlayer {
 		skillExp = a;
 	}
 	
-	public void setChat(Boolean timecode, String globalcolor, String pmcolor){
+	public void setChat(boolean timecode, String globalColor, String pmColor){
 		timeCode = timecode;
-		globalColor = globalcolor;
-		pmColor = pmcolor;
+		this.globalColor = globalColor;
+		this.pmColor = pmColor;
 	}
+	
 }

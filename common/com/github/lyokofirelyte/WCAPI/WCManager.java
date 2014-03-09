@@ -360,7 +360,7 @@ public class WCManager extends WCLink implements Listener {
 		List<String> skills = new ArrayList<String>();
 		
 		for (String s : wcp.skills().keySet()){
-			skills.add(s +  " " + wcp.skills().get(s) + " " + wcp.skillExp.get(s));
+			skills.add(s +  " " + wcp.skills().get(s) + " " + wcp.skillExp().get(s));
 		}
 		
 		return skills;
