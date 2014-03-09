@@ -56,7 +56,6 @@ public class WCAPI extends JavaPlugin {
         	fm = new FileManager(this);
                 
         	getServer().getPluginManager().registerEvents(wcm, this);
-        	getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
         	getServer().getPluginManager().registerEvents(new WCMessage(this), this);
         	wcm.setupSystem(systemYaml);
                 

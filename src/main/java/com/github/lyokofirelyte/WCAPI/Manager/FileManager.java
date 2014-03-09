@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -21,8 +23,10 @@ public class FileManager extends WCLink {
 	
 	public File getFile(String name){
 
+		List<String> nameSplit = Arrays.asList(name.split("/"));
+		
 		for (File file : configs.keySet()){
-			if (file.getName().equals(name + ".yml")){
+			if (file.getName().equals(nameSplit.get(nameSplit.size()-1) + ".yml")){
 				return file;
 			}
 		}
