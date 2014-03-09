@@ -41,10 +41,8 @@ public abstract class WCGui {
 		
 	}
 	
-	public void setInv(Inventory inv){
-		
-		this.inv = inv;
-		
+	public void setInv(Inventory a){
+		inv = a;
 	}
 	
 	protected void addButton(int slot, ItemStack item){

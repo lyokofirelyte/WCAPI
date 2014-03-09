@@ -1,5 +1,6 @@
 package com.github.lyokofirelyte.WCAPI;
 
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -123,6 +124,24 @@ public abstract class WCUtils {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+    
+    public static String encrypt(String toEncrypt, String type){ 
+    	
+        try { 
+            MessageDigest digest = MessageDigest.getInstance(type);               
+            digest.update(toEncrypt.getBytes()); 
+            byte[] bytes = digest.digest();       
+
+            StringBuilder sb = new StringBuilder(); 
+
+            for (int i = 0; i < bytes.length; i++) { 
+                sb.append(String.format("%02X", bytes[i])); 
+            } 
+
+            return sb.toString().toLowerCase();
+        } 
+        catch (Exception exc) { return null; }
     }
 	
 	public static void s(Player p, String s){

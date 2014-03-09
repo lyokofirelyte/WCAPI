@@ -48,10 +48,9 @@ public class WCRegistry extends WCLink implements CommandExecutor {
                                     command.setUsage(anno.help());
                                     command.setAliases(Arrays.asList(anno.aliases()));
                                     command.setDescription(anno.desc());
-                                    /*if (spm.getPermission(anno.perm()) == null){
-                                            Permission perm = new Permission(anno.perm());
-                                            spm.addPermission(perm);
-                                    }*/
+                                    if (scm.getCommand(anno.aliases()[0]) != null){
+                                    	scm.getCommand(anno.aliases()[0]).unregister(scm);
+                                    }
                                     scm.register("wc", command);
                                     command.setExecutor(this);
                                     WCAPI.commandMap.put(Arrays.asList(anno.aliases()), c);

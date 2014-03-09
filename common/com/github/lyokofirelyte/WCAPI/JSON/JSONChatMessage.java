@@ -6,7 +6,6 @@ import net.minecraft.server.v1_7_R1.PacketPlayOutChat;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class JSONChatMessage {
@@ -47,30 +46,4 @@ public class JSONChatMessage {
     public String toString() {
         return chatObject.toJSONString();
     }
-    
-    public static String fixChat(char c, String text){
-    	
-    	List<Character> codes = Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'o', 'l', 'm', 'n', 'k');
-    	char[] array = text.toCharArray();
-    	
-    	String current = c + "f";
-    	StringBuilder sb = new StringBuilder();
-    	
-    	for (int i = 0; i < array.length; i++){
-    		
-    		if (array[i] == c && codes.contains(array[i + 1])){
-    			
-    			current = String.valueOf(c) + String.valueOf(array[i + 1]);
-    			i += 2;
-    			
-    		}
-    		  		
-    		sb.append(current + array[i]);
-    		
-    	}
-    	
-    	return text = sb.toString();
-    	
-    }
-    
 }
