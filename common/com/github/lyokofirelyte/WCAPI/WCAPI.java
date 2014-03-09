@@ -1,5 +1,7 @@
 package com.github.lyokofirelyte.WCAPI;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,7 +10,11 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
@@ -18,7 +24,7 @@ import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
 import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
-public class WCAPI extends JavaPlugin {
+public class WCAPI extends JavaPlugin implements PluginMessageListener {
         
         public Map <String, WCPlayer> wcPlayers = new HashMap<>();
         public Map <String, WCAlliance> wcAlliances = new HashMap<>();
@@ -39,6 +45,11 @@ public class WCAPI extends JavaPlugin {
         public LoopSetup ls;
 
         public void onEnable(){ 
+        	
+            getServer().getMessenger().registerOutgoingPluginChannel(this, "WCNAPI");
+            getServer().getMessenger().registerIncomingPluginChannel(this, "WCAPI", this);
+            getServer().getMessenger().registerIncomingPluginChannel(this, "Global", this);
+            getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
                 
         	systemFile = new File("./plugins/WaterCloset/system.yml");
         	systemYaml = YamlConfiguration.loadConfiguration(systemFile);
@@ -91,4 +102,28 @@ public class WCAPI extends JavaPlugin {
         		e.printStackTrace();
         	}
         }
+        
+		@Override
+		@EventHandler
+		public void onPluginMessageReceived(String channel, Player arg1, byte[] message) {
+			
+			//...
+		}
+		
+		public void sendPluginMessage(Player p, String channel, String subchannel, String arg, Plugin plugin){
+			
+			ByteArrayOutputStream b = new ByteArrayOutputStream();
+			DataOutputStream out = new DataOutputStream(b);
+
+			try {
+				out.writeUTF(subchannel);
+				out.writeUTF(arg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			p.sendPluginMessage(plugin, channel, b.toByteArray());
+		}
+		
+		
 }
