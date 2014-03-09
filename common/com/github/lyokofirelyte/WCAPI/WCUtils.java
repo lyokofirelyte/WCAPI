@@ -157,6 +157,12 @@ public abstract class WCUtils {
 		s.sendMessage(AS(WC + message));
 		
 	}
+	
+	public static void s(CommandSender s, String[] message){
+		
+		s.sendMessage(AS(message));
+		
+	}
 		  
 	public static void s2(Player p, String s){
 		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, WCMessageType.PLAYER, AS(s)));

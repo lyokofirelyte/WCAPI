@@ -97,7 +97,7 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     		
     	}
 
-		public void registerCommands(List<Object> classes){
+		public void registerCommands(Object... classes){
                 
                 //SimplePluginManager spm = (SimplePluginManager) Bukkit.getServer().getPluginManager();
                 Field f = null;
