@@ -108,7 +108,8 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
 		@Override
 		public void onPluginMessageReceived(String channel, Player arg1, byte[] message) {
 			
-			if (!channel.equals("WCAPI")) {
+			if (!channel.equals("WCAPI") && !channel.equals("ALL") && !channel.equals("Global")) {
+				System.out.println("Not correct channel @ WCAPI");
 	            return;
 	        }
 			
@@ -126,15 +127,24 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
 		        
 		        switch (subChannel){
 		        
-		        	case "Global":
+		        	case "Global": case "ALL":
 		        		
 		        		String[] dataInfo = data.split("%s%");
 		        		WCPlayer wcp = wcm.getWCPlayer(dataInfo[0]);
-		        		String rawMessage = dataInfo[1];
+		        		String color = dataInfo[1];
+		        		String rawMessage = dataInfo[2];
 		        		
 		        		for (Player p : Bukkit.getOnlinePlayers()){
-		        			WCUtils.s2(p, wcm.getFullNick(dataInfo[0]) + " " + rawMessage);
+		        			WCUtils.s2(p, wcp.getPrefix() + " " + wcp.getSuffix() + "&" + color + " // " + wcm.getFullNick(dataInfo[0]) + " " + rawMessage);
 		        		}
+		        		
+		        	break;
+		        	
+		        	default:
+		        		
+		        		System.out.println("No");
+		        		
+		        	break;
 		        }
 		        
 			} catch (Exception e){
