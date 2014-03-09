@@ -103,6 +103,8 @@ public class WCPlayer {
 	public String lastLoginLocation = "none";
 	public String currentMarkkitEdit = "none";
 	public String websiteCode = "none";
+	public String prefix = "";
+	public String suffix = "";
 	
 	public Map<EntityType, Integer> slayerAssignment = new HashMap<EntityType, Integer>();
 	
@@ -429,6 +431,14 @@ public class WCPlayer {
 		return tpaRequest;
 	}
 	
+	public String getPrefix(){
+		return prefix;
+	}
+	
+	public String getSuffix(){
+		return suffix;
+	}
+	
 	public String getCreativeRank(){
 		return creativeRank;
 	}
@@ -736,6 +746,14 @@ public class WCPlayer {
 	
 	public void setPatrol(String a){
 		patrol = a;
+	}
+	
+	public void setPrefix(String a){
+		prefix = a;
+	}
+	
+	public void setSuffix(String a){
+		suffix = a;
 	}
 	
 	public void setJoinMessage(String a){

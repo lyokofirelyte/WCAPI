@@ -1,5 +1,9 @@
 package com.github.lyokofirelyte.WCAPI;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,9 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
@@ -20,7 +27,7 @@ import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
 
-public class WCAPI extends JavaPlugin {
+public class WCAPI extends JavaPlugin implements PluginMessageListener {
         
         public Map <String, WCPlayer> wcPlayers = new HashMap<>();
         public Map <String, WCAlliance> wcAlliances = new HashMap<>();
@@ -42,6 +49,9 @@ public class WCAPI extends JavaPlugin {
         public LoopSetup ls;
 
         public void onEnable(){ 
+        	
+            getServer().getMessenger().registerOutgoingPluginChannel(this, "WCNAPI");
+            getServer().getMessenger().registerIncomingPluginChannel(this, "WCNAPI", this);
                 
         	systemFile = new File("./plugins/WaterCloset/system.yml");
         	systemYaml = YamlConfiguration.loadConfiguration(systemFile);
@@ -94,4 +104,57 @@ public class WCAPI extends JavaPlugin {
         		e.printStackTrace();
         	}
         }
+
+		@Override
+		public void onPluginMessageReceived(String channel, Player arg1, byte[] message) {
+			
+			if (!channel.equals("WCAPI")) {
+	            return;
+	        }
+			
+			try {
+
+		        DataInputStream in = new DataInputStream(new ByteArrayInputStream(message));
+	
+		        String subChannel = in.readUTF();
+		        short len = in.readShort();
+		        byte[] msgbytes = new byte[len];
+		        in.readFully(msgbytes);
+	
+		        DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
+		        String data = msgin.readUTF();
+		        
+		        switch (subChannel){
+		        
+		        	case "Global":
+		        		
+		        		String[] dataInfo = data.split("%s%");
+		        		WCPlayer wcp = wcm.getWCPlayer(dataInfo[0]);
+		        		String rawMessage = dataInfo[1];
+		        		
+		        		for (Player p : Bukkit.getOnlinePlayers()){
+		        			WCUtils.s2(p, wcm.getFullNick(dataInfo[0]) + " " + rawMessage);
+		        		}
+		        }
+		        
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		public void sendPluginMessage(Player p, String channel, String subchannel, String arg, Plugin plugin){
+			
+			ByteArrayOutputStream b = new ByteArrayOutputStream();
+			DataOutputStream out = new DataOutputStream(b);
+
+			try {
+				out.writeUTF(subchannel);
+				out.writeUTF(arg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			p.sendPluginMessage(plugin, channel, b.toByteArray());
+		}
+		
+		
 }
