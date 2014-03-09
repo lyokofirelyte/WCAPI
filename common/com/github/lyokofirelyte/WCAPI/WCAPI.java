@@ -1,8 +1,6 @@
 package com.github.lyokofirelyte.WCAPI;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -11,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -26,7 +24,6 @@ import com.github.lyokofirelyte.WCAPI.Manager.InventoryManager;
 import com.github.lyokofirelyte.WCAPI.Manager.RebootManager;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
-
 public class WCAPI extends JavaPlugin implements PluginMessageListener {
         
         public Map <String, WCPlayer> wcPlayers = new HashMap<>();
@@ -34,8 +31,7 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         public Map <String, WCSystem> wcSystem = new HashMap<>();
         public Map <String, WCPatrol> wcPatrols = new HashMap<>();
         public Map <String, List<JSONChatMessage>> latestMessages = new HashMap<>();
-        public static Map <List<String>, Class<?>> commandMap = new HashMap<>();
-        public static Map<String, Plugin> commandAssignments = new HashMap<>();
+        public static Map <List<String>, Object> commandMap = new HashMap<>();
         
         File systemFile;
         YamlConfiguration systemYaml;
@@ -51,7 +47,9 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         public void onEnable(){ 
         	
             getServer().getMessenger().registerOutgoingPluginChannel(this, "WCNAPI");
-            getServer().getMessenger().registerIncomingPluginChannel(this, "WCNAPI", this);
+            getServer().getMessenger().registerIncomingPluginChannel(this, "WCAPI", this);
+            getServer().getMessenger().registerIncomingPluginChannel(this, "Global", this);
+            getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
                 
         	systemFile = new File("./plugins/WaterCloset/system.yml");
         	systemYaml = YamlConfiguration.loadConfiguration(systemFile);
@@ -104,52 +102,12 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         		e.printStackTrace();
         	}
         }
-
+        
 		@Override
+		@EventHandler
 		public void onPluginMessageReceived(String channel, Player arg1, byte[] message) {
 			
-			if (!channel.equals("WCAPI") && !channel.equals("ALL") && !channel.equals("Global")) {
-				System.out.println("Not correct channel @ WCAPI");
-	            return;
-	        }
-			
-			try {
-
-		        DataInputStream in = new DataInputStream(new ByteArrayInputStream(message));
-	
-		        String subChannel = in.readUTF();
-		        short len = in.readShort();
-		        byte[] msgbytes = new byte[len];
-		        in.readFully(msgbytes);
-	
-		        DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
-		        String data = msgin.readUTF();
-		        
-		        switch (subChannel){
-		        
-		        	case "Global": case "ALL":
-		        		
-		        		String[] dataInfo = data.split("%s%");
-		        		WCPlayer wcp = wcm.getWCPlayer(dataInfo[0]);
-		        		String color = dataInfo[1];
-		        		String rawMessage = dataInfo[2];
-		        		
-		        		for (Player p : Bukkit.getOnlinePlayers()){
-		        			WCUtils.s2(p, wcp.getPrefix() + " " + wcp.getSuffix() + "&" + color + " // " + wcm.getFullNick(dataInfo[0]) + " " + rawMessage);
-		        		}
-		        		
-		        	break;
-		        	
-		        	default:
-		        		
-		        		System.out.println("No");
-		        		
-		        	break;
-		        }
-		        
-			} catch (Exception e){
-				e.printStackTrace();
-			}
+			//...
 		}
 		
 		public void sendPluginMessage(Player p, String channel, String subchannel, String arg, Plugin plugin){
@@ -163,6 +121,7 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
 			p.sendPluginMessage(plugin, channel, b.toByteArray());
 		}
 		
