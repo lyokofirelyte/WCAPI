@@ -2,7 +2,6 @@
 
 package com.github.lyokofirelyte.WCAPI.JSON;
 
-@SuppressWarnings("unused")
 class Yylex {
 
     /**
