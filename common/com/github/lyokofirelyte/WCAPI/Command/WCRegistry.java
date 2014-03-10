@@ -136,7 +136,7 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+    	
     	for (List<String> cmdList : WCAPI.commandMap.keySet()){
     		if (cmdList.contains(label)){
     			for (String command : cmdList){
