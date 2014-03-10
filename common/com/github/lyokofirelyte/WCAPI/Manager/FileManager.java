@@ -69,9 +69,14 @@ public class FileManager extends WCLink {
 
 			String ext = name + ".yml";
 			File file = new File(pl.getDataFolder(), ext);
+			File dir = new File(file.getPath());
+			
+			if (!(dir.exists())){
+				dir.mkdirs();
+			}
 			
 			if (!(file.exists())){
-				copy(pl.getResource(ext), file);
+				copy(pl.getResource(file.getName()), file);
 			}
 			
 			YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
