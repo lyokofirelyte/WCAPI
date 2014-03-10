@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -16,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -92,6 +94,8 @@ public abstract class WCUtils {
 		p.sendMessage(AS(s));
 		
 	}
+	
+	
 
 	public static void b(String[] s){
 		
@@ -163,6 +167,18 @@ public abstract class WCUtils {
 	
 	public static void s(Player p, String s){
 		Bukkit.getPluginManager().callEvent(new WCPluginMessageEvent(p, WCMessageType.PLAYER, WC + AS(s)));
+	}
+	
+	public static void s(CommandSender s, String message){
+		
+		s.sendMessage(AS(WC + message));
+		
+	}
+	
+	public static void s(CommandSender s, String[] message){
+		
+		s.sendMessage(AS(message));
+		
 	}
 		  
 	public static void s2(Player p, String s){

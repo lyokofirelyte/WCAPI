@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -22,8 +23,81 @@ public class WCRegistry extends WCLink implements CommandExecutor {
         public WCRegistry(WCAPI i) {
         	super(i);
         }
+        
+        public static void args(Object clazz, CommandSender s, String cmd, String[] args){
+    		
+    		for (int i = 0; i < args.length; i++){
+    			
+    			args[i] = args[i].toLowerCase();
+    			
+    		}
+    		
+    		try {
+    			
+    			boolean triggered = false;
+    			
+    			for (Method m : clazz.getClass().getMethods()){
+    				
+    				WCArg anno = m.getAnnotation(WCArg.class);
+    				
+    				if (anno != null){
+    					
+    					for (String arg : anno.refs()){
+    						
+    						if (arg.equalsIgnoreCase(args[0])){
+    							
+    							if (s.hasPermission(anno.perm())){
+    								
+    								triggered = true;
+    								
+    								if (anno.player()){
+    									
+    									if (s instanceof Player){
+    										
+    										m.invoke(clazz, (Player) s, args);
+    										
+    									} else {
+    										
+    										WCUtils.s(s, "&cConsole players cannot run this command!");
+    										
+    									}
+    									
+    								} else {
+    									
+    									m.invoke(clazz, s, args);
+    									
+    								}
+    								
+    							} else {
+    								
+    								WCUtils.s(s, "&cYou don't have permission for that!");
+    								
+    							}
+    							
+    						}
+    						
+    					}
+    					
+    				}
+    				
+    			}
+    			
+    			if (!(triggered)){
+    				
+    				WCUtils.s(s, "&cUnknown argument! Try &6/mm ?&c.");
+    				
+    			}
+    			
+    		} catch (Exception e){
+    			
+    			Bukkit.getLogger().log(Level.SEVERE, "An internal error has occured involving the command '" + cmd + "'!");
+    			e.printStackTrace();
+    			
+    		}
+    		
+    	}
 
-		public void registerCommands(List<Object> classes){
+		public void registerCommands(Object... classes){
                 
                 //SimplePluginManager spm = (SimplePluginManager) Bukkit.getServer().getPluginManager();
                 Field f = null;
@@ -62,7 +136,7 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+    	
     	for (List<String> cmdList : WCAPI.commandMap.keySet()){
     		if (cmdList.contains(label)){
     			for (String command : cmdList){
@@ -71,20 +145,39 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     					for (Method m : obj.getClass().getMethods()){
     						if (m.getAnnotation(WCCommand.class) != null && Arrays.asList(m.getAnnotation(WCCommand.class).aliases()).contains(command)){
     							try {
-    								Player p = ((Player)sender);
     								WCCommand anno = m.getAnnotation(WCCommand.class);
-    								if (p.hasPermission(anno.perm())){
+    								if (sender.hasPermission(anno.perm())){
     									if (args.length > anno.max() || args.length < anno.min()){
-    										WCUtils.s(p, anno.help());
+    										WCUtils.s(sender, anno.help());
     										return true;
     									}     
     									if (anno.name().equals("none")){
-    										m.invoke(obj, p, args);
+    										
+    										if (anno.player()){
+    											
+    											m.invoke(obj, (Player) sender, args);
+    											
+    										} else {
+    											
+    											m.invoke(obj, sender, args);
+    											
+    										}
+    										
     									} else {
-    										m.invoke(obj, p, args, label);
+    										
+    										if (anno.player()){
+    											
+    											m.invoke(obj, (Player) sender, args, label);
+    											
+    										} else {
+    											
+    											m.invoke(obj, sender, args, label);
+    											
+    										}
+    										
     									}
     								} else {
-    									WCUtils.s(p, "&4No permission!");
+    									WCUtils.s(sender, "&4No permission!");
     								}
     							} catch (Exception e) {
     								e.printStackTrace();

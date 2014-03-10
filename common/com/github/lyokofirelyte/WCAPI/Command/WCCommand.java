@@ -13,6 +13,7 @@ public @interface WCCommand {
 	public String desc() default "A WC Command";
 	public String help() default "/wc ?";
 	public String perm() default "wa.member";
-	int max() default 9999;
-	int min() default 0;
+	public boolean player() default false;
+	public int max() default 9999;
+	public int min() default 0;
 }
