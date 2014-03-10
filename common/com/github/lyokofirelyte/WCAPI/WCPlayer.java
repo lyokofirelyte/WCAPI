@@ -105,6 +105,7 @@ public class WCPlayer {
 	public String websiteCode = "none";
 	public String prefix = "";
 	public String suffix = "";
+	public String channel = "Local";
 	
 	public Map<EntityType, Integer> slayerAssignment = new HashMap<EntityType, Integer>();
 	
@@ -447,6 +448,10 @@ public class WCPlayer {
 		return tpahereRequest;
 	}
 	
+	public String getChannel(){
+		return channel;
+	}
+	
 	public String getLastLoginLocation(){
 		return lastLoginLocation;
 	}
@@ -762,6 +767,10 @@ public class WCPlayer {
 	
 	public void setQuitMessage(String a){
 		quitMessage = a;
+	}
+	
+	public void setChannel(String a){
+		channel = a;
 	}
 	
 	public void setTpaRequest(String a){

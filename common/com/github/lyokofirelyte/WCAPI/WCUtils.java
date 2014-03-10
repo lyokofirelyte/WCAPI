@@ -58,6 +58,23 @@ public abstract class WCUtils {
 		callChat(WCMessageType.BROADCAST, WC + AS(s));
 	}
 	
+	public static String getServerColor(String server){
+		
+		switch (server){
+		
+			case "WA":
+				return "b";
+			case "Mark":
+				return "e";
+			case "waOS":
+				return "7";
+			case "Platform":
+				return "a";
+		}
+		
+		return "f";
+	}
+	
 	public static String[] AS(String[] s){
 		
 		for (int i = 0; i < s.length; i++){

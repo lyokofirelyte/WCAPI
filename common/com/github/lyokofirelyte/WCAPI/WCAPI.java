@@ -1,6 +1,8 @@
 package com.github.lyokofirelyte.WCAPI;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -44,12 +45,10 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         public FileManager fm;
         public LoopSetup ls;
 
-        public void onEnable(){ 
+        public void onEnable(){
         	
             getServer().getMessenger().registerOutgoingPluginChannel(this, "WCNAPI");
-            getServer().getMessenger().registerIncomingPluginChannel(this, "WCAPI", this);
-            getServer().getMessenger().registerIncomingPluginChannel(this, "Global", this);
-            getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
+            getServer().getMessenger().registerIncomingPluginChannel(this, "WCNAPI", this);
                 
         	systemFile = new File("./plugins/WaterCloset/system.yml");
         	systemYaml = YamlConfiguration.loadConfiguration(systemFile);
@@ -103,27 +102,65 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         	}
         }
         
-		@Override
-		@EventHandler
-		public void onPluginMessageReceived(String channel, Player arg1, byte[] message) {
-			
-			//...
-		}
-		
-		public void sendPluginMessage(Player p, String channel, String subchannel, String arg, Plugin plugin){
-			
-			ByteArrayOutputStream b = new ByteArrayOutputStream();
-			DataOutputStream out = new DataOutputStream(b);
-
-			try {
-				out.writeUTF(subchannel);
-				out.writeUTF(arg);
+        public void sendMessage(String message) {
+        	
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(stream);
+            
+            try {
+				out.writeUTF(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			p.sendPluginMessage(plugin, channel, b.toByteArray());
-		}
-		
-		
+     
+            getServer().getOnlinePlayers()[0].sendPluginMessage(this, "WCNAPI", stream.toByteArray());
+        }
+     
+        @Override
+        public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
+        	
+            if (!channel.equals("WCNAPI")) {
+                return;
+            }
+       
+            ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
+            DataInputStream in = new DataInputStream(stream);
+            
+            try {
+				readData(in.readUTF());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+        
+        public void readData(String data){
+        	
+    		// ORIGIN_SERVER %s% CHANNEL %s% USER %s% MESSAGE     or, if not global/staff channel,
+    		// ORIGIN_SERVER %s% CHANNEL %s% MESSAGE
+    		
+    		String[] datas = data.split("%s%");
+    		String svr = datas[0];
+    		String channel = datas[1];
+    		
+    		if (svr.equals(getServer().getName())){
+    			return;
+    		}
+    		
+    		switch (channel){
+    		
+    			case "Global":
+    				
+    				for (Player p : Bukkit.getOnlinePlayers()){
+    					WCUtils.s2(p, "&5WC &" + WCUtils.getServerColor(svr) + " // &7" + datas[2] + "&f: " + datas[3]);
+    				}
+    				
+    			break;
+    			
+    			case "ChangeChannel":
+    				
+    				wcm.getWCPlayer(datas[2]).setChannel(datas[3]);
+    				
+    			break;
+    		}
+        }
 }

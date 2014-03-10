@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.lyokofirelyte.WCAPI.Events.WCPluginMessageEvent;
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatClickEventType;
@@ -20,6 +22,32 @@ public class WCMessage extends WCLink implements Listener {
 	public WCMessage(WCAPI i) {
 		super(i);
 	}
+	
+	@EventHandler
+	public void onJoin(PlayerJoinEvent e){
+		pl.wcm.userCreate(e.getPlayer());
+	}
+	
+	@EventHandler
+	public void normalChat(AsyncPlayerChatEvent e){
+		
+		if (e.isCancelled()){
+			return;
+		}
+
+		String channel = pl.wcm.getWCPlayer(e.getPlayer().getName()).getChannel();
+		
+		if (channel.equals("Local")){
+			return;
+		}
+		
+		if (channel.equalsIgnoreCase("O") && !e.getPlayer().hasPermission("wa.staff")){
+			WCUtils.s(e.getPlayer(), "&4No permissions for staff chat!");
+			return;
+		}
+		
+		pl.sendMessage(pl.getServer().getName() + "%s%" + channel + "%s%" + e.getPlayer().getName() + "%s%" + e.getMessage());
+	}
 
 	@EventHandler
 	public void onMessageOut(WCPluginMessageEvent e){
@@ -28,7 +56,20 @@ public class WCMessage extends WCLink implements Listener {
 			return;
 		}
 		
-		Player p = e.getPlayer();
+		Player p = null;
+		
+		if (e.getPlayer() != null){
+		
+			p = e.getPlayer();
+			
+			if (pl.wcm.getWCPlayer(p.getName()).getChannel() == null){
+				pl.wcm.getWCPlayer(p.getName()).setChannel("Local");
+			}
+			
+			if (!pl.wcm.getWCPlayer(p.getName()).getChannel().equals("Local")){
+				return;
+			}
+		}
 		
 		switch (e.getMessageType()){
 		

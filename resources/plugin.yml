@@ -2,7 +2,6 @@ name: WCAPI
 main: com.github.lyokofirelyte.WCAPI.WCAPI
 author: lyokofirelyte
 prefix: WCAPI
-depend: [Vault]
 version: 5
 
 permissions:
