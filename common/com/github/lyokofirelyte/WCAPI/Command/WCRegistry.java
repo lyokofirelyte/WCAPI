@@ -155,7 +155,15 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     										
     										if (anno.player()){
     											
-    											m.invoke(obj, (Player) sender, args);
+    											if (sender instanceof Player){
+    												
+    												m.invoke(obj, (Player) sender, args);
+    												
+    											} else {
+    												
+    												WCUtils.s(sender, "&cConsole players cannot run this command!");
+    												
+    											}
     											
     										} else {
     											
@@ -167,7 +175,15 @@ public class WCRegistry extends WCLink implements CommandExecutor {
     										
     										if (anno.player()){
     											
-    											m.invoke(obj, (Player) sender, args, label);
+    											if (sender instanceof Player){
+    												
+    												m.invoke(obj, (Player) sender, args, label);
+    												
+    											} else {
+    												
+    												WCUtils.s(sender, "&cConsole players cannot run this command!");
+    												
+    											}
     											
     										} else {
     											

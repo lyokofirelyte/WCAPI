@@ -3,7 +3,6 @@ package com.github.lyokofirelyte.WCAPI.Loops;
 import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 
 import com.github.lyokofirelyte.WCAPI.WCAPI;
 
@@ -26,7 +25,7 @@ public class DelayControl {
 		task = a;
 	}
 	
-	public void callDelay(Plugin plugin, final Object clazz, final String method, final Object... args){
+	public void callDelay(final Object clazz, final String method, final Object... args){
 		
 		Class<?> c = clazz.getClass();
 		
@@ -53,7 +52,7 @@ public class DelayControl {
 					
 					WCDelay anno = m.getAnnotation(WCDelay.class);
 					
-					setTask(Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+					setTask(Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable(){
 						
 						public void run(){
 							

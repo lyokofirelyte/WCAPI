@@ -11,15 +11,27 @@ public class LoopSetup extends WCLink {
 		super(i);
 	}
 
-	public void callLoop(Plugin plugin, final Object clazz, String method, final Object... args){
+	public void callLoop(String method, final Object clazz, final Object... args){
 		
 		LoopControl l = new LoopControl(this.pl);
-		l.callLoop(plugin, clazz, method, args);
+		l.callLoop(clazz, method, args);
 	}
 	
-	public void callDelay(Plugin plugin, final Object clazz, String method, final Object... args){
+	@Deprecated
+	public void callLoop(Plugin plugin, final Object clazz, String method, final Object... args){
+		
+		callLoop(method, clazz, args);
+	}
+	
+	public void callDelay(String method, final Object clazz, final Object... args){
 		
 		DelayControl dl = new DelayControl(this.pl);
-		dl.callDelay(plugin, clazz, method, args);
+		dl.callDelay(clazz, method, args);
+	}
+	
+	@Deprecated
+	public void callDelay(Plugin plugin, final Object clazz, String method, final Object... args){
+		
+		callDelay(method, clazz, args);
 	}
 }
