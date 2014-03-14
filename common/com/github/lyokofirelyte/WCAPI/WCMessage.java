@@ -37,6 +37,10 @@ public class WCMessage extends WCLink implements Listener {
 
 		String channel = pl.wcm.getWCPlayer(e.getPlayer().getName()).getChannel();
 		
+		if (channel == null){
+			pl.wcm.getWCPlayer(e.getPlayer().getName()).setChannel("Local");
+		}
+		
 		if (channel.equals("Local")){
 			return;
 		}
@@ -56,20 +60,7 @@ public class WCMessage extends WCLink implements Listener {
 			return;
 		}
 		
-		Player p = null;
-		
-		if (e.getPlayer() != null){
-		
-			p = e.getPlayer();
-			
-			if (pl.wcm.getWCPlayer(p.getName()).getChannel() == null){
-				pl.wcm.getWCPlayer(p.getName()).setChannel("Local");
-			}
-			
-			if (!pl.wcm.getWCPlayer(p.getName()).getChannel().equals("Local")){
-				return;
-			}
-		}
+		Player p = e.getPlayer();
 		
 		switch (e.getMessageType()){
 		

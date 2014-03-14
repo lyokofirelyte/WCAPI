@@ -142,16 +142,22 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
     		String svr = datas[0];
     		String channel = datas[1];
     		
-    		if (svr.equals(getServer().getName())){
-    			return;
-    		}
-    		
     		switch (channel){
     		
     			case "Global":
     				
     				for (Player p : Bukkit.getOnlinePlayers()){
-    					WCUtils.s2(p, "&5WC &" + WCUtils.getServerColor(svr) + " // &7" + datas[2] + "&f: " + datas[3]);
+    					WCUtils.s2(p, "&5&oWC @ Global &" + WCUtils.getServerColor(svr) + " // &7" + datas[2] + "&f: " + datas[3]);
+    				}
+    				
+    			break;
+    			
+    			case "O": case "Staff": case "o":
+    				
+    				for (Player p : Bukkit.getOnlinePlayers()){
+    					if (p.hasPermission("wa.staff")){
+    						WCUtils.s2(p, "&4&oWC @ Staff &" + WCUtils.getServerColor(svr) + " // &7" + datas[2] + "&f: " + datas[3]);
+    					}
     				}
     				
     			break;
@@ -159,6 +165,7 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
     			case "ChangeChannel":
     				
     				wcm.getWCPlayer(datas[2]).setChannel(datas[3]);
+    				WCUtils.s(Bukkit.getPlayer(datas[2]), "Channel updated!");
     				
     			break;
     		}
