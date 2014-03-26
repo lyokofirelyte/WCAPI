@@ -10,7 +10,6 @@ import com.github.lyokofirelyte.WCAPI.WCEvent;
 
 public class ParagonFindEvent extends WCEvent implements Cancellable {
 	
-
     private static final HandlerList handlers = new HandlerList();
     private String paragon;
     private String color;

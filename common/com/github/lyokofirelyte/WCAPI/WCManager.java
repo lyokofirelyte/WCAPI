@@ -596,7 +596,18 @@ public class WCManager extends WCLink implements Listener {
 		wcs.setUsers(systemYaml.getStringList("TotalUsers"));
 		wcs.setTeleportPads(getPads(systemYaml));
 		wcs.setMarketSigns(systemYaml.getStringList("MarketSigns"));
+		wcs = updateHolograms(systemYaml, wcs);
 		pl.wcSystem.put("system", wcs);
+	}
+	
+	public WCSystem updateHolograms(YamlConfiguration yaml, WCSystem wcs){
+		
+		for (String s : yaml.getStringList("Holograms")){
+			String[] ss = s.split(" ");
+			wcs.getHolograms().put(ss[0], ss[1]);
+		}
+		
+		return wcs;
 	}
 	
 	public List<Location> getPads(YamlConfiguration systemYaml){
@@ -630,7 +641,19 @@ public class WCManager extends WCLink implements Listener {
 		systemYaml.set("TotalUsers", wcs.getUsers());
 		systemYaml.set("TeleportPads", getPads2());
 		systemYaml.set("MarketSigns", wcs.getMarketSigns());
+		systemYaml.set("Holograms", getHolograms(wcs));
 		systemYaml.save(systemFile);
+	}
+	
+	public List<String> getHolograms(WCSystem wcs){
+		
+		List<String> toReturn = new ArrayList<String>();
+		
+		for (String s : wcs.getHolograms().keySet()){
+			toReturn.add(s + " " + wcs.getHolograms().get(s));
+		}
+		
+		return toReturn;
 	}
 	
 	public String getFullNick(String player){

@@ -26,6 +26,11 @@
 			<version>${bukkit}</version>
 		</dependency>
 		<dependency>
+        	<groupId>com.dsh105</groupId>
+        	<artifactId>HoloAPI</artifactId>
+        	<version>1.0.7</version>
+   		</dependency>
+		<dependency>
 			<groupId>org.bukkit</groupId>
  			<artifactId>craftbukkit</artifactId>
  			<version>${craftbukkit}</version>
@@ -36,6 +41,10 @@
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/repositories/snapshots/</url>
 		</repository>
+		<repository>
+        	<id>hawk-repo</id>
+        	<url>http://ci.hawkfalcon.com/plugin/repository/everything/</url>
+   		</repository>
 	</repositories>
 	<build>
 		<sourceDirectory>common</sourceDirectory>

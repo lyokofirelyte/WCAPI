@@ -35,22 +35,6 @@ public class WCMessage extends WCLink implements Listener {
 			return;
 		}
 
-		String channel = pl.wcm.getWCPlayer(e.getPlayer().getName()).getChannel();
-		
-		if (channel == null){
-			pl.wcm.getWCPlayer(e.getPlayer().getName()).setChannel("Local");
-		}
-		
-		if (channel.equals("Local")){
-			return;
-		}
-		
-		if (channel.equalsIgnoreCase("O") && !e.getPlayer().hasPermission("wa.staff")){
-			WCUtils.s(e.getPlayer(), "&4No permissions for staff chat!");
-			return;
-		}
-		
-		pl.sendMessage(pl.getServer().getName() + "%s%" + channel + "%s%" + e.getPlayer().getName() + "%s%" + e.getMessage());
 	}
 
 	@EventHandler

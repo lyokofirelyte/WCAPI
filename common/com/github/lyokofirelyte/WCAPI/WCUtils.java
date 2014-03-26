@@ -89,6 +89,18 @@ public abstract class WCUtils {
 		
 	}
 	
+	public static List<String> AS(List<String> s){
+		
+		List<String> toReturn = new ArrayList<String>();
+		
+		for (String ss : s){
+			toReturn.add(AS(ss));
+		}
+		
+		return toReturn;
+		
+	}
+	
 	public static void s(Player p, String[] s){
 		
 		p.sendMessage(AS(s));

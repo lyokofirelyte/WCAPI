@@ -1,7 +1,10 @@
 package com.github.lyokofirelyte.WCAPI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -13,46 +16,61 @@ public class WCSystem {
 	String name;
 
 	public WCSystem(String name) {
-	this.name = name;
+		this.name = name;
 	}
 	
-	public int paragonTotal;
-	public int paragonNewListSize;
-	public int paragonTier;
+	private int paragonTotal;
+	private int paragonNewListSize;
+	private int paragonTier;
+	
+	private Player elevatorUser;
+	private Player minendashUser;
+	private Entity patrolCrystal; 
+	
+	private Boolean elevatorActive = false;
+	private Boolean rebooting = false;
+	private Boolean minendashActive = false;
+	private Boolean canPatrolAware = false;
+	
+	private List<String> emotes;
+	private List<String> emoteActions;
+	private List<String> obeliskLocations;
+	private List<String> users;
+	private List<String> chests;
+	private List<Location> teleportPads = new ArrayList<Location>();
+	private List<Location> minendashLocs = new ArrayList<Location>();
+	private List<Integer> sheepTasks = new ArrayList<Integer>();
+	private List<String> vanishedPlayers = new ArrayList<String>();
+	private List<String> globalChatRecent = new ArrayList<String>();
+	private Map<String, String> holograms = new HashMap<String, String>();
+	
+	private String borderCenter;
+	
+	private Location hotSpot;
+	private int diff = 0;
+	private int kills = 0;
+	private int checkTask;
+	private int healthTimerTask = 0;
+	private int minendashCountDown = 3;
+	private long sheepStart = 0L;
+	private List<Location> hotSpotAreas = new ArrayList<Location>();
+	private List<String> participants = new ArrayList<String>();
+	private List<ItemStack> items = new ArrayList<ItemStack>();
+	private List<LivingEntity> ents = new ArrayList<LivingEntity>();
+	private List<String> markkitSigns = new ArrayList<String>();
+	private List<String> signUsers = new ArrayList<String>();
 
-	public Player elevatorUser;
-	public Player minendashUser;
-	public Entity patrolCrystal; 
+	public List<String> getGlobalChatRecent(){
+		return globalChatRecent;
+	}
 	
-	public Boolean elevatorActive = false;
-	public Boolean rebooting = false;
-	public Boolean minendashActive = false;
-	public Boolean canPatrolAware = false;
+	public Map<String, String> getHolograms(){
+		return holograms;
+	}
 	
-	public List<String> emotes;
-	public List<String> emoteActions;
-	public List<String> obeliskLocations;
-	public List<String> users;
-	public List<String> chests;
-	public List<Location> teleportPads = new ArrayList<Location>();
-	public List<Location> minendashLocs = new ArrayList<Location>();
-	public List<Integer> sheepTasks = new ArrayList<Integer>();
-	public List<String> vanishedPlayers = new ArrayList<String>();
-	public String borderCenter;
-	
-	public Location hotSpot;
-	public int diff = 0;
-	public int kills = 0;
-	public int checkTask;
-	public int healthTimerTask = 0;
-	public int minendashCountDown = 3;
-	public long sheepStart = 0L;
-	public List<Location> hotSpotAreas = new ArrayList<Location>();
-	public List<String> participants = new ArrayList<String>();
-	public List<ItemStack> items = new ArrayList<ItemStack>();
-	public List<LivingEntity> ents = new ArrayList<LivingEntity>();
-	public List<String> markkitSigns = new ArrayList<String>();
-	public List<String> signUsers = new ArrayList<String>();
+	public void setGlobalChatRecent(List<String> a){
+		globalChatRecent = a;
+	}
 	
 	public void setMinendashLocs(List<Location> a){
 		minendashLocs = a;

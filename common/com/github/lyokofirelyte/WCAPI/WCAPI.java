@@ -1,5 +1,8 @@
 package com.github.lyokofirelyte.WCAPI;
 
+import static com.github.lyokofirelyte.WCAPI.WCUtils.createString;
+import static com.github.lyokofirelyte.WCAPI.WCUtils.s2;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -17,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
+import com.dsh105.holoapi.HoloAPI;
 import com.github.lyokofirelyte.WCAPI.Command.WCRegistry;
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
 import com.github.lyokofirelyte.WCAPI.Loops.LoopSetup;
@@ -44,6 +48,7 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         public WCRegistry reg;
         public FileManager fm;
         public LoopSetup ls;
+        public HoloAPI holoapi;
 
         public void onEnable(){
         	
@@ -61,6 +66,7 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         	reg = new WCRegistry(this);
         	ls = new LoopSetup(this);
         	fm = new FileManager(this);
+        	holoapi = getHoloAPI();
                 
         	getServer().getPluginManager().registerEvents(wcm, this);
         	getServer().getPluginManager().registerEvents(new WCMessage(this), this);
@@ -102,6 +108,10 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         	}
         }
         
+        public HoloAPI getHoloAPI(){
+        	return (HoloAPI) getServer().getPluginManager().getPlugin("HoloAPI");
+        }
+        
         public void sendMessage(String message) {
         	
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -135,39 +145,50 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         
         public void readData(String data){
         	
-    		// ORIGIN_SERVER %s% CHANNEL %s% USER %s% MESSAGE     or, if not global/staff channel,
-    		// ORIGIN_SERVER %s% CHANNEL %s% MESSAGE
+    		// REQUEST %% CHANNEL %% USER %% MESSAGE
     		
-    		String[] datas = data.split("%s%");
-    		String svr = datas[0];
+    		String[] datas = data.split("%%");
+    		String request = datas[0];
     		String channel = datas[1];
+    		String user = datas[2];
+    		String message = datas[3];
     		
-    		switch (channel){
+    		switch (Request.valueOf(request)){
+    			
+    			case CHAT_IN:
     		
-    			case "Global":
-    				
-    				for (Player p : Bukkit.getOnlinePlayers()){
-    					WCUtils.s2(p, "&5&oWC @ Global &" + WCUtils.getServerColor(svr) + " // &7" + datas[2] + "&f: " + datas[3]);
-    				}
-    				
-    			break;
-    			
-    			case "O": case "Staff": case "o":
-    				
-    				for (Player p : Bukkit.getOnlinePlayers()){
-    					if (p.hasPermission("wa.staff")){
-    						WCUtils.s2(p, "&4&oWC @ Staff &" + WCUtils.getServerColor(svr) + " // &7" + datas[2] + "&f: " + datas[3]);
-    					}
-    				}
-    				
-    			break;
-    			
-    			case "ChangeChannel":
-    				
-    				wcm.getWCPlayer(datas[2]).setChannel(datas[3]);
-    				WCUtils.s(Bukkit.getPlayer(datas[2]), "Channel updated!");
-    				
-    			break;
+		    		switch (channel){
+		    		
+		    			case "staff":
+		    				
+		    				for (Player p : Bukkit.getOnlinePlayers()){
+		    					if (p.hasPermission("wa.staff")){
+		    						try {
+			    						s2(p, "§c§oOh! §4// " + wcm.getFullNick(user) + "§f: §c" + message);
+		    						} catch (Exception e){
+			    						s2(p, "§c§oOh! §4// &7" + user + "§f: §c" + message);
+		    						}
+		    					}
+		    				}
+		    				
+		    			break;
+		    			
+		    			case "global":
+		    				
+		    				for (Player p : Bukkit.getOnlinePlayers()){
+		    					try {
+		    						s2(p, "§dWC §f// &7" + wcm.getFullNick(user) + "§f: " + message);
+		    					} catch (Exception e){
+		    						s2(p, "§dWC §f// &7" + user + "§f: " + message);
+		    					}
+		    				}
+		    				
+		    			break;
+		    		}
+		    		
+		    	break;
+		    	
+		    	default: break;
     		}
         }
 }
