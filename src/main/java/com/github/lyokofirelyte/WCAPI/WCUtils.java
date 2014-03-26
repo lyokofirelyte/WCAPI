@@ -1,11 +1,13 @@
 package com.github.lyokofirelyte.WCAPI;
 
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -25,7 +27,13 @@ import com.github.lyokofirelyte.WCAPI.Events.WCPluginMessageEvent;
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
-public abstract class WCUtils {
+public class WCUtils {
+	
+	public WCAPI main;
+	
+	public WCUtils(WCAPI i){
+		main = i;
+	}
 	
 	public static String WC = "§dWC §5// §d";
 	
@@ -123,6 +131,24 @@ public abstract class WCUtils {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+    
+    public static String encrypt(String toEncrypt, String type){ 
+    	
+        try { 
+            MessageDigest digest = MessageDigest.getInstance(type);               
+            digest.update(toEncrypt.getBytes()); 
+            byte[] bytes = digest.digest();       
+
+            StringBuilder sb = new StringBuilder(); 
+
+            for (int i = 0; i < bytes.length; i++) { 
+                sb.append(String.format("%02X", bytes[i])); 
+            } 
+
+            return sb.toString().toLowerCase();
+        } 
+        catch (Exception exc) { return null; }
     }
 	
 	public static void s(Player p, String s){
@@ -253,6 +279,36 @@ public abstract class WCUtils {
 			ll.getWorld().playEffect(l, Effect.SMOKE, 0);
 			ll.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
 			ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+		}
+			
+		for (Location l : circleblocks2){
+			ll.getWorld().playEffect(l, Effect.SMOKE, 0);
+			ll.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+			ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void effects(Player p, Location ll){
+		
+		WCPlayer wcp = main.wcm.getWCPlayer(p.getName());
+		String playerEffect = wcp.getHomeEffect();
+		
+		List<Location> circleblocks = circle(ll, 3, 1, true, false, 0);
+		List<Location> circleblocks2 = circle(ll, 3, 1, true, false, 1);
+	
+		for (Location l : circleblocks){
+			ll.getWorld().playEffect(l, Effect.SMOKE, 0);
+			ll.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+			if (playerEffect.equals("Default")){
+				ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+			} else {
+				try {
+					ll.getWorld().playEffect(l, Effect.STEP_SOUND, Material.valueOf(playerEffect).getId());
+				} catch (Exception e){
+					callChat(WCMessageType.CONSOLE, "Invalid home type - see GUI");
+				}
+			}
 		}
 			
 		for (Location l : circleblocks2){

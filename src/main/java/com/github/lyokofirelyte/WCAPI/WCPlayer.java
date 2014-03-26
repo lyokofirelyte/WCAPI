@@ -80,6 +80,7 @@ public class WCPlayer {
 	public Boolean patrolAware = false;
 	public Boolean superAfk = false;
 	public Boolean afkFreeze = false;
+	public Boolean website = false;
 	
 	public String globalColor = "f";
 	public String pmColor = "d";
@@ -101,6 +102,8 @@ public class WCPlayer {
 	public String tpahereRequest = "none";
 	public String lastLoginLocation = "none";
 	public String currentMarkkitEdit = "none";
+	public String homeEffect = "Default";
+	public String websiteCode = "none";
 	
 	public Map<EntityType, Integer> slayerAssignment = new HashMap<EntityType, Integer>();
 	
@@ -253,6 +256,10 @@ public class WCPlayer {
 	
 	public Boolean getEvac(){
 		return partyEvac;
+	}
+	
+	public Boolean websiteRegistered(){
+		return website;
 	}
 	
 	public Boolean getAfkFreeze(){
@@ -415,6 +422,10 @@ public class WCPlayer {
 		return currentChat;
 	}
 	
+	public String getHomeEffect() {
+		return homeEffect;
+	}
+	
 	public String getRank(){
 		return rank;
 	}
@@ -465,6 +476,10 @@ public class WCPlayer {
 	
 	public String getAllianceRank2(){
 		return allianceRank2;
+	}
+	
+	public String getWebsiteCode(){
+		return websiteCode;
 	}
 	
 	public String getAllianceRank(){
@@ -570,6 +585,10 @@ public class WCPlayer {
 	
 	public void setParagonSpecialHomeSet(Boolean a){
 		paragonSpecialHomeSet = a;
+	}
+	
+	public void setWebsiteRegistered(Boolean a){
+		website = a;
 	}
 	
 	public void setUsingInstaKill(Boolean a){
@@ -738,6 +757,10 @@ public class WCPlayer {
 	
 	public void setCreativeRank(String a){
 		creativeRank = a;
+	}
+	
+	public void setWebsiteCode(String a){
+		websiteCode = a;
 	}
 	
 	public void setTpahereRequest(String a){
@@ -948,5 +971,9 @@ public class WCPlayer {
 		timeCode = timecode;
 		globalColor = globalcolor;
 		pmColor = pmcolor;
+	}
+
+	public void setHomeEffect(String a){
+		homeEffect = a;
 	}
 }

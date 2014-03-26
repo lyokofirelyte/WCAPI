@@ -40,6 +40,7 @@ public class WCAPI extends JavaPlugin {
         public WCRegistry reg;
         public FileManager fm;
         public LoopSetup ls;
+        public WCUtils wcutils;
 
         public void onEnable(){ 
                 
@@ -54,6 +55,7 @@ public class WCAPI extends JavaPlugin {
         	reg = new WCRegistry(this);
         	ls = new LoopSetup(this);
         	fm = new FileManager(this);
+        	wcutils = new WCUtils(this);
                 
         	getServer().getPluginManager().registerEvents(wcm, this);
         	getServer().getPluginManager().registerEvents(new WCOnlineTimer(this), this);
