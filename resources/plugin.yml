@@ -1,0 +1,79 @@
+name: WCAPI
+main: com.github.lyokofirelyte.WCAPI.WCAPI
+author: lyokofirelyte
+prefix: WCAPI
+version: 5
+
+permissions:
+    spleef.admin:
+        description: Use admin stuff.
+        default: op
+    wa.staff:
+        description: WA Staff.
+        default: op
+    wa.mod:
+        description: WA Staff.
+        default: op
+    wa.mod2:
+        description: WA Staff.
+        default: op
+    wa.security:
+        description: WA Staff.
+        default: op
+    wa.statesman:
+        description: Double Mobs.
+        default: false
+    wa.citizen:
+        description: Chat Colors.
+        default: op
+    wa.emperor:
+        description: emperor.
+        default: op
+    wa.shirian:
+        description: shirian.
+        default: op
+    wa.regional:
+        description: PowerTool
+        default: op
+    wa.serf:
+        description: serf.
+        default: op
+    wa.national:
+        description: national.
+        default: op
+    wa.villager:
+        description: villager.
+        default: op
+    wa.townsman:
+        description: radar.
+        default: op  
+    wa.admin:
+        description: Admin.
+        default: op
+    wa.continental:
+        description: tpa.
+        default: op
+    wa.immortal:
+        description: tpahere.
+        default: op
+    wa.divine:
+        description: near.
+        default: op
+    wa.eternal:
+        description: Multiple powertools.
+        default: op
+    wa.settler:
+        description: Seen.
+        default: op
+    wa.enderpearl:
+        description: Use ender pearls.
+        default: op
+    wa.districtman:
+        description: Hawt Hats
+        default: op
+    wa.metropolitan:  
+        description: sign color
+        default: op
+    wa.elysian:
+        description: soar
+        default: op
