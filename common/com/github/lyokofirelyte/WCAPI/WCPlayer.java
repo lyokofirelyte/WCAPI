@@ -102,6 +102,7 @@ public class WCPlayer {
 	public String tpahereRequest = "none";
 	public String lastLoginLocation = "none";
 	public String currentMarkkitEdit = "none";
+	public String homeEffect = "Default";
 	public String websiteCode = "none";
 	public String prefix = "";
 	public String suffix = "";
@@ -422,6 +423,10 @@ public class WCPlayer {
 	
 	public String getCurrentChat(){
 		return currentChat;
+	}
+	
+	public String getHomeEffect() {
+		return homeEffect;
 	}
 	
 	public String getRank(){
@@ -993,5 +998,9 @@ public class WCPlayer {
 		timeCode = timecode;
 		globalColor = globalcolor;
 		pmColor = pmcolor;
+	}
+
+	public void setHomeEffect(String a){
+		homeEffect = a;
 	}
 }

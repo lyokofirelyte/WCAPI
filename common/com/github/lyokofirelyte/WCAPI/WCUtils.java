@@ -29,7 +29,13 @@ import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
 public class WCUtils {
+
+	public WCAPI main;
 	
+	public WCUtils(WCAPI i){
+		main = i;
+	}
+
 	public static String WC = "§d" + WCNode.name + " §5// §d";
 	
 	public static void callChat(Player p, WCMessageType type, String message){
@@ -317,6 +323,36 @@ public class WCUtils {
 			ll.getWorld().playEffect(l, Effect.SMOKE, 0);
 			ll.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
 			ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+		}
+			
+		for (Location l : circleblocks2){
+			ll.getWorld().playEffect(l, Effect.SMOKE, 0);
+			ll.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+			ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void effects(Player p, Location ll){
+		
+		WCPlayer wcp = main.wcm.getWCPlayer(p.getName());
+		String playerEffect = wcp.getHomeEffect();
+		
+		List<Location> circleblocks = circle(ll, 3, 1, true, false, 0);
+		List<Location> circleblocks2 = circle(ll, 3, 1, true, false, 1);
+	
+		for (Location l : circleblocks){
+			ll.getWorld().playEffect(l, Effect.SMOKE, 0);
+			ll.getWorld().playEffect(l, Effect.MOBSPAWNER_FLAMES, 0);
+			if (playerEffect.equals("Default")){
+				ll.getWorld().playEffect(l, Effect.ENDER_SIGNAL, 0);
+			} else {
+				try {
+					ll.getWorld().playEffect(l, Effect.STEP_SOUND, Material.valueOf(playerEffect).getId());
+				} catch (Exception e){
+					callChat(WCMessageType.CONSOLE, "Invalid home type - see GUI");
+				}
+			}
 		}
 			
 		for (Location l : circleblocks2){

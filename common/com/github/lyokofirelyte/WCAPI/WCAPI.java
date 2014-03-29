@@ -67,9 +67,9 @@ public class WCAPI extends JavaPlugin implements PluginMessageListener {
         	reg = new WCRegistry(this);
         	ls = new LoopSetup(this);
         	fm = new FileManager(this);
+        	wcutils = new WCUtils(this);
         	holoapi = getHoloAPI();
-        	wcutils = new WCUtils();
-                
+
         	getServer().getPluginManager().registerEvents(wcm, this);
         	getServer().getPluginManager().registerEvents(new WCMessage(this), this);
         	wcm.setupSystem(systemYaml);

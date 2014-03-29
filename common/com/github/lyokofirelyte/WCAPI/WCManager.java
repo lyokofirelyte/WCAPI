@@ -290,6 +290,7 @@ public class WCManager extends WCLink implements Listener {
 	    wcp.setChatBar(yaml.getBoolean("ChatBar"));
 	    wcp.setWebsiteCode(yaml.getString("Website.Code"));
 	    wcp.setWebsiteRegistered(yaml.getBoolean("Website.Registered"));
+	    wcp.setHomeEffect(yaml.getString("HomeEffect"));
 	    wcp.setPrefix(yaml.getString("Prefix"));
 	    wcp.setSuffix(yaml.getString("Suffix"));
 	    wcp.setChannel(yaml.getString("Channel"));
@@ -480,6 +481,7 @@ public class WCManager extends WCLink implements Listener {
 		yaml.set("BlocksMined", wcp.getBlocksMined());
 		yaml.set("Balance", wcp.getBalance());
 		yaml.set("DepositExp", wcp.getExpDeposit());
+		yaml.set("HomeEffect", wcp.getHomeEffect());
 		yaml.set("ParagonCount", wcp.getParagonCount());
 		yaml.set("ParagonReqLevel", wcp.getParagonReqLevel());
 		yaml.set("ParagonTempTotal", wcp.getParagonTempTotal());
