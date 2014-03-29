@@ -28,7 +28,7 @@ import com.github.lyokofirelyte.WCAPI.Events.WCPluginMessageEvent;
 import com.github.lyokofirelyte.WCAPI.JSON.JSONChatMessage;
 import com.github.lyokofirelyte.WCAPI.Manager.WCMessageType;
 
-public abstract class WCUtils {
+public class WCUtils {
 	
 	public static String WC = "§d" + WCNode.name + " §5// §d";
 	
