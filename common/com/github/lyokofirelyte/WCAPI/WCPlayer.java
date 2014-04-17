@@ -30,6 +30,7 @@ public class WCPlayer {
 	public List <String> patrolAchievements = new ArrayList<String>();
 	public List <String> quickCommands = new ArrayList<String>();
 	public List <String> powertools = new ArrayList<String>();
+	public List<Location> chestLocations = new ArrayList<Location>();
 	
 	public Map<String, Integer> skills = new HashMap<String, Integer>();
 	public Map<String, Integer> skillExp = new HashMap<String, Integer>();
@@ -200,6 +201,10 @@ public class WCPlayer {
 	
 	public List<String> getPatrolAchievements(){
 		return patrolAchievements;
+	}
+	
+	public List<Location> getChests(){
+		return chestLocations;
 	}
 	
 	public Inventory getPatrolActives(){
@@ -575,6 +580,10 @@ public class WCPlayer {
 	
 	public void setSlayerAssignment(Map<EntityType, Integer> a){
 		slayerAssignment = a;
+	}
+	
+	public void setChestLocations(List<Location> a){
+		chestLocations = a;
 	}
 	
 	@Deprecated

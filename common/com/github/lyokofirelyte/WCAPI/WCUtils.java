@@ -242,7 +242,14 @@ public class WCUtils {
 	  	cal.setTimeInMillis(l);
 	  	SimpleDateFormat sdf = new SimpleDateFormat("M.dd @ HH:mm");
 	  	return ( sdf.format(cal.getTime()) );
-	  }
+	}
+	
+	public static String getTimeFull() {
+		Calendar cal = Calendar.getInstance();
+	  	cal.getTime();
+	  	SimpleDateFormat sdf = new SimpleDateFormat("EEEEE, MMMMM dd, H:mm");
+	  	return ( sdf.format(cal.getTime()) );
+	}
 	
     public static List<Location> circle (Location loc, Integer r, Integer h, Boolean hollow, Boolean sphere, int plus_y) {
         List<Location> circleblocks = new ArrayList<Location>();

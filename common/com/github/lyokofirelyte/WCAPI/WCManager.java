@@ -290,7 +290,11 @@ public class WCManager extends WCLink implements Listener {
 	    wcp.setChatBar(yaml.getBoolean("ChatBar"));
 	    wcp.setWebsiteCode(yaml.getString("Website.Code"));
 	    wcp.setWebsiteRegistered(yaml.getBoolean("Website.Registered"));
-	    wcp.setHomeEffect(yaml.getString("HomeEffect"));
+	    if (yaml.getString("HomeEffect") != null){
+	    	wcp.setHomeEffect(yaml.getString("HomeEffect"));
+	    } else {
+	    	wcp.setHomeEffect("Default");
+	    }
 	    wcp.setPrefix(yaml.getString("Prefix"));
 	    wcp.setSuffix(yaml.getString("Suffix"));
 	    wcp.setChannel(yaml.getString("Channel"));
@@ -306,7 +310,7 @@ public class WCManager extends WCLink implements Listener {
 		
 		pl.latestMessages.put(p, jsonList);
 	}
-	
+
 	public WCPlayer setupSlayer(WCPlayer wcp, String slayer, int left){
 		
 		Map<EntityType, Integer> map = new HashMap<EntityType, Integer>();

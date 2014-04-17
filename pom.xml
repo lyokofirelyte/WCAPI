@@ -10,8 +10,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<github.global.server>github</github.global.server>
-		<bukkit>1.7.2-R0.1-SNAPSHOT</bukkit>
-		<craftbukkit>1.7.2-R0.3-SNAPSHOT</craftbukkit>
+		<bukkit>1.7.8-R0.1-SNAPSHOT</bukkit>
+		<craftbukkit>1.7.8-R0.1-SNAPSHOT</craftbukkit>
 	</properties>
 	<distributionManagement>
 		<repository>
@@ -50,7 +50,7 @@
 		<sourceDirectory>common</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>src/main/resources</directory>
+				<directory>resources</directory>
 				<filtering>true</filtering>
 			</resource>
 		</resources>
